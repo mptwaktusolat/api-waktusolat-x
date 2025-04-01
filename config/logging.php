@@ -1,5 +1,8 @@
 <?php
 
+use Gelf\Publisher;
+use Gelf\Transport\UdpTransport;
+use Monolog\Handler\GelfHandler;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
@@ -121,6 +124,15 @@ return [
         'null' => [
             'driver' => 'monolog',
             'handler' => NullHandler::class,
+        ],
+
+        'graylog' => [
+            'driver' => 'monolog',
+            'handler' => GelfHandler::class,
+            'handler_with' => [
+                'publisher' => new Publisher(new UdpTransport(env('GRAYLOG_HOST', '127.0.0.1'), env('GRAYLOG_PORT', 12201))),
+            ],
+            'formatter' => \Monolog\Formatter\GelfMessageFormatter::class,
         ],
 
         'emergency' => [
