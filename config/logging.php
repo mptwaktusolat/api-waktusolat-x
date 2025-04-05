@@ -126,14 +126,15 @@ return [
             'handler' => NullHandler::class,
         ],
 
-        'graylog' => [
-            'driver' => 'monolog',
-            'handler' => GelfHandler::class,
-            'handler_with' => [
-                'publisher' => new Publisher(new UdpTransport(env('GRAYLOG_HOST', '127.0.0.1'), env('GRAYLOG_PORT', 12201))),
-            ],
-            'formatter' => \Monolog\Formatter\GelfMessageFormatter::class,
-        ],
+        // TODO: Disable until this is ready
+        // 'graylog' => [
+        //     'driver' => 'monolog',
+        //     'handler' => GelfHandler::class,
+        //     'handler_with' => [
+        //         'publisher' => new Publisher(new UdpTransport(env('GRAYLOG_HOST', '127.0.0.1'), env('GRAYLOG_PORT', 12201))),
+        //     ],
+        //     'formatter' => \Monolog\Formatter\GelfMessageFormatter::class,
+        // ],
 
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),

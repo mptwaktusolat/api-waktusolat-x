@@ -25,7 +25,8 @@ class LogApiRequests
         // Check if response was cached
         $cached = app('cache.store')->has($request->fullUrl());
 
-        Log::channel('graylog')->info('API Request', [
+        // TODO: Next time maybe can send logs to specific channel eg graylog
+        Log::info('API Request', [
             'method' => $request->method(),
             'url' => $request->fullUrl(),
             'ip' => $request->ip(),
