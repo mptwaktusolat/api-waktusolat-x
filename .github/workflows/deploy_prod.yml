@@ -28,6 +28,8 @@ jobs:
             # first deploy, consult this project's README.md (TODO).
             set -e
 
+            cd htdocs/api-x.waktusolat.app
+
             git pull
             composer install 
 
