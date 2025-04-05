@@ -7,6 +7,11 @@ use App\Models\PrayerTime;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
+/**
+ * @group SOLAT V2
+ * 
+ * Get prayer times data for a given zone. Updated endpoint.
+ */
 class PrayerTimeContoller extends Controller
 {
     private function parseToTimestamp(string $date, string $time): int
@@ -14,7 +19,14 @@ class PrayerTimeContoller extends Controller
         return Carbon::parse("$date $time", 'Asia/Kuala_Lumpur')->timestamp;
     }
 
-    public function index(string $zone, Request $request) {
+    /**
+     * v2/Prayer Time by Month
+     * 
+     * @urlParam zone string required The JAKIM zone code. See all zones using `/api/zones` endpoint. Example: SGR01
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function fetchMonth(string $zone, Request $request) {
         $zone = strtoupper($zone);
         $year = $request->input('year', date('Y'));
         $month = $request->input('month', date('m'));

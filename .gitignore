@@ -22,3 +22,6 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+
+# Can be generated using php artisan scribe:generate
+.scribe

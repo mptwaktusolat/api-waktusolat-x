@@ -8,10 +8,12 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 /**
- * Return prayer time response just like JAKIM's one. Suitable for drop in replacement
- * for JAKIM's API.
- * @see https://www.e-solat.gov.my/
- * Note: The values for 'bearing' and 'lang' will be empty strings.
+ * @group SOLAT V1
+ * 
+ * Return prayer time response similar to the JAKIM's structure. Suitable for drop in replacement
+ * from JAKIM's API.
+ * 
+ * *Note: The values for 'bearing' and 'lang' are empty (`""`).*
  */
 class PrayerTimeV1Contoller extends Controller
 {
@@ -26,7 +28,15 @@ class PrayerTimeV1Contoller extends Controller
         return Carbon::parse("$date $time", 'Asia/Kuala_Lumpur')->format('H:i:s');
     }
 
-    public function index(string $zone, Request $request) {
+    /**
+     * Prayer Time by Month
+     * 
+     * Returns prayer times data for a given zone, month & year.
+     * @urlParam zone string required The JAKIM zone code. See all zones using `/api/zones` endpoint. Example: SGR01
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function fetchMonth(string $zone, Request $request) {
         $zone = strtoupper($zone);
         $year = $request->input('year', date('Y'));
         $month = $request->input('month', date('m'));
