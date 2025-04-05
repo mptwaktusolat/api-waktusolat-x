@@ -1,0 +1,44 @@
+# The app is hosted ion VPS server. So basically we SSH into it and run the deploy script (git pull etc.)
+name: Deploy Production
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Login to Server via SSH and run deploy script to deploy
+      - name: Deploy to production server
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ vars.HOST_IP }}
+          username: ${{ secrets.HOST_USER }}
+          key: ${{ secrets.MY_PRIVATE_KEY}}
+          script: |
+            #!/bin/sh
+            # This will run common commands to deploy a latest commit from remote
+            # This script is intended for subsequent deploy of the applications. For 
+            # first deploy, consult this project's README.md (TODO).
+            set -e
+
+            git pull
+            composer install 
+
+            # Optimization https://laravel.com/docs/11.x/deployment#optimization
+            php artisan optimize:clear 
+
+            npm install 
+            npm run build 
+
+            php artisan scribe:generate
+
+            php artisan optimize 
+
+            echo 'Deployment successful.'
