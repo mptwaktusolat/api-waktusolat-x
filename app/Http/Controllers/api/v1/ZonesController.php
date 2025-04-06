@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Models\PrayerZone;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -14,8 +15,29 @@ use Illuminate\Support\Facades\Http;
  */
 class ZonesController extends Controller
 {
-    public function index(Request $request) {
-        $data = $request->all();
+    /**
+     * All Zones
+     * 
+     * Return all zones information based on JAKIM Zones. See zones visually at https://peta.waktusolat.app/
+     * @return mixed|\Illuminate\Http\JsonResponse
+     */
+    public function index() {
+        $data = PrayerZone::select('jakim_code as jakimCode', 'negeri', 'daerah')->get();
+        return response()->json($data);
+    }
+
+    /**
+     * All Zones for the given state
+     * 
+     * Return all zones information based on JAKIM Zones from the given state (Negeri) initial.
+     * 
+     * @urlParam state string required The state (negeri) initial. Eg: `prk` for Perak, `sbh` for Sabah etc.). Example: prk
+     */
+    public function getByState(string $state) {
+        $data = PrayerZone::select('jakim_code as jakimCode', 'negeri', 'daerah')
+            ->where('jakim_code', 'like', "{$state}%")
+            ->get();
+        return response()->json($data);
     }
 
     /**

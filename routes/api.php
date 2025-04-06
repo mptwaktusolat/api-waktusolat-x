@@ -9,4 +9,8 @@ Route::get("/v2/solat/{zone}", [PrayerTimeContoller::class,"fetchMonth"])->name(
 
 Route::get("/solat/{zone}", [PrayerTimeV1Contoller::class,'fetchMonth'])->name("v1.solat.month");
 
-Route::get("/zones/{lat}/{long}", [ZonesController::class,'getZoneFromCoordinate'])->name("zones.gps");
+Route::prefix('zones')->group(function () {
+    Route::get("/", [ZonesController::class, 'index'])->name("zones.index");
+    Route::get("/{state}", [ZonesController::class, 'getByState'])->name("zones.state");
+    Route::get("/{lat}/{long}", [ZonesController::class, 'getZoneFromCoordinate'])->name("zones.gps");
+});
