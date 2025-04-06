@@ -7,6 +7,10 @@ import typescript from 'typescript-eslint';
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
+    {
+        // Make sure node-api projects doesn't affected by this eslint config
+        root: true,
+    },
     js.configs.recommended,
     ...typescript.configs.recommended,
     {
