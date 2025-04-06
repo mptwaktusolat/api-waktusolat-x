@@ -1,11 +1,10 @@
-import express from 'express';
-import { zoneLookup } from './zone_lookup.js';
+const express = require('express');
+const { zoneLookup } = require('./zone_lookup.js');
 
 const app = express();
 const port = 5166;
 
-// jakim.geojson is a little large.
-app.use(express.json({ limit: '5mb' }));
+app.use(express.json());
 
 app.get('/location/:lat/:long', (req, res) => {
     const { lat, long } = req.params;
@@ -20,6 +19,13 @@ app.get('/location/:lat/:long', (req, res) => {
     }
 });
 
+app.get('/up', (req, res) => {
+    res.status(200).json({
+        status: 'ok',
+        message: 'Service is running'
+    });
+});
+
 app.listen(port, () => {
-    console.log(`Geojon helper listening on port ${port}`);
+    console.log(`GeoJson helper listening on port ${port}`);
 });

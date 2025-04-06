@@ -1,13 +1,7 @@
-// zone_lookup.js
-import PolygonLookup from 'polygon-lookup';
-import fs from 'fs';
-import path from 'path';
+const PolygonLookup = require('polygon-lookup');
+const geojsonData = require('./jakim.geojson.json');
 
-const geojsonPath = path.resolve('./jakim.geojson');
-const geojsonRaw = fs.readFileSync(geojsonPath, 'utf-8');
-const geojsonData = JSON.parse(geojsonRaw);
-
-export function zoneLookup(lat, long) {
+function zoneLookup(lat, long) {
     const lookup = new PolygonLookup(geojsonData);
     const result = lookup.search(long, lat);
 
@@ -21,3 +15,5 @@ export function zoneLookup(lat, long) {
         district: result.properties.name
     };
 }
+
+module.exports = { zoneLookup };
