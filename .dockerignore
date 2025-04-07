@@ -1,0 +1,49 @@
+# Git
+.git
+.gitignore
+.github
+
+# Docker
+.docker
+docker-compose*.yml
+Dockerfile*
+
+# IDE specific files
+.idea
+.vscode
+*.sublime-workspace
+.phpactor.json
+.fleet
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Node modules and build files
+node_modules
+npm-debug.log
+yarn-error.log
+
+# Laravel specific
+/vendor
+bootstrap/cache/*.php
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/views/*
+storage/logs/*
+storage/app/public/*
+storage/app/*.key
+public/storage
+public/hot
+.phpunit.result.cache
+
+# Tests
+phpunit.xml
+/tests
+
+# Other
+*.md
+!README.md
+LICENSE
+*.log

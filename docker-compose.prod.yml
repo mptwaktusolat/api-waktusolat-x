@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  app:
+    image: ${DOCKER_REGISTRY:-}waktusolat-app:${DOCKER_TAG:-latest}
+    restart: always
+    environment:
+      - APP_ENV=production
+      - APP_DEBUG=false
+      - LOG_CHANNEL=stderr
+      - LOG_LEVEL=warning
+      - AUTORUN_LARAVEL_MIGRATION=false # Manually run migrations in production
+      - ENABLE_QUEUE_WORKER=false # Use dedicated queue worker in production
+      - ENABLE_GEOJSON_HELPER=true
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: any
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    volumes:
+      - waktusolat_storage:/var/www/html/storage
+      - waktusolat_database:/var/www/html/database
+    ports:
+      - "80:80"
+
+  queue:
+    image: ${DOCKER_REGISTRY:-}waktusolat-app:${DOCKER_TAG:-latest}
+    restart: always
+    command: ["php", "artisan", "queue:work", "--tries=3", "--queue=default", "--sleep=3", "--max-time=3600"]
+    environment:
+      - APP_ENV=production
+      - APP_DEBUG=false
+      - LOG_CHANNEL=stderr
+      - LOG_LEVEL=warning
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    volumes:
+      - waktusolat_storage:/var/www/html/storage
+      - waktusolat_database:/var/www/html/database
+
+volumes:
+  waktusolat_storage:
+    driver: local
+  waktusolat_database:
+    driver: local

@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: waktusolat-app
+    restart: unless-stopped
+    volumes:
+      - ./storage:/var/www/html/storage
+      - ./database:/var/www/html/database  # Mount database directory for SQLite
+    env_file:
+      - .env
+    environment:
+      - AUTORUN_LARAVEL_MIGRATION=true
+      - ENABLE_QUEUE_WORKER=false  # We'll use a separate queue container
+      - ENABLE_GEOJSON_HELPER=true
+    ports:
+      - "80:80"
+
+  queue:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: waktusolat-queue
+    restart: unless-stopped
+    command: ["php", "artisan", "queue:work", "--tries=3", "--queue=default", "--sleep=3"]
+    volumes:
+      - ./storage:/var/www/html/storage
+      - ./database:/var/www/html/database  # Mount database directory for SQLite
+    env_file:
+      - .env
