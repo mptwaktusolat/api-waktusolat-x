@@ -60,7 +60,7 @@
         ],
         "dev": [
             "Composer\\Config::disableProcessTimeout",
-            "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74,#34d399\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail --timeout=0\" \"npm run dev\" \"node node-api/geojson-helper/server.js\" --names=server,queue,logs,vite,geojson-helper"
+            "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74,#34d399\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail --timeout=0\" \"npm run dev\" \"node node-api/geojson-helper/server.js\" \"npx chokidar 'app/Http/Controllers/api/**/*.php' -c 'php artisan scribe:generate'\" --names=server,queue,logs,vite,geojson-helper,scribe"
         ],
         "dev:ssr": [
             "npm run build:ssr",
