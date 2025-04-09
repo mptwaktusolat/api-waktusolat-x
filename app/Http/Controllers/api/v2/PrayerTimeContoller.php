@@ -42,7 +42,6 @@ class PrayerTimeContoller extends Controller
                 // and make sure the arrangement is in this order
                 return [
                     'day' => Carbon::parse($prayerTime->date)->day,
-                    'date' => $prayerTime->date,
                     'hijri' => $prayerTime->hijri,
                     'fajr' => $this->parseToTimestamp($prayerTime->date, $prayerTime->fajr),
                     'syuruk' => $this->parseToTimestamp($prayerTime->date, $prayerTime->syuruk),
@@ -56,8 +55,9 @@ class PrayerTimeContoller extends Controller
         $data = [
             "zone" => $zone,
             "year" => (int) $year,
-            "month" => $month,
+            "month" => strtoupper(date('M', strtotime("$year-$month-01"))),
             "month_number" => (int) $month,
+            "last_updated" => null,
             "prayers" => $prayerTimes
         ];
 
