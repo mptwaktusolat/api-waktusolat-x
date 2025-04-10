@@ -45,8 +45,9 @@ class CreateUser extends Command
 
         if ($validator->fails()) {
             foreach ($validator->errors()->all() as $error) {
-            $this->error($error);
+                $this->error($error);
             }
+
             return 1;
         }
 
@@ -60,7 +61,8 @@ class CreateUser extends Command
 
             $this->info('User created successfully.');
         } catch (\Exception $e) {
-            $this->error('Failed to create user: ' . $e->getMessage());
+            $this->error('Failed to create user: '.$e->getMessage());
+
             return 1;
         }
 

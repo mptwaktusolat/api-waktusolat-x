@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('jakim_code')->unique();
             $table->string('negeri');
-            $table->string('daerah');          
+            $table->string('daerah');
         });
     }
 

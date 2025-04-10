@@ -4,7 +4,6 @@ namespace App\Console\Commands\Resource;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Storage;
 
 class DownloadJakimZones extends Command
 {
@@ -16,7 +15,7 @@ class DownloadJakimZones extends Command
     protected $signature = 'resource:download-jakim-zones';
 
     /**
-    * A brief description of the console command.
+     * A brief description of the console command.
      *
      * @var string
      */
@@ -36,21 +35,23 @@ class DownloadJakimZones extends Command
 
             if (empty($jsonData)) {
                 $this->error('Failed to download locations.json.');
+
                 return 1;
             }
 
-            if (!file_exists(dirname($destinationPath))) {
+            if (! file_exists(dirname($destinationPath))) {
                 mkdir(dirname($destinationPath), 0755, true);
             }
 
             file_put_contents($destinationPath, $jsonData);
-            $this->info('locations.json has been successfully downloaded and stored in ' . $destinationPath);
+            $this->info('locations.json has been successfully downloaded and stored in '.$destinationPath);
 
             $this->info('Reminder: Please run the appropriate database seeder to seed the data.');
 
             return 0;
         } catch (\Exception $e) {
-            $this->error('An error occurred: ' . $e->getMessage());
+            $this->error('An error occurred: '.$e->getMessage());
+
             return 1;
         }
     }

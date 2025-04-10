@@ -8,9 +8,9 @@ class PrayerTime extends Model
 {
     protected $fillable = [
         'date', 'location_code', 'hijri',
-        'fajr', 'syuruk', 'dhuhr', 'asr', 'maghrib', 'isha'
+        'fajr', 'syuruk', 'dhuhr', 'asr', 'maghrib', 'isha',
     ];
-    
+
     /**
      * Check if any prayer time exists for a given zone, month and year
      */

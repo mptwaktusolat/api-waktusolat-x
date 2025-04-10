@@ -23,7 +23,7 @@ return new class extends Migration
             $table->time('maghrib')->nullable();
             $table->time('isha')->nullable();
             $table->timestamps();
-            
+
             $table->index(['date', 'location_code']);
         });
     }
