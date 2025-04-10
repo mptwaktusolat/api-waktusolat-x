@@ -2,6 +2,10 @@
 
 This service provides prayer times data based on JAKIM.
 
+This is **not** a wrapper for JAKIM's API. Instead, this service fetches prayer times data periodically from JAKIM and stores it in a database.
+
+Note that this service is **not affiliated** with JAKIM nor endorsed by them in any way.
+
 ## Getting Started
 
 To get started, clone the repository. Then, install Composer & Node dependencies:
@@ -55,3 +59,17 @@ node node-api/geojson-helper/server.js
 ```
 
 You can now access the application at `http://localhost:8000`. The api docs will be available at `http://localhost:8000/docs`.
+
+## Architecture
+
+TODO
+
+## Motivation
+
+This project was created to provide prayer times data based on JAKIM. The main motivation behind this project is to provide a simple and easy-to-use API for developers who want to integrate prayer times data into their applications.
+
+This project is a port from the same API application that was written using NextJs: [`api-waktusolat`](https://github.com/mptwaktusolat/api-waktusolat). However, I find that it is more simpler and maintained to use Laravel for this project. Some of the reason is; able to manage database schema effectively using migrations, better file structure, and easier to generate API documentation from code comments. Though we may be able to achieve the same in NextJs, but it require more efforts.
+
+## Deployments
+
+See [deployments.md](docs/deployments.md) for deployment details.
