@@ -35,15 +35,18 @@ Generate the api documentation page:
 php artisan script:generate
 ```
 
-> [!TIP]
-> To run the scribe generator automatically on file changes. Run
-> `npx chokidar 'app/Http/Controllers/api/**/*.php' -c 'php artisan scribe:generate'`.
-
 Build and start the application:
 
 ```bash
 composer run dev
 ```
+
+> [!NOTE]
+> When running `composer run dev`, it will automatically listen for changes in the `app/Http/Controllers/api/**/*.php` files and regenerate the API documentation. However, sometimes it may not work. In such cases, try running the following command separately in another terminal:
+>
+> ```bash
+> npx chokidar 'app/Http/Controllers/api/**/*.php' -c 'php artisan scribe:generate'
+> ```
 
 And start the node server (This is a helper server to process geojson data):
 
