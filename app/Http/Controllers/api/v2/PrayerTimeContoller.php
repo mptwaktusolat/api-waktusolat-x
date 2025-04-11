@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\api\v2;
 
 use App\Http\Controllers\api\BasePrayerTimeController;
-use App\Http\Controllers\Controller;
-use App\Models\PrayerTime;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -26,11 +24,13 @@ class PrayerTimeContoller extends BasePrayerTimeController
      * @queryParam year int The year. Defaults to current year. Example: 2025
      * @queryParam month int The month number. 1 => January, 2 => February etc. Defaults to current month. Example: 6
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @response status=404 scenario="Data not found" {"error": "No data found for zone: XXXXX for MMM/YYYY"}
+     * @response status=500 scenario="Internal server error." {"error": "Server error"}
      */
     public function fetchMonth(string $zone, Request $request)
     {
         $zone = strtoupper($zone);
+
         $year = $request->input('year', date('Y'));
         $month = $request->input('month', date('m'));
 
@@ -57,7 +57,8 @@ class PrayerTimeContoller extends BasePrayerTimeController
      * @urlParam lat number required The latitude coordinate. Example: 3.139003
      * @urlParam long number required The longitude coordinate. Example: 101.686855
      *
-     * @return mixed|\Illuminate\Http\JsonResponse
+     * @response status=404 scenario="Data not found" {"error": "No data found for zone: XXXXX for MMM/YYYY"}
+     * @response status=500 scenario="Internal server error." {"error": "Server error"}
      */
     public function fetchMonthLocationByGps(float $lat, float $long, Request $request)
     {
@@ -68,8 +69,16 @@ class PrayerTimeContoller extends BasePrayerTimeController
 
         // Stop if the response is not successful
         if ($response->failed()) {
+            if ($response->status() === 404) {
+                $responseMsg = $response->json()['error'];
+
+                return response()->json([
+                    'error' => $responseMsg ?? 'Location not found for the given coordinates.',
+                ], 404);
+            }
+
             return response()->json([
-                'error' => 'Unable to fetch location data',
+                'error' => 'Unable to fetch location data.',
             ], 500);
         }
 
@@ -89,15 +98,10 @@ class PrayerTimeContoller extends BasePrayerTimeController
         return response()->json($data);
     }
 
-    private function parseToTimestamp(string $date, string $time): int
-    {
-        return Carbon::parse("$date $time", 'Asia/Kuala_Lumpur')->timestamp;
-    }
-
     /**
      * Map prayer times to the required format
      *
-     * @param \Illuminate\Support\Collection $prayerTimes
+     * @param  \Illuminate\Support\Collection  $prayerTimes
      * @return \Illuminate\Support\Collection
      */
     private function mapPrayerTimes($prayerTimes)
@@ -116,5 +120,17 @@ class PrayerTimeContoller extends BasePrayerTimeController
                 'isha' => $this->parseToTimestamp($prayerTime->date, $prayerTime->isha),
             ];
         });
+    }
+
+    /**
+     * Parse date and time to timestamp
+     *
+     * @param  string  $date  The date string
+     * @param  string  $time  The time string
+     * @return float|int|string
+     */
+    private function parseToTimestamp(string $date, string $time): int
+    {
+        return Carbon::parse("$date $time", 'Asia/Kuala_Lumpur')->timestamp;
     }
 }
