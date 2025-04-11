@@ -12,6 +12,15 @@ class PrayerTime extends Model
     ];
 
     /**
+     * The attributes that should be visible in arrays.
+     *
+     * @var array
+     */
+    protected $visible = [
+        'date', 'hijri', 'fajr', 'syuruk', 'dhuhr', 'asr', 'maghrib', 'isha',
+    ];
+
+    /**
      * Check if any prayer time exists for a given zone, month and year
      */
     public static function hasDataForMonth(string $zoneCode, int $month, int $year): bool

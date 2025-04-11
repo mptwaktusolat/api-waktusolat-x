@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\api\v2;
 
+use App\Http\Controllers\api\BasePrayerTimeController;
 use App\Http\Controllers\Controller;
 use App\Models\PrayerTime;
 use Carbon\Carbon;
@@ -13,13 +14,8 @@ use Illuminate\Support\Facades\Http;
  *
  * Get prayer times data for a given zone. Updated endpoint.
  */
-class PrayerTimeContoller extends Controller
+class PrayerTimeContoller extends BasePrayerTimeController
 {
-    private function parseToTimestamp(string $date, string $time): int
-    {
-        return Carbon::parse("$date $time", 'Asia/Kuala_Lumpur')->timestamp;
-    }
-
     /**
      * v2/Prayer Time
      *
@@ -38,7 +34,17 @@ class PrayerTimeContoller extends Controller
         $year = $request->input('year', date('Y'));
         $month = $request->input('month', date('m'));
 
-        $data = $this->queryPrayerTime($zone, $year, $month);
+        $prayerTimes = $this->queryPrayerTime($zone, $year, $month);
+        $prayerTimes = $this->mapPrayerTimes($prayerTimes);
+
+        $data = [
+            'zone' => $zone,
+            'year' => (int) $year,
+            'month' => strtoupper(Carbon::createFromDate($year, $month, 1)->format('M')),
+            'month_number' => (int) $month,
+            'last_updated' => null,
+            'prayers' => $prayerTimes,
+        ];
 
         return response()->json($data);
     }
@@ -68,45 +74,47 @@ class PrayerTimeContoller extends Controller
         }
 
         $zone = $response->json()['zone'];
-        $data = $this->queryPrayerTime($zone, $year, $month);
-
-        return response()->json($data);
-    }
-
-    private function queryPrayerTime(string $zone, int $year, int $month)
-    {
-        $durationContext = Carbon::create($year, $month);
-
-        $prayerTimes = PrayerTime::where('location_code', $zone)
-            ->whereDate('date', '>=', $durationContext->startOfMonth()->toDateString())
-            ->whereDate('date', '<=', $durationContext->endOfMonth()->toDateString())
-            ->select('date', 'hijri', 'fajr', 'syuruk', 'dhuhr', 'asr', 'maghrib', 'isha')
-            ->orderBy('date', 'asc')
-            ->get()
-            ->map(function ($prayerTime) {
-                // Do processing to the Date & Time
-                // and make sure the arrangement is in this order
-                return [
-                    'day' => Carbon::parse($prayerTime->date)->day,
-                    'hijri' => $prayerTime->hijri,
-                    'fajr' => $this->parseToTimestamp($prayerTime->date, $prayerTime->fajr),
-                    'syuruk' => $this->parseToTimestamp($prayerTime->date, $prayerTime->syuruk),
-                    'dhuhr' => $this->parseToTimestamp($prayerTime->date, $prayerTime->dhuhr),
-                    'asr' => $this->parseToTimestamp($prayerTime->date, $prayerTime->asr),
-                    'maghrib' => $this->parseToTimestamp($prayerTime->date, $prayerTime->maghrib),
-                    'isha' => $this->parseToTimestamp($prayerTime->date, $prayerTime->isha),
-                ];
-            });
+        $prayerTimes = $this->queryPrayerTime($zone, $year, $month);
+        $prayerTimes = $this->mapPrayerTimes($prayerTimes);
 
         $data = [
             'zone' => $zone,
             'year' => (int) $year,
-            'month' => strtoupper(date('M', strtotime("$year-$month-01"))),
+            'month' => strtoupper(Carbon::createFromDate($year, $month, 1)->format('M')),
             'month_number' => (int) $month,
             'last_updated' => null,
             'prayers' => $prayerTimes,
         ];
 
-        return $data;
+        return response()->json($data);
+    }
+
+    private function parseToTimestamp(string $date, string $time): int
+    {
+        return Carbon::parse("$date $time", 'Asia/Kuala_Lumpur')->timestamp;
+    }
+
+    /**
+     * Map prayer times to the required format
+     *
+     * @param \Illuminate\Support\Collection $prayerTimes
+     * @return \Illuminate\Support\Collection
+     */
+    private function mapPrayerTimes($prayerTimes)
+    {
+        return $prayerTimes->map(function ($prayerTime) {
+            // Do processing to the Date & Time
+            // and make sure the arrangement is in this order
+            return [
+                'day' => Carbon::parse($prayerTime->date)->day,
+                'hijri' => $prayerTime->hijri,
+                'fajr' => $this->parseToTimestamp($prayerTime->date, $prayerTime->fajr),
+                'syuruk' => $this->parseToTimestamp($prayerTime->date, $prayerTime->syuruk),
+                'dhuhr' => $this->parseToTimestamp($prayerTime->date, $prayerTime->dhuhr),
+                'asr' => $this->parseToTimestamp($prayerTime->date, $prayerTime->asr),
+                'maghrib' => $this->parseToTimestamp($prayerTime->date, $prayerTime->maghrib),
+                'isha' => $this->parseToTimestamp($prayerTime->date, $prayerTime->isha),
+            ];
+        });
     }
 }
