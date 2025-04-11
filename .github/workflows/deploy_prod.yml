@@ -31,7 +31,10 @@ jobs:
             cd htdocs/api-x.waktusolat.app
 
             git pull
-            composer install 
+            composer install
+
+            # Restart node-api subserver
+            pm2 restart geojson-helper
 
             # Optimization https://laravel.com/docs/11.x/deployment#optimization
             php artisan optimize:clear 
