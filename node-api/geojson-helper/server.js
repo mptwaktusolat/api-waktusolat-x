@@ -14,7 +14,7 @@ app.get('/location/:lat/:long', (req, res) => {
         res.status(200).json(result);
     } catch (error) {
         res.status(404).json({
-            error: error.message || 'An error occurred',
+            error: error.message || 'Unable to find the zone for the provided latitude and longitude. Please check the input values and try again.',
         });
     }
 });

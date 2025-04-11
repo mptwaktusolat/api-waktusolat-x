@@ -6,7 +6,7 @@ function zoneLookup(lat, long) {
     const result = lookup.search(long, lat);
 
     if (!result || !result.properties || result.properties.jakim_code === undefined) {
-        throw new Error(`No JAKIM code associated with this coordinate.`);
+        throw new Error(`No JAKIM code associated with the coordinate [lat: ${lat}, long: ${long}].`);
     }
 
     return {
