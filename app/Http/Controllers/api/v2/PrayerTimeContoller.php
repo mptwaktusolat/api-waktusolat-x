@@ -57,6 +57,9 @@ class PrayerTimeContoller extends BasePrayerTimeController
      * @urlParam lat number required The latitude coordinate. Example: 3.139003
      * @urlParam long number required The longitude coordinate. Example: 101.686855
      *
+     * @queryParam year int The year. Defaults to current year. Example: 2025
+     * @queryParam month int The month number. 1 => January, 2 => February etc. Defaults to current month. Example: 6
+     *
      * @response status=404 scenario="Data not found" {"error": "No data found for zone: XXXXX for MMM/YYYY"}
      * @response status=500 scenario="Internal server error." {"error": "Server error"}
      */
