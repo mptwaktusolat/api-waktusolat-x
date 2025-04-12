@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers\api\v1;
 
-use App\Http\Controllers\api\BasePrayerTimeController;
-use App\Http\Controllers\Controller;
-use App\Models\PrayerTime;
+use App\Http\Controllers\api\BaseQueryController;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -16,7 +14,7 @@ use Illuminate\Http\Request;
  *
  * *Note: The values for 'bearing' and 'lang' are empty (`""`).*
  */
-class PrayerTimeV1Contoller extends BasePrayerTimeController
+class PrayerTimeV1Contoller extends BaseQueryController
 {
     /**
      * Prayer Time by Month

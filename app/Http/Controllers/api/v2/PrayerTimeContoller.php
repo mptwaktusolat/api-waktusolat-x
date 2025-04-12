@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers\api\v2;
 
-use App\Http\Controllers\api\BasePrayerTimeController;
+use App\Http\Controllers\api\BaseQueryController;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 
 /**
  * @group SOLAT V2
  *
  * Get prayer times data for a given zone. Updated endpoint.
  */
-class PrayerTimeContoller extends BasePrayerTimeController
+class PrayerTimeContoller extends BaseQueryController
 {
     /**
      * v2/Prayer Time
@@ -54,8 +53,8 @@ class PrayerTimeContoller extends BasePrayerTimeController
      *
      * Return the prayer times in a specific month with automatic zone detection based on GPS coordinates.
      *
-     * @urlParam lat number required The latitude coordinate. Example: 3.139003
-     * @urlParam long number required The longitude coordinate. Example: 101.686855
+     * @urlParam lat number required The latitude coordinate. Example: 3.068498
+     * @urlParam long number required The longitude coordinate. Example: 101.630263
      *
      * @queryParam year int The year. Defaults to current year. Example: 2025
      * @queryParam month int The month number. 1 => January, 2 => February etc. Defaults to current month. Example: 6
@@ -68,24 +67,10 @@ class PrayerTimeContoller extends BasePrayerTimeController
         $year = $request->input('year', date('Y'));
         $month = $request->input('month', date('m'));
 
-        $response = Http::get("http://localhost:5166/location/{$lat}/{$long}");
+        // Zone detection
+        $zoneObject = $this->detectZoneFromCoordindate($lat, $long);
+        $zone = $zoneObject['zone'];
 
-        // Stop if the response is not successful
-        if ($response->failed()) {
-            if ($response->status() === 404) {
-                $responseMsg = $response->json()['error'];
-
-                return response()->json([
-                    'error' => $responseMsg ?? 'Location not found for the given coordinates.',
-                ], 404);
-            }
-
-            return response()->json([
-                'error' => 'Unable to fetch location data.',
-            ], 500);
-        }
-
-        $zone = $response->json()['zone'];
         $prayerTimes = $this->queryPrayerTime($zone, $year, $month);
         $prayerTimes = $this->mapPrayerTimes($prayerTimes);
 
