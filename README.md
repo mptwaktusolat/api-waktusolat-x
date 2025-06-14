@@ -38,7 +38,7 @@ php artisan migrate --seed
 Generate the api documentation page:
 
 ```bash
-php artisan script:generate
+php artisan scribe:generate
 ```
 
 Build and start the application:
@@ -64,6 +64,9 @@ You can now access the application at `http://localhost:8000`. The api docs will
 
 ### Docker
 
+> [!WARNING]
+> Docker support for development is not fully optimized yet. Sometimes it works and sometimes it doesn't. If you encounter any issues, please open an issue on the GitHub repository. Also, I'm aware about [Laravel Sail](https://laravel.com/docs/12.x/sail), tried it and too many things didn't work. Submit patches please.
+
 For the first time, run the following commands:
 
 - Clone and navigate into the project.
@@ -87,4 +90,4 @@ This project is a port from the same API application that was written using Next
 
 ## Deployments
 
-See [deployments.md](docs/deployments.md) for deployment details.
+See [deployments.md](docs/deployment.md) for deployment details.
