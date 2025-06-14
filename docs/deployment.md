@@ -75,6 +75,8 @@ Now you can connect to the server using the following command:
 ssh api-waktusolat
 ```
 
+![image](https://github.com/user-attachments/assets/f4bd9f04-cefd-4011-9c82-6ae84f3e893d)
+
 Commands after this point is meant to be run on the **host server**.
 
 ### 1.4. Setup the environment
@@ -129,6 +131,8 @@ Note down the database name, user, and password as we will need them later.
 Now that the server is ready, we can proceed to clone the application and set it up.
 
 ### 2.1. Clone the Repository
+
+![image](https://github.com/user-attachments/assets/80f5b012-e7ee-4384-a64b-a8d6c5b12e52)
 
 Navigate to the web root directory of your site. You can find the path in the CloudPanel site dashboard, under the "Web Root" section. For example, it might be `/home/waktusolat-api/htdocs/api.waktusolat.app/public`.
 
@@ -190,6 +194,9 @@ Start the subserver using `pm2`:
 pm2 start node-api/geojson-helper/server.js --name geo-resolver -- start
 ```
 
+![image](https://github.com/user-attachments/assets/624a6765-8d0f-4917-8e0c-546aec518cce)
+
+
 You can give whatever name you want to the subserver, here I name it `geo-resolver`. Then, save the configuration.
 
 ```bash
@@ -222,6 +229,8 @@ Add the following lines to it:
 PATH=$PASTE_THE_OUTPUT_OF_$PATH
 @reboot pm2 resurrect &> /dev/null
 ```
+
+![image](https://github.com/user-attachments/assets/0f5856c0-f6d0-4c66-be47-9516acccc838)
 
 ### 2.2. The usual dance
 
@@ -286,3 +295,6 @@ To optimise the application, you can run the following command:
 ```bash
 php artisan optimize
 ```
+
+Refer to the following link for information:
+- https://www.cloudpanel.io/docs/v2/nodejs/deployment/pm2/
