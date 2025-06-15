@@ -318,10 +318,37 @@ To optimise the application, you can run the following command:
 php artisan optimize
 ```
 
-By now, if I go the the URL `https://api.waktusolat.app`, the browser will warn me about the SSL certificate. Click proceed and we should see Waktu Solat API homepage. :tada:
+By now, if I go the the URL `https://api.waktusolat.app`, the browser will warn me about the SSL certificate. Click "Proceed (unsafe)" and we should see Waktu Solat API homepage. :tada:
 
 ## 5. Post Deployment
 
 ### 5.1. Setup SSL Certificate
 
-To remove the browser nag about the SSL certificate, we need to install a trusted SSL certificate for our domain.
+To remove the browser security nag, we need to install a trusted SSL certificate for our domain.
+
+Go to CloudPanel dashboard and click "SSL/TLS" tab. Then click on "Actions" button > "New Let's Encrypt Certificate".
+
+![image](https://github.com/user-attachments/assets/33285a7d-5e23-4d3a-9aa9-5cc17b9ff7b4)
+
+Make sure you already add the DNS record as shown in [Step 2]. Click on "Create & Install".
+
+![image](https://github.com/user-attachments/assets/69d562ed-44ea-4e90-8dfa-5f6713cf8cd5)
+
+> [!TIP]
+> If the certificate installation failed, try again. It take some times for the DNS record to propogate.
+
+Now, your application should have the trusted certificate installed.
+
+![image](https://github.com/user-attachments/assets/dea11ab2-6a55-41d8-b358-9b7497634801)
+
+### 5.2. Add a user
+
+![image](https://github.com/user-attachments/assets/873447ef-4b12-4f65-9385-c17c6a50d25d)
+
+
+
+
+![image](https://github.com/user-attachments/assets/fdb48a55-eaf1-444b-b2b9-257e6a6d0543)
+
+
+
