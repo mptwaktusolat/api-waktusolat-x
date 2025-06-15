@@ -330,7 +330,7 @@ Go to CloudPanel dashboard and click "SSL/TLS" tab. Then click on "Actions" butt
 
 ![image](https://github.com/user-attachments/assets/33285a7d-5e23-4d3a-9aa9-5cc17b9ff7b4)
 
-Make sure you already add the DNS record as shown in [Step 2]. Click on "Create & Install".
+Make sure you already add the DNS record as shown in [Step 2](#2-configure-dns). Click on "Create & Install".
 
 ![image](https://github.com/user-attachments/assets/69d562ed-44ea-4e90-8dfa-5f6713cf8cd5)
 
@@ -343,12 +343,44 @@ Now, your application should have the trusted certificate installed.
 
 ### 5.2. Add a user
 
+This is optional step. This application has include Laravel Telescope, which is a useful tool for debugging and monitoring your application. However, the telescope route is protected by auth. You can add a user to access the telescope dashboard using artisan command.
+
+```bash
+php artisan app:create-user
+```
+
+Give the user a name, email, and password.
+
 ![image](https://github.com/user-attachments/assets/873447ef-4b12-4f65-9385-c17c6a50d25d)
 
-
-
+This user will be able to access the telescope dashboard at `https://api.waktusolat.app/telescope`.
 
 ![image](https://github.com/user-attachments/assets/fdb48a55-eaf1-444b-b2b9-257e6a6d0543)
 
+Any authenticated user can access Telescope dashboard. You can control who can access in `TelescopeServiceProvider.php` file.
 
+```php
+/**
+ * Register the Telescope gate.
+ *
+ * This gate determines who can access Telescope in non-local environments.
+ */
+protected function gate(): void
+{
+    Gate::define('viewTelescope', function ($user) {
+        return $user !== null;
+    });
+}
+```
 
+For more information about Telescope, refer to:
+
+- https://laravel.com/docs/12.x/telescope
+
+## 6. Conclusion
+
+Alhamdulillah! You have successfully deployed the Waktu Solat API application on production. :tada:
+
+To update the application, see the [Updating Application](./updating.md) document.
+
+> Found an error or typo in this document? Please [open an issue](https://github.com/mptwaktusolat/api-waktusolat-x/issues) or [submit a pull request](https://github.com/mptwaktusolat/api-waktusolat-x/pulls).
