@@ -46,6 +46,8 @@ Now I need to configure the DNS settings for the domain `api.waktusolat.app`.
 
 Login to your domain registrar's control panel or DNS name server dashboard, and create an `A` record for the domain `api.waktusolat.app` that points to the IP address of your server.
 
+![image](https://github.com/user-attachments/assets/b1829e70-ce48-454a-bd83-9e520ede682f)
+
 ## 3. Prepare the Server Environment
 
 ### 3.1. Connect to the Server via SSH
