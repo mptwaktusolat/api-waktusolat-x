@@ -29,7 +29,7 @@ You can choose the Database Engine you prefer, MySQL or MariaDB. But, I never tr
 
 ### 1.2. Create a Site
 
-Once CloudPanel is setup, add a new **PHP site**. Settings:
+Once CloudPanel is setup, add a new **PHP site**. Say I want to use the domain `api.waktusolat.app`. Here are the settings:
 
 - Application: Laravel 12
 - Domain Name: api.waktusolat.app (use your own domain)
@@ -40,7 +40,15 @@ Click on "Create".
 
 ![image](https://github.com/user-attachments/assets/996055d5-b875-4bba-93bb-642ea3767166)
 
-### 1.3. Connect to the Server via SSH
+## 2. Configure DNS
+
+Now I need to configure the DNS settings for the domain `api.waktusolat.app`.
+
+Login to your domain registrar's control panel or DNS name server dashboard, and create an `A` record for the domain `api.waktusolat.app` that points to the IP address of your server.
+
+## 3. Prepare the Server Environment
+
+### 3.1. Connect to the Server via SSH
 
 On your PC, open the terminal and run:
 
@@ -85,11 +93,9 @@ ssh api-waktusolat
 
 Commands after this point is meant to be run on the **host server**.
 
-### 1.4. Setup the environment
-
 We'll need to install npm and provision a database for the application.
 
-#### 1.4.1. Install Node.js
+### 3.2. Install Node.js
 
 Node.js is required to build the frontend assets and run the helper server (more on this later). To install Node.js, run the following commands:
 
@@ -122,7 +128,7 @@ Refer to the following link for information:
 - https://www.cloudpanel.io/docs/v2/php/guides/nodejs/
 - https://nodejs.org/en/download
 
-#### 1.4.2. Create a Database
+### 3.3. Create a Database
 
 In the CloudPanel site dashboard, go to the "Databases" section and create a new database. Fill in the following information:
 
@@ -134,11 +140,11 @@ Note down the database name, user, and password as we will need them later.
 
 ![image](https://github.com/user-attachments/assets/86595bec-6e58-4367-9017-ce5ed8673bbb)
 
-## 2. Setup the Application
+## 4. Deploy the Application
 
 Now that the server is ready, we can proceed to clone the application and set it up.
 
-### 2.1. Clone the Repository
+### 4.1. Clone the Repository
 
 Navigate to the web root directory of your site. You can find the path in the CloudPanel site dashboard, under the "Web Root" section. For example, it might be `/home/waktusolat-api/htdocs/api.waktusolat.app/public`.
 
@@ -172,7 +178,7 @@ git clone https://github.com/mptwaktusolat/api-waktusolat-x.git .
 
 Note the `.` at the end of the command, which indicates that we want to clone the repository into the current directory.
 
-### 2.2. Start the subserver
+### 4.2. Start the subserver
 
 As stated in the project's README, there is one node js application that is used to process geojson data. This application is located in the `node-api/geojson-helper` directory. Some endpoints in the main application (the Laravel app) will call this subserver endpoint to get some information.
 
@@ -203,7 +209,6 @@ pm2 start node-api/geojson-helper/server.js --name geo-resolver -- start
 ```
 
 ![image](https://github.com/user-attachments/assets/624a6765-8d0f-4917-8e0c-546aec518cce)
-
 
 You can give whatever name you want to the subserver, here I name it `geo-resolver`. Then, save the configuration.
 
@@ -240,7 +245,12 @@ PATH=$PASTE_THE_OUTPUT_OF_$PATH
 
 ![image](https://github.com/user-attachments/assets/0f5856c0-f6d0-4c66-be47-9516acccc838)
 
-### 2.2. The usual dance
+Refer to the following link for information:
+
+- https://www.cloudpanel.io/docs/v2/nodejs/deployment/pm2/
+- https://pm2.keymetrics.io/
+
+### 4.3. The usual dance
 
 Now for the usual Laravel app setup routine, i.e. installing dependencies, setting up the environment, and running migrations.
 
@@ -285,6 +295,8 @@ Run the migrations and seed the database:
 php artisan migrate --seed
 ```
 
+The seeder may take some time to complete, as there is a lot of data (about 57,000 rows) to be seeded into the database.
+
 Generate the API documentation page:
 
 ```bash
@@ -304,5 +316,10 @@ To optimise the application, you can run the following command:
 php artisan optimize
 ```
 
-Refer to the following link for information:
-- https://www.cloudpanel.io/docs/v2/nodejs/deployment/pm2/
+By now, if I go the the URL `https://api.waktusolat.app`, the browser will warn me about the SSL certificate. Click proceed and we should see Waktu Solat API homepage. :tada:
+
+## 5. Post Deployment
+
+### 5.1. Setup SSL Certificate
+
+To remove the browser nag about the SSL certificate, we need to install a trusted SSL certificate for our domain.
