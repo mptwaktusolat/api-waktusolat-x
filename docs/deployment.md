@@ -13,11 +13,15 @@ This guide assumes that:
 
 ## 1. Preparing the Server
 
-Provision a Linux VPS on cloud. I'd recommend Hetzner because it's quite cheap, but the cheap server located far away from Malaysia. Minimum 1 vCPU and 1GB RAM.
+Provision a Linux VPS on cloud. I'd recommend Hetzner because it's quite cheap, but the cheap server located far away from Malaysia.
+
+See the server requirements [here](https://www.cloudpanel.io/docs/v2/requirements/). I think the minimum you can go is 1 vCPU and 1GB RAM.
+
+Reference:
 
 ### 1.1. Install CloudPanel
 
-Install [Cloudpanel](https://www.cloudpanel.io/). The guide to install Cloudpanel for each provider is available on their documentation. See [here](https://www.cloudpanel.io/docs/v2/getting-started/).
+Install [Cloudpanel](https://www.cloudpanel.io/). Please refer to Cloudpanel [documentation](https://www.cloudpanel.io/docs/v2/getting-started/) on how to install CloudPanel for your server.
 
 > CloudPanel is a server control panel for managing PHP/JS applications on cloud servers. It offers a clean UI, performance optimizations, and simplified deployment. Alternatives include cPanel, Plesk, CyberPanel, aaPanel, and RunCloud.
 
@@ -33,6 +37,8 @@ Once CloudPanel is setup, add a new **PHP site**. Settings:
 - Fill in the Site User & Site User Password. Keep this information safe.
 
 Click on "Create".
+
+![image](https://github.com/user-attachments/assets/996055d5-b875-4bba-93bb-642ea3767166)
 
 ### 1.3. Connect to the Server via SSH
 
@@ -126,15 +132,17 @@ In the CloudPanel site dashboard, go to the "Databases" section and create a new
 
 Note down the database name, user, and password as we will need them later.
 
-## Setup the Application
+![image](https://github.com/user-attachments/assets/86595bec-6e58-4367-9017-ce5ed8673bbb)
+
+## 2. Setup the Application
 
 Now that the server is ready, we can proceed to clone the application and set it up.
 
 ### 2.1. Clone the Repository
 
-![image](https://github.com/user-attachments/assets/80f5b012-e7ee-4384-a64b-a8d6c5b12e52)
-
 Navigate to the web root directory of your site. You can find the path in the CloudPanel site dashboard, under the "Web Root" section. For example, it might be `/home/waktusolat-api/htdocs/api.waktusolat.app/public`.
+
+![image](https://github.com/user-attachments/assets/1d9d90c2-9408-4e6a-8bbd-9b68ab9dd6b5)
 
 ```bash
 cd /home/waktusolat-api/htdocs/api.waktusolat.app/public
