@@ -26,7 +26,7 @@
             class="hidden dark:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-pink-500/20 rounded-full blur-[100px] opacity-50">
         </div>
         {{-- Light mode: Blue gradient from bottom to top --}}
-        <div class="dark:hidden block absolute top-0 left-0 w-full h-full bg-gradient-to-t from-blue-100 to-white">
+        <div class="dark:hidden block absolute top-0 left-0 w-full h-full bg-gradient-to-t from-blue-50 to-white">
         </div>
 
         <section class="w-full py-6 sm:py-12 md:py-24 lg:py-32 xl:py-48 relative z-10">
