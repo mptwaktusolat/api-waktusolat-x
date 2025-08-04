@@ -2,14 +2,13 @@
 
 use App\Http\Controllers\DataHealthController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 Route::get('/', function () {
-    return Inertia::render('home');
+    return view('home');
 })->name('home');
 
 Route::get('/about', function () {
-    return Inertia::render('about');
+    return view('about');
 })->name('about');
 
 Route::get('/locations', function () {
@@ -18,11 +17,3 @@ Route::get('/locations', function () {
 
 Route::get('/health', [DataHealthController::class, 'index'])->name('data-health');
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('dashboard', function () {
-        return Inertia::render('dashboard');
-    })->name('dashboard');
-});
-
-require __DIR__ . '/settings.php';
-require __DIR__ . '/auth.php';

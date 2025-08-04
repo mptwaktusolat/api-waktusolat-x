@@ -1,6 +1,6 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "laravel/react-starter-kit",
+    "name": "laravel/laravel",
     "type": "project",
     "description": "The skeleton application for the Laravel framework.",
     "keywords": [
@@ -12,24 +12,21 @@
         "php": "^8.2",
         "dompdf/dompdf": "^3.1",
         "graylog2/gelf-php": "^2.0",
-        "inertiajs/inertia-laravel": "^2.0",
         "knuckleswtf/scribe": "^5.1",
         "laravel/framework": "^12.0",
-        "laravel/sanctum": "^4.0",
         "laravel/telescope": "^5.7",
         "laravel/tinker": "^2.10.1",
-        "league/csv": "^9.23",
-        "tightenco/ziggy": "^2.4"
+        "league/csv": "^9.23"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
         "laravel/pail": "^1.2.2",
-        "laravel/pint": "^1.18",
+        "laravel/pint": "^1.13",
         "laravel/sail": "^1.41",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.6",
         "pestphp/pest": "^3.8",
-        "pestphp/pest-plugin-laravel": "^3.1"
+        "pestphp/pest-plugin-laravel": "^3.2"
     },
     "autoload": {
         "psr-4": {
@@ -63,11 +60,6 @@
             "Composer\\Config::disableProcessTimeout",
             "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74,#34d399\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail --timeout=0\" \"npm run dev\" \"node node-api/geojson-helper/server.js\" \"npx chokidar 'app/Http/Controllers/api/**/*.php' -c 'php artisan scribe:generate'\" --names=server,queue,logs,vite,geojson-helper,scribe"
         ],
-        "dev:ssr": [
-            "npm run build:ssr",
-            "Composer\\Config::disableProcessTimeout",
-            "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail --timeout=0\" \"php artisan inertia:start-ssr\" --names=server,queue,logs,ssr"
-        ],
         "setup": [
             "composer install",
             "php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
@@ -78,6 +70,10 @@
             "php artisan script:generate",
             "npm install",
             "npm run build"
+        ],
+        "test": [
+            "@php artisan config:clear --ansi",
+            "@php artisan test"
         ]
     },
     "extra": {
