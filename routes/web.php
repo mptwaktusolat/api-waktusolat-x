@@ -17,3 +17,4 @@ Route::get('/locations', function () {
 
 Route::get('/health', [DataHealthController::class, 'index'])->name('data-health');
 
+require __DIR__ . '/auth.php';
