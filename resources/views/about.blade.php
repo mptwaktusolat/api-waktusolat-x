@@ -171,27 +171,41 @@
             <div class="mt-12 pt-8">
                 <div class="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
                     <x-about-card :gradient="'from-blue-500 to-blue-600'" :href="'https://waktusolat.app'">
+                        <x-slot:icon>
+                            <x-ionicon-time class="h-5 w-5" />
+                        </x-slot>
                         <h3 class="text-lg font-semibold">Waktu Solat Project</h3>
                         <p class="text-sm text-gray-300">Try our prayer time app!</p>
                     </x-about-card>
 
                     <x-about-card :gradient="'from-green-500 to-green-600'" :href="'https://docs.google.com/forms/d/e/1FAIpQLSe-zlZBW-8hO9XPDlLf-K7AUxtgupmD6bo4iouyLXFPAMnxFA/viewform'">
+                        <x-slot:icon>
+                            <x-ionicon-chatbubble-ellipses class="h-5 w-5" />
+                        </x-slot>
                         <h3 class="text-lg font-semibold">Feedback</h3>
                         <p class="text-sm text-green-100">Share your thoughts or report issues</p>
                     </x-about-card>
 
                     <x-about-card :gradient="'from-gray-800 to-gray-900'" :href="'https://github.com/mptwaktusolat/api-waktusolat-x'">
+                        <x-slot:icon>
+                            <x-ionicon-logo-github class="h-5 w-5" />
+                        </x-slot>
                         <h3 class="text-lg font-semibold">GitHub</h3>
                         <p class="text-sm text-gray-300">View source code or send patches</p>
                     </x-about-card>
 
                     <x-about-card :gradient="'from-purple-500 to-purple-600'" :href="'https://umami.iqfareez.com/share/dQGLdz7BivSE54it/api.waktusolat.app'">
+                        <x-slot:icon>
+                            <x-ionicon-pie-chart-sharp class="h-5 w-5" />
+                        </x-slot>
                         <h3 class="text-lg font-semibold">Analytics</h3>
                         <p class="text-sm text-purple-100">Site statistics</p>
                     </x-about-card>
                 </div>
             </div>
         </div>
+        {{-- Add some space to the bottom --}}
+        <div class="h-24"></div>
     </main>
 
     <script>
