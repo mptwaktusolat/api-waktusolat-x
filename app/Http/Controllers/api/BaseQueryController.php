@@ -5,7 +5,7 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Models\PrayerTime;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\DB;
 
 class BaseQueryController extends Controller
 {
@@ -32,8 +32,7 @@ class BaseQueryController extends Controller
     }
 
     /**
-     * Determine prayer zone from the given WGS84 coordinates by calling the
-     * geojson-helper server.
+     * Determine prayer zone from the given WGS84 coordinates
      *
      * @param  float  $lat  The latitude coordinate.
      * @param  float  $long  The longitude coordinate.
@@ -41,20 +40,26 @@ class BaseQueryController extends Controller
      *
      * @throws \Exception
      */
-    public function detectZoneFromCoordindate(float $lat, float $long)
+    public function detectZoneFromCoordinate(float $lat, float $long)
     {
-        $response = Http::get("http://localhost:5166/location/{$lat}/{$long}");
+        // Create WKT point from given parameters
+        $pointWkt = sprintf('POINT(%f %f)', $long, $lat);
 
-        if ($response->failed()) {
-            if ($response->status() === 404) {
-                $responseMsg = $response->json()['error'];
+        $result = DB::table('zone_polygons')
+            ->whereRaw(
+                "ST_Within(ST_SRID(ST_GeomFromText(?), 4326), polygon)",
+                [$pointWkt]
+            )
+            ->first();
 
-                throw new \Exception($responseMsg);
-            }
-
-            throw new \Exception('GeoHelper Server error');
+        if (empty($result)) {
+            throw new \Exception('No zone found for the given coordinates.');
         }
 
-        return $response->json();
+        return [
+            'zone' => $result->jakim_code,
+            'state' => $result->state,
+            'district' => $result->name,
+        ];
     }
 }

@@ -56,7 +56,7 @@ class ZonesController extends BaseQueryController
     public function getZoneFromCoordinate(float $lat, float $lng)
     {
         try {
-            $zoneObject = $this->detectZoneFromCoordindate($lat, $lng);
+            $zoneObject = $this->detectZoneFromCoordinate($lat, $lng);
 
             return response()->json($zoneObject);
         } catch (Exception $e) {

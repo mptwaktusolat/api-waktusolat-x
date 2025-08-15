@@ -87,7 +87,7 @@ class PrayerTimeContoller extends BaseQueryController
         $month = $request->get('month', date('m'));
 
         // Zone detection
-        $zoneObject = $this->detectZoneFromCoordindate($lat, $long);
+        $zoneObject = $this->detectZoneFromCoordinate($lat, $long);
         $zone = $zoneObject['zone'];
 
         try {
