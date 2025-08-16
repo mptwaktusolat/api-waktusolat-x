@@ -1,6 +1,6 @@
 # Updating the Application
 
-This guide provides instructions for updating the application to the latest version. Follow these steps to ensure a smooth update process.
+This guide provides instructions for updating the application to the latest version. The following guides is specific for application deployed using CloudPanel, so, YMMV. Follow these steps to ensure a smooth update process.
 
 ## 1. Prerequisites
 
@@ -56,15 +56,7 @@ Update Node.js dependencies:
 npm install
 ```
 
-### 2.5. Restart the Subserver
-
-Restart the Node.js subserver using `pm2`:
-
-```bash
-pm2 restart geo-resolver
-```
-
-### 2.6. Clear and Optimize the Application
+### 2.5. Clear and Optimize the Application
 
 Run the following commands to clear caches and optimize the application:
 
@@ -75,7 +67,7 @@ php artisan scribe:generate
 php artisan optimize
 ```
 
-### 2.7. Verify the Update
+### 2.6. Verify the Update
 
 Visit the application URL to ensure everything is working correctly. If you encounter any issues, check the server logs for debugging.
 
