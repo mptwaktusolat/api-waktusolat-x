@@ -23,11 +23,22 @@ Set up your `.env` file:
 cp .env.example .env
 ```
 
-In the `.env` file, fill in the database connection info. To get started quickly, you can use SQLite:
+In the `.env` file, fill in the database connection info.
 
 ```env
-DB_CONNECTION=sqlite
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=waktusolat
+DB_USERNAME=root
+DB_PASSWORD=
 ```
+
+> [!NOTE]
+> SQLite database is currently not supported because it doesn't have a spatial driver. If you are limited to using SQLite, you can either:
+> - Install a spatial extension for SQLite.
+> - Avoid using spatial queries. This includes removing the `ZonePolygonSeeder`, `zone_polygons` migration, etc. Note that this will cause some endpoints that require geographic resolution to not work.
+> - If you still want spatial queries to work, refer to the [geojson-helper server](https://github.com/mptwaktusolat/api-waktusolat-x/tree/0e81a5b837dc4832e49da1ef84cf4b8cec8bc0cb/node-api/geojson-helper) that was previously implemented.
 
 Then, run the migrations & seeder:
 
