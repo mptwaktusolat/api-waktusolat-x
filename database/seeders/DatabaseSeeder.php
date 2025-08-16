@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             PrayerZoneSeeder::class,
             PrayerTimeSeeder::class,
+            ZonePolygonSeeder::class,
         ]);
     }
 }

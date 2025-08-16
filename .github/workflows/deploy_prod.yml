@@ -33,9 +33,6 @@ jobs:
             git pull
             composer install
 
-            # Restart node-api subserver
-            pm2 restart geo-resolver
-
             # Optimization https://laravel.com/docs/11.x/deployment#optimization
             php artisan optimize:clear 
 

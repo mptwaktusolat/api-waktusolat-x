@@ -54,12 +54,6 @@ composer run dev
 > npx chokidar 'app/Http/Controllers/api/**/*.php' -c 'php artisan scribe:generate'
 > ```
 
-And start the node server (This is a helper server to process geojson data):
-
-```bash
-node node-api/geojson-helper/server.js
-```
-
 You can now access the application at `http://localhost:8000`. The api docs will be available at `http://localhost:8000/docs`.
 
 ### Docker
