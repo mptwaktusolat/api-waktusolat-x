@@ -295,9 +295,13 @@ Then start the agent:
 php artisan nightwatch:agent
 ```
 
+<img width="759" height="646" alt="Screenshot 2025-08-17 at 6 36 19 AM" src="https://github.com/user-attachments/assets/9e7fb8c2-5a77-4617-aefc-2b8dfcb45e73" />
+
 You should begin to see the dashboard load with some activity from your application, which indicates that your setup is working.
 
-However, for **production** deployment, the [documentation](https://nightwatch.laravel.com/docs/guides/other-providers#running-as-a-systemd-service) suggests running the agent as a systemd service. This will ensure that the agent is always running and automatically restarted if it fails.
+However, for **production** deployment, the [documentation](https://nightwatch.laravel.com/docs/guides/other-providers#running-as-a-systemd-service) suggests running the agent as a systemd service. This will ensure that the agent is always running and automatically restarted if it fails. Follow the following steps:
+
+Stop the previously runnning `php artisan nightwatch:agent`. (Ctrl+C in the terminal)
 
 SSH to the server as the root user:
 
@@ -333,7 +337,7 @@ WantedBy=multi-user.target
 
 Replace `User`, `Group`, and `WorkingDirectory` with the appropriate values for your application. You can determine these values by referring to the image below:
 
-<!-- paste image  -->
+<img width="1017" height="701" alt="Screenshot 2025-08-18 at 3 20 34 PM" src="https://github.com/user-attachments/assets/0b06d7cc-f3b2-425d-885c-4d8afea8be42" />
 
 Save the file. Then run the following commands to start the service.
 
@@ -349,7 +353,11 @@ You can check the service status using the command:
 sudo systemctl status nightwatch-agent
 ```
 
-If everything is green across the board, you have set up the agent correctly.
+<img width="1369" height="827" alt="Screenshot 2025-08-18 at 3 24 30 PM" src="https://github.com/user-attachments/assets/49bd53af-772a-4bcb-aec6-abd732fbb7c7" />
+
+If everything is green across the board, you have set up the agent correctly. You should check again if the dashboard is receiving data from the agent.
+
+<img width="2032" height="1167" alt="Screenshot 2025-08-18 at 3 46 03 PM" src="https://github.com/user-attachments/assets/33670da3-4549-4f2c-b440-5fc4628dffc6" />
 
 To learn more about Nightwatch, visit the [official documentation](https://nightwatch.laravel.com/docs).
 
