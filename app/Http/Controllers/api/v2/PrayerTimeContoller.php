@@ -5,7 +5,6 @@ namespace App\Http\Controllers\api\v2;
 use App\Http\Controllers\api\BaseQueryController;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 
 /**
  * @group SOLAT V2
@@ -40,12 +39,8 @@ class PrayerTimeContoller extends BaseQueryController
 
         $zone = strtoupper($zone);
 
-        $cacheKey = "prayerv2-{$zone}-{$year}-{$month}";
-
         try {
-            $prayerTimes = Cache::remember($cacheKey, now()->addDay(), function () use ($zone, $year, $month) {
-                return $this->queryPrayerTime($zone, $year, $month);
-            });
+            $prayerTimes = $this->queryPrayerTime($zone, $year, $month);
         } catch (\Throwable $th) {
             return response()->json([
                 'message' => $th->getMessage(),

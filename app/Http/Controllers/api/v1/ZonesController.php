@@ -5,7 +5,6 @@ namespace App\Http\Controllers\api\v1;
 use App\Http\Controllers\api\BaseQueryController;
 use App\Models\PrayerZone;
 use Exception;
-use Illuminate\Support\Facades\Cache;
 
 /**
  * @group ZONES
@@ -23,9 +22,7 @@ class ZonesController extends BaseQueryController
      */
     public function index()
     {
-        $data = Cache::remember('jakim_zones', now()->addDay(), function () {
-            return PrayerZone::select('jakim_code as jakimCode', 'negeri', 'daerah')->get();
-        });
+        $data = PrayerZone::select('jakim_code as jakimCode', 'negeri', 'daerah')->get();
 
         return response()->json($data);
     }
