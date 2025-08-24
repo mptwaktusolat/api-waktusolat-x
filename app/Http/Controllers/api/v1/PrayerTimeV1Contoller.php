@@ -4,7 +4,9 @@ namespace App\Http\Controllers\api\v1;
 
 use App\Http\Controllers\api\BaseQueryController;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * @group SOLAT V1
@@ -40,8 +42,12 @@ class PrayerTimeV1Contoller extends BaseQueryController
         $year = $request->input('year', date('Y'));
         $month = $request->input('month', date('m'));
 
-        $prayerTimes = $this->queryPrayerTime($zone, $year, $month);
-        $prayerTimes = $this->mapPrayerTimes($prayerTimes);
+        $cacheKey = "prayerv1-{$zone}-{$year}-{$month}";
+
+        $prayerTimes = Cache::remember($cacheKey, now()->addDay(), function () use ($zone, $year, $month) {
+            $data = $this->queryPrayerTime($zone, $year, $month);
+            return $this->mapPrayerTimes($data);
+        });
 
         $data = [
             'prayerTime' => $prayerTimes,
@@ -82,8 +88,24 @@ class PrayerTimeV1Contoller extends BaseQueryController
         $year = $request->input('year', date('Y'));
         $month = $request->input('month', date('m'));
 
-        $prayerTimes = $this->queryPrayerTime($zone, $year, $month);
-        $prayerTimes = $this->mapPrayerTimes($prayerTimes)[$day - 1];
+        $cacheKey = "prayerv1-{$zone}-{$year}-{$month}-{$day}";
+
+        try {
+            $prayerTimes = Cache::remember($cacheKey, now()->addDay(), function () use ($zone, $year, $month, $day) {
+                $data = $this->queryPrayerTime($zone, $year, $month);
+                $mapped = $this->mapPrayerTimes($data);
+                // Ensure the requested day exists in the mapped array
+                if (isset($mapped[$day - 1])) {
+                    return $mapped[$day - 1];
+                }
+
+                throw new Exception("Day is out of bounds : {$day}");
+            });
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => $th->getMessage(),
+            ], 404);
+        }
 
         $data = [
             'prayerTime' => $prayerTimes,
