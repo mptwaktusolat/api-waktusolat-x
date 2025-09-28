@@ -1,23 +1,17 @@
-# Deployment
+# CloudPanel on VPS
 
-This document provides a guide for deploying the application in production. :rocket:
+This document provides a guide for deploying the application in production on a VPS using CloudPanel. :rocket:
 
 This guide assumes that:
 
-- The website is being installed on a Linux server.
-- The server allows access to run commands.
-- You own a domain and have access to its DNS settings.
-
-> [!NOTE]
-> This guide is not the only method for deploying the application. You are free to use other methods, services, or tools beyond those mentioned here.
+- The server allows access to run commands (eg not a shared hosting).
+- You own a domain and able to manage its DNS settings.
 
 ## 1. Preparing the Server
 
 Provision a Linux VPS on cloud. I'd recommend Hetzner because it's quite cheap, but the cheap server located far away from Malaysia.
 
-See the server requirements [here](https://www.cloudpanel.io/docs/v2/requirements/). I think the minimum you can go is 1 vCPU and 1GB RAM.
-
-Reference:
+See the server requirements [here](https://www.cloudpanel.io/docs/v2/requirements/). I think the minimum viable configuration is 1 vCPU and 1GB RAM.
 
 ### 1.1. Install CloudPanel
 
