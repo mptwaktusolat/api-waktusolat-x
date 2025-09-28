@@ -16,5 +16,3 @@ RUN npm ci
 RUN npm run build
 
 RUN composer install --no-interaction --optimize-autoloader --no-dev
-
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
