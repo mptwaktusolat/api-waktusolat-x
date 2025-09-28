@@ -1,35 +1,10 @@
 services:
-  app:
-    container_name: waktusolat-api
+  php:
     build:
       context: .
       dockerfile: .docker/production/Dockerfile
-    image: waktusolat-api:prod
-    restart: unless-stopped
-    ports:
-      - "8000:8000"
-    # Coolify injects environment variables; define keys for clarity (values come from platform)
+    volumes:
+      - .:/var/www/html
     environment:
-      APP_ENV: ${APP_ENV:-production}
-      APP_DEBUG: ${APP_DEBUG:-false}
-      APP_URL: ${APP_URL}
-      APP_KEY: ${APP_KEY}
-      LOG_CHANNEL: ${LOG_CHANNEL:-stderr}
-      DB_CONNECTION: ${DB_CONNECTION}
-      DB_HOST: ${DB_HOST}
-      DB_PORT: ${DB_PORT}
-      DB_DATABASE: ${DB_DATABASE}
-      DB_USERNAME: ${DB_USERNAME}
-      DB_PASSWORD: ${DB_PASSWORD}
-      CACHE_DRIVER: ${CACHE_DRIVER:-redis}
-      QUEUE_CONNECTION: ${QUEUE_CONNECTION:-database}
-      SESSION_DRIVER: ${SESSION_DRIVER:-file}
-      REDIS_HOST: ${REDIS_HOST}
-      REDIS_PASSWORD: ${REDIS_PASSWORD}
-      REDIS_PORT: ${REDIS_PORT:-6379}
-    healthcheck:
-      test: ["CMD", "php", "artisan", "about"]
-      interval: 60s
-      timeout: 10s
-      retries: 3
-      start_period: 30s
+      - AUTORUN_ENABLED=true
+      - PHP_OPCACHE_ENABLE=1
