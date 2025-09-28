@@ -8,10 +8,6 @@ RUN apt-get install -y nodejs
 # Copy the existing application directory contents to the working directory
 COPY . /var/www/html
 
-# Copy and set up custom entrypoint
-COPY .docker/production/entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod +x /usr/local/bin/entrypoint.sh
-
 RUN chown -R www-data:www-data /var/www
 
 USER www-data
@@ -20,5 +16,3 @@ RUN npm ci
 RUN npm run build
 
 RUN composer install --no-interaction --optimize-autoloader --no-dev
-
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
