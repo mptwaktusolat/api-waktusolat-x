@@ -119,7 +119,7 @@ Now, we can see our Laravel app (ignore the errors for now), which means our con
 
 ### 2.3. Set up the Application
 
-Enter your container terminal. _Note: You can enter the terminal from the Coolify UI, but I prefer using my local terminal instead._
+Enter your **container terminal**. _Note: You can enter the terminal from the Coolify UI, but I prefer using my local terminal instead._
 
 <details>
 <summary>Using Coolify UI</summary>
@@ -144,192 +144,36 @@ docker exec -it <container_id> /bin/sh
 <img width="1235" height="628" alt="Screenshot 2025-10-07 052819" src="https://github.com/user-attachments/assets/d5bec4ac-acc8-41b8-bdb6-9e8b07deba51" />
 </details>
 
-- Application: Laravel 12
-- Domain Name: api.waktusolat.app (use your own domain)
-- PHP Version: 8.4 (Default)
-- Fill in the Site User & Site User Password. Keep this information safe.
-
-Click "Create".
-
-![image](https://github.com/user-attachments/assets/996055d5-b875-4bba-93bb-642ea3767166)
-
-## 2. Configure DNS
-
-Next, configure the DNS settings for the domain `api.waktusolat.app`.
-
-Log in to your domain registrar's control panel or DNS name server dashboard, and create an `A` record for the domain `api.waktusolat.app` pointing to your server's IP address.
-
-![image](https://github.com/user-attachments/assets/b1829e70-ce48-454a-bd83-9e520ede682f)
-
-## 3. Prepare the Server Environment
-
-### 3.1. Connect to the Server via SSH
-
-On your PC, open the terminal and run:
-
-```powershell
-ssh <site-user>@<your-server-ip>
-```
-
-Replace `<site-user>` with the Site User you created [earlier](#12-create-a-site), and `<your-server-ip>` with your server's IP address.
-
-In my case, it would be:
-
-```powershell
-ssh waktusolat-api@178.128.81.43
-```
-
-Enter the password set earlier in the [previous step](#12-create-a-site).
-
-To simplify authentication, I recommend using SSH keys. You can generate them (using PuTTYgen, for example) and add the SSH keys to the "Site User Settings" section in CloudPanel.
-
-Then, add the credentials to the SSH config file (on Windows, it can be found at `<USERPROFILE>\.ssh\config`) on your local machine:
-
-```powershell
-notepad $HOME\.ssh\config
-```
-
-In the config file, add the following:
-
-```config
-Host api-waktusolat
-    HostName 178.128.81.43
-    User waktusolat-api
-    IdentityFile "<path-to-your-private-key>"
-```
-
-Now you can connect to the server using the following command:
-
-```powershell
-ssh api-waktusolat
-```
-
-![image](https://github.com/user-attachments/assets/f4bd9f04-cefd-4011-9c82-6ae84f3e893d)
-
-Commands from this point onward are meant to be run on the **host server**.
-
-We'll need to install npm and provision a database for the application.
-
-### 3.2. Install Node.js
-
-Node.js is required to build the frontend assets and run the helper server (more on this later). To install Node.js, run the following commands:
-
-1. Install nvm using the following command:
-
-```bash
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
-```
-
-2. Update the current shell environment:
-
-```bash
-source ~/.bashrc
-```
-
-3. Install the required Node.js version, e.g., 22:
-
-```bash
-nvm install 22
-```
-
-4. Activate the installed Node.js version:
-
-```bash
-nvm use 22
-```
-
-Refer to the following links for more information:
-
-- https://www.cloudpanel.io/docs/v2/php/guides/nodejs/
-- https://nodejs.org/en/download
-
-### 3.3. Create a Database
-
-In the CloudPanel site dashboard, go to the "Databases" section and create a new database. Fill in the following information:
-
-- Database Name: `waktusolat-api` (or any name you prefer)
-- Database User: `waktusolat-api` (or any name you prefer)
-- Password: `your_password`
-
-Note down the database name, user, and password, as we will need them later.
-
-![image](https://github.com/user-attachments/assets/86595bec-6e58-4367-9017-ce5ed8673bbb)
-
-## 4. Deploy the Application
-
-Now that the server is ready, we can proceed to clone the application and set it up.
-
-### 4.1. Clone the Repository
-
-Navigate to the web root directory of your site. You can find the path in the CloudPanel site dashboard, under the "Web Root" section. For example, it might be `/home/waktusolat-api/htdocs/api.waktusolat.app/public`.
-
-![image](https://github.com/user-attachments/assets/1d9d90c2-9408-4e6a-8bbd-9b68ab9dd6b5)
-
-```bash
-cd /home/waktusolat-api/htdocs/api.waktusolat.app/public
-cd ..
-```
-
-Now, we are in the `api.waktusolat.app` directory:
-
-```bash
-pwd # /home/waktusolat-api/htdocs/api.waktusolat.app
-```
-
-We want to clone the repository into the `api.waktusolat.app` directory. First, empty the directory:
-
-```bash
-rm -rf /home/waktusolat-api/htdocs/api.waktusolat.app/*
-```
-
-> [!CAUTION]
-> Be careful with the `rm -rf` command. Double-check the path before running it to avoid deleting important files.
-
-Now, clone the repository:
-
-```bash
-git clone https://github.com/mptwaktusolat/api-waktusolat-x.git .
-```
-
-Note the `.` at the end of the command, which indicates that we want to clone the repository into the current directory.
-
-### 4.2. The usual dance
-
-Now for the usual Laravel app setup routine, i.e. installing dependencies, setting up the environment, and running migrations.
-
-Install Composer dependencies:
+First, install dependencies:
 
 ```bash
 composer install
 ```
 
-Create the `.env` file:
+and the Node.js dependencies:
 
 ```bash
-cp .env.example .env
+npm install
 ```
 
-Edit the `.env` file and fill in the database connection information:
+Show the application key:
+
+```bash
+php artisan key:generate --show
+```
+
+Copy the key shown and set it to the Environment Variables in Coolify.
 
 ```env
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=waktusolat-api
-DB_USERNAME=waktusolat-api
-DB_PASSWORD=your_password
+APP_KEY=base64:your_generated_key
 ```
 
-Still in the `.env` file, set the `APP_URL` to your domain. This is needed to generate the OpenAPI documentation correctly later:
+<!-- Screenshots here -->
+
+While you are at it, set the `APP_URL` variable to your domain as well. This is needed to generate the OpenAPI documentation correctly later.
 
 ```env
 APP_URL=https://api.waktusolat.app
-```
-
-Generate the application key:
-
-```bash
-php artisan key:generate
 ```
 
 Run the migrations and seed the database:
@@ -339,6 +183,8 @@ php artisan migrate --seed
 ```
 
 The seeder may take some time to complete, as there is a lot of data (about 57,000 rows) to be seeded into the database.
+
+Before proceeding, restart/redeploy the application from Coolify UI to ensure that the environment variables are up to date.
 
 Generate the API documentation page:
 
@@ -359,7 +205,9 @@ To optimize the application, run the following command:
 php artisan optimize
 ```
 
-By now, if you visit the URL `https://api.waktusolat.app`, the browser will warn you about the SSL certificate. Click "Proceed (unsafe)" and you should see the Waktu Solat API homepage. :tada:
+Now, your application should be ready. Visit your domain to see the application in action.
+
+<!-- screenshot -->
 
 ## 5. Post Deployment
 
