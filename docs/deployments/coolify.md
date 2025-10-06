@@ -11,7 +11,7 @@ This guide assumes that:
 
 Provision a Linux VPS on cloud. I'd recommend Hetzner because it's quite cheap, but the cheap server located far away from Malaysia. See the server OS and specification requirements for installing Coolify [here](https://coolify.io/docs/get-started/installation#_1-server-requirements).
 
-(Optional) Enable SWAP space on your server. This is useful if your server has low RAM (eg 1GB). First check if SWAP is already enabled:
+(Optional, but Recommended) Enable SWAP space on your server. This is useful if your server has low RAM (eg 1GB). First check if SWAP is already enabled:
 
 ```bash
 swapon --show
@@ -39,17 +39,24 @@ Once installed, access the Coolify dashboard by navigating to `http://<your-serv
 
 At the end, you'll see the Coolify dashboard something like this:
 
-<!-- Add coolify dashboard screenshot -->
+<img width="1920" height="1080" alt="coolify-deployment-guide (16)" src="https://github.com/user-attachments/assets/6b3895d0-08bf-4e13-89d8-361de1df6d86" />
 
 ### 1.2. Create a project and add a MySQL resource
 
-Create a new project, click default environment (eg `Production`), and then click "Add Resource".
+Create a new project (eg: "Waktu Solat Project"), click the default environment (ie `Production`), and then click "Add Resource".
 
 <!-- Add Add resource > MySQL. -->
+<img width="1647" height="333" alt="coolify-deployment-guide (15)" src="https://github.com/user-attachments/assets/7698fb55-25c6-44a0-bf60-50769f455738" />
 
-Click on **MySQL** under the "Databases" section. A configuration panel will appear. You can modify the settings as needed, or leave it as is. Then, click on **Start**.
+Click on **MySQL** under the "Databases" section. 
 
-<!-- Screenshot mysql started -->
+<img width="1618" height="444" alt="image" src="https://github.com/user-attachments/assets/ffc8c634-2844-4229-8998-23174d801948" />
+
+A configuration panel will appear. You can modify the settings as needed, or leave it as is. Then, click on **Start**.
+
+<img width="1641" height="946" alt="image" src="https://github.com/user-attachments/assets/d04da626-6422-4488-842b-4e79187400ef" />
+
+<img width="1649" height="888" alt="coolify-deployment-guide (12)" src="https://github.com/user-attachments/assets/8a91765d-38b0-4d0e-a297-f04b422af009" />
 
 The message above indicates that the MySQL resource has been successfully created and is running. Note the container ID because we will need it later. In my case, it is the `mwws08w8cw8k8cowsws08g8g`.  
 
@@ -57,17 +64,23 @@ The message above indicates that the MySQL resource has been successfully create
 
 Next, we will run the API Waktu Solat image. Back to the Resources page, click on Resources > New. And select **Docker Image** option.
 
-<!-- Add screenshot -->
+<img width="1212" height="526" alt="coolify-deployment-guide (11)" src="https://github.com/user-attachments/assets/87fb72db-398d-402b-b670-da9111fe5dd7" />
 
-Visit this [page](https://github.com/mptwaktusolat/api-waktusolat-x/pkgs/container/api-waktusolat-x) to get the image artifact URL. Copy the URL of the latest version. Eg: `ghcr.io/mptwaktusolat/api-waktusolat-x:latest`.
+<img width="1618" height="261" alt="image" src="https://github.com/user-attachments/assets/c6106431-004d-4181-9080-8eb07fc78d80" />
 
-Paste the URL into the **Docker Image** field in Coolify. Then, click on **Save**.
+Visit this [page](https://github.com/mptwaktusolat/api-waktusolat-x/pkgs/container/api-waktusolat-x) to get the image artifact URL. Copy the URL of the latest version. Eg: `ghcr.io/mptwaktusolat/api-waktusolat-x:latest`. Paste the URL into the **Docker Image** field in Coolify. Then, click on **Save**.
 
-<!-- Screenshot URL -->
+<img width="1619" height="430" alt="coolify-deployment-guide (9)" src="https://github.com/user-attachments/assets/b2466976-9aac-414c-af0e-9f43c0307f89" />
 
-You'll be directed to the Configuration page. Click on the **Environment Variables** tab. Copy the [`.env.example`](https://github.com/mptwaktusolat/api-waktusolat-x/blob/main/.env.example) from the this repository. In the Environment Variables tab, switch to **Developer Mode** and paste the content of `.env.example` file.
+You'll be directed to the Configuration page. Click on the **Environment Variables** tab. Copy the [`.env.example`](https://github.com/mptwaktusolat/api-waktusolat-x/blob/main/.env.example) from this repository. In the Environment Variables tab, switch to **Developer Mode** and paste the content of `.env.example` file.
 
-Update the Database part to match our deployed MySQL resource earlier. Use the normal user username and password, and the initial database created.
+<img width="1619" height="1055" alt="coolify-deployment-guide (8)" src="https://github.com/user-attachments/assets/924b2efe-9347-4782-8e3c-9f5cacca4284" />
+
+Update the Database part to match our deployed MySQL resource earlier. Use the root user username and password, and the initial database created.
+
+<img width="1240" height="484" alt="image" src="https://github.com/user-attachments/assets/7bcf8d2f-9de3-4b4f-acbb-680527c3974d" />
+
+Example:
 
 ```env
 DB_CONNECTION=mysql
@@ -77,27 +90,32 @@ DB_DATABASE=default
 DB_USERNAME=root
 DB_PASSWORD=your_root_password
 ```
-
 And then Click on Save All Environment Variables. Go back to the Configuration tab.
+
+<img width="1598" height="1078" alt="coolify-deployment-guide (7)" src="https://github.com/user-attachments/assets/012fc313-7a8f-4b0c-bd87-fb890e932bb1" />
 
 In the **Port Exposes** section, set the value to `8080`. This is the port that NGINX will listen to proxy requests to the application. (Use `8443` for HTTPS)
 
-Now, click on the **Deploy** button at the top right corner. This will start the deployment process.
+<img width="1265" height="186" alt="coolify-deployment-guide (5)" src="https://github.com/user-attachments/assets/a367a712-ebdc-4d53-b8a7-b7ed180583b5" />
 
-<!-- Add screesnhot after deploy -->
+Now, click on the **Deploy** button at the top right corner. This will start the deployment process. Wait for the process to finish.
+
+<img width="1634" height="700" alt="coolify-deployment-guide (6)" src="https://github.com/user-attachments/assets/221e0cc1-a94c-4fdf-b330-b81e70fc085f" />
 
 The message above indicates that the deployment has completed successfully. Click on the Logs tab to see the application logs. If everything is set up correctly, you should see the application running without any errors.
 
-<!-- logs screeenshot -->
+<img width="1391" height="847" alt="coolify-deployment-guide (4)" src="https://github.com/user-attachments/assets/c8d931e4-e354-43e6-ad9f-f8519a6a1ea6" />
 
 The to the Configuration tab, and open the generated domain to see the live app.
 
 <!-- Add screenshot of the app -->
+<img width="1233" height="555" alt="coolify-deployment-guide (2)" src="https://github.com/user-attachments/assets/5104208e-6310-4f6f-a60f-8f2352a7acfd" />
 
-Now, we can see our Laravel app, which means our configuration is set up correctly. Now, we will have to set up the app itself.
+Now, we can see our Laravel app (ignore the errors for now), which means our configuration is set up correctly and the reverse proxy server can reach our application. Now, we will have to set up the app itself.
+
+<img width="1412" height="909" alt="coolify-deployment-guide (1)" src="https://github.com/user-attachments/assets/b1741dcf-2815-4d1a-942f-56e244f1889d" />
 
 ### 1.4. Set up the Application
-
 
 - Application: Laravel 12
 - Domain Name: api.waktusolat.app (use your own domain)
