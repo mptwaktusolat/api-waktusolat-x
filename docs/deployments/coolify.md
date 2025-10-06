@@ -123,11 +123,14 @@ Enter your container terminal. _Note: You can enter the terminal from the Coolif
 
 <details>
 <summary>Using Coolify UI</summary>
+Click on the Terminal tab.
+
+<img width="1596" height="752" alt="Screenshot 2025-10-07 052754" src="https://github.com/user-attachments/assets/a1651679-9a58-4f4b-aba9-1837eb925ec9" />
 </details>
 
 <details>
 <summary>Using local terminal</summary>
-Find which container is our deployed application:
+First, connect to the server using SSH. Then, find which container is our deployed application:
 
 ```bash
 docker ps
@@ -138,6 +141,7 @@ I like to use [dops](https://github.com/Mikescher/better-docker-ps) instead of `
 ```bash
 docker exec -it <container_id> /bin/sh
 ```
+<img width="1235" height="628" alt="Screenshot 2025-10-07 052819" src="https://github.com/user-attachments/assets/d5bec4ac-acc8-41b8-bdb6-9e8b07deba51" />
 </details>
 
 - Application: Laravel 12
