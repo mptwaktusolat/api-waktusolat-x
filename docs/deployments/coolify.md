@@ -11,8 +11,6 @@ This guide assumes that:
 
 Provision a Linux VPS on cloud. I'd recommend Hetzner because it's quite cheap, but the cheap server located far away from Malaysia. See the server OS and specification requirements for installing Coolify [here](https://coolify.io/docs/get-started/installation#_1-server-requirements).
 
-Choose Ubuntu server with LTS version OS, e.g., Ubuntu 24.04 LTS. I think the minimum viable configuration is 1 vCPU and 1GB RAM.
-
 (Optional) Enable SWAP space on your server. This is useful if your server has low RAM (eg 1GB). First check if SWAP is already enabled:
 
 ```bash
@@ -33,21 +31,73 @@ The script will create 1GB swap file, secure it, enable, and persist in `/etc/fs
 
 ### 1.1. Install Coolify
 
-Install [Coolify](https://www.coolify.io/)
-
 > Coolify is a self-hosted platform that allows you to deploy and manage applications easily. It uses Docker under the hood.
 
-SSH into your server and run the following command to install Coolify:
+Install [Coolify](https://www.coolify.io/). Consult the official [documentation](https://coolify.io/docs/get-started/installation#self-hosted-installation) for more details on installing self-hosted version of Coolify.
 
-```bash
-curl -fsSL https://cdn.coollabs.io/coolify/install.sh | sudo bash
+Once installed, access the Coolify dashboard by navigating to `http://<your-server-ip>:8000` in your web browser. Follow the setup wizard to create an admin account.
+
+At the end, you'll see the Coolify dashboard something like this:
+
+<!-- Add coolify dashboard screenshot -->
+
+### 1.2. Create a project and add a MySQL resource
+
+Create a new project, click default environment (eg `Production`), and then click "Add Resource".
+
+<!-- Add Add resource > MySQL. -->
+
+Click on **MySQL** under the "Databases" section. A configuration panel will appear. You can modify the settings as needed, or leave it as is. Then, click on **Start**.
+
+<!-- Screenshot mysql started -->
+
+The message above indicates that the MySQL resource has been successfully created and is running. Note the container ID because we will need it later. In my case, it is the `mwws08w8cw8k8cowsws08g8g`.  
+
+### 1.3. Deploy Application
+
+Next, we will run the API Waktu Solat image. Back to the Resources page, click on Resources > New. And select **Docker Image** option.
+
+<!-- Add screenshot -->
+
+Visit this [page](https://github.com/mptwaktusolat/api-waktusolat-x/pkgs/container/api-waktusolat-x) to get the image artifact URL. Copy the URL of the latest version. Eg: `ghcr.io/mptwaktusolat/api-waktusolat-x:latest`.
+
+Paste the URL into the **Docker Image** field in Coolify. Then, click on **Save**.
+
+<!-- Screenshot URL -->
+
+You'll be directed to the Configuration page. Click on the **Environment Variables** tab. Copy the [`.env.example`](https://github.com/mptwaktusolat/api-waktusolat-x/blob/main/.env.example) from the this repository. In the Environment Variables tab, switch to **Developer Mode** and paste the content of `.env.example` file.
+
+Update the Database part to match our deployed MySQL resource earlier. Use the normal user username and password, and the initial database created.
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=mwws08w8cw8k8cowsws08g8g # replace with your container ID
+DB_PORT=3306
+DB_DATABASE=default
+DB_USERNAME=root
+DB_PASSWORD=your_root_password
 ```
 
-Consult the Coolify documentation for more details: https://coolify.io/docs/get-started/installation#self-hosted-installation
+And then Click on Save All Environment Variables. Go back to the Configuration tab.
 
-### 1.2. Create a Site
+In the **Port Exposes** section, set the value to `8080`. This is the port that NGINX will listen to proxy requests to the application. (Use `8443` for HTTPS)
 
-Once CloudPanel is set up, add a new **PHP site**. For example, if you want to use the domain `api.waktusolat.app`, here are the settings:
+Now, click on the **Deploy** button at the top right corner. This will start the deployment process.
+
+<!-- Add screesnhot after deploy -->
+
+The message above indicates that the deployment has completed successfully. Click on the Logs tab to see the application logs. If everything is set up correctly, you should see the application running without any errors.
+
+<!-- logs screeenshot -->
+
+The to the Configuration tab, and open the generated domain to see the live app.
+
+<!-- Add screenshot of the app -->
+
+Now, we can see our Laravel app, which means our configuration is set up correctly. Now, we will have to set up the app itself.
+
+### 1.4. Set up the Application
+
 
 - Application: Laravel 12
 - Domain Name: api.waktusolat.app (use your own domain)
