@@ -206,7 +206,7 @@ To optimize the application, run the following command:
 php artisan optimize
 ```
 
-Now, your application should be ready. Visit your domain to see the application in action.
+:tada: Now, your application should be ready. Visit your domain to see the application in action.
 
 <img width="1684" height="967" alt="Screenshot 2025-10-07 054351" src="https://github.com/user-attachments/assets/03e73cbb-b363-4e4c-84ac-65769a9ceff0" />
 <img width="1684" height="967" alt="Screenshot 2025-10-07 054401" src="https://github.com/user-attachments/assets/6d85b7b3-3775-4954-8885-92f4db768860" />
