@@ -41,7 +41,9 @@ At the end, you'll see the Coolify dashboard something like this:
 
 <img width="1920" height="1080" alt="coolify-deployment-guide (16)" src="https://github.com/user-attachments/assets/6b3895d0-08bf-4e13-89d8-361de1df6d86" />
 
-### 1.2. Create a project and add a MySQL resource
+## 2. Application Deployment
+
+### 2.1. Create a project and add a MySQL resource
 
 Create a new project (eg: "Waktu Solat Project"), click the default environment (ie `Production`), and then click "Add Resource".
 
@@ -60,7 +62,7 @@ A configuration panel will appear. You can modify the settings as needed, or lea
 
 The message above indicates that the MySQL resource has been successfully created and is running. Note the container ID because we will need it later. In my case, it is the `mwws08w8cw8k8cowsws08g8g`.  
 
-### 1.3. Deploy Application
+### 2.2. Deploy Application
 
 Next, we will run the API Waktu Solat image. Back to the Resources page, click on Resources > New. And select **Docker Image** option.
 
@@ -115,7 +117,28 @@ Now, we can see our Laravel app (ignore the errors for now), which means our con
 
 <img width="1412" height="909" alt="coolify-deployment-guide (1)" src="https://github.com/user-attachments/assets/b1741dcf-2815-4d1a-942f-56e244f1889d" />
 
-### 1.4. Set up the Application
+### 2.3. Set up the Application
+
+Enter your container terminal. _Note: You can enter the terminal from the Coolify UI, but I prefer using my local terminal instead._
+
+<details>
+<summary>Using Coolify UI</summary>
+</details>
+
+<details>
+<summary>Using local terminal</summary>
+Find which container is our deployed application:
+
+```bash
+docker ps
+```
+
+I like to use [dops](https://github.com/Mikescher/better-docker-ps) instead of `docker ps`, just saying.
+
+```bash
+docker exec -it <container_id> /bin/sh
+```
+</details>
 
 - Application: Laravel 12
 - Domain Name: api.waktusolat.app (use your own domain)
