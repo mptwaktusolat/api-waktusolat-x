@@ -167,14 +167,18 @@ Copy the key shown and set it to the Environment Variables in Coolify.
 ```env
 APP_KEY=base64:your_generated_key
 ```
-
-<!-- Screenshots here -->
-
 While you are at it, set the `APP_URL` variable to your domain as well. This is needed to generate the OpenAPI documentation correctly later.
 
 ```env
 APP_URL=https://api.waktusolat.app
 ```
+<img width="1206" height="237" alt="Screenshot 2025-10-07 053648" src="https://github.com/user-attachments/assets/b60fccab-98d5-410f-984a-8760cdd0253b" />
+
+<img width="1221" height="222" alt="Screenshot 2025-10-07 053705" src="https://github.com/user-attachments/assets/08df826d-f29b-4515-bc50-f8d325e6f9b1" />
+
+Restart/redeploy the application from Coolify UI to ensure that the environment variables are up to date.
+
+<img width="634" height="314" alt="image" src="https://github.com/user-attachments/assets/4c6358e9-1fdd-48db-9f63-811b57ce45ce" />
 
 Run the migrations and seed the database:
 
@@ -183,8 +187,6 @@ php artisan migrate --seed
 ```
 
 The seeder may take some time to complete, as there is a lot of data (about 57,000 rows) to be seeded into the database.
-
-Before proceeding, restart/redeploy the application from Coolify UI to ensure that the environment variables are up to date.
 
 Generate the API documentation page:
 
@@ -195,7 +197,6 @@ php artisan scribe:generate
 Build the Vite assets:
 
 ```bash
-npm install
 npm run build
 ```
 
@@ -207,7 +208,9 @@ php artisan optimize
 
 Now, your application should be ready. Visit your domain to see the application in action.
 
-<!-- screenshot -->
+<img width="1684" height="967" alt="Screenshot 2025-10-07 054351" src="https://github.com/user-attachments/assets/03e73cbb-b363-4e4c-84ac-65769a9ceff0" />
+<img width="1684" height="967" alt="Screenshot 2025-10-07 054401" src="https://github.com/user-attachments/assets/6d85b7b3-3775-4954-8885-92f4db768860" />
+
 
 ## 5. Post Deployment
 
