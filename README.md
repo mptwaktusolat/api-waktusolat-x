@@ -134,4 +134,4 @@ Wonder why so many changes? [Here's why](https://example.com). (TODO)
 
 ## Deployments
 
-See [deployments.md](docs/deployment.md) for deployment details.
+Interested in self-hosting the API Waktu Solat server? See [Deployments](docs#deployments) for details.
