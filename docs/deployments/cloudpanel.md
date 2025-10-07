@@ -412,6 +412,6 @@ APP_DEBUG=false
 
 Alhamdulillah! You have successfully deployed the Waktu Solat API application in production. :tada:
 
-To update the application, see the [Updating Application](./updating.md) document.
+To update the application, see the [Updating Application](./updating-cloudpanel.md) document.
 
 > Found an error or typo in this document? Please [open an issue](https://github.com/mptwaktusolat/api-waktusolat-x/issues) or [submit a pull request](https://github.com/mptwaktusolat/api-waktusolat-x/pulls).
