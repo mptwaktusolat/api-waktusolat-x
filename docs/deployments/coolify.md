@@ -220,14 +220,18 @@ Until now, we have been using the default sslip.io domain provided by Coolify. T
 
 Open up the DNS management page of your domain registrar. Create an A record pointing to the server IP address. Say I want to use `api-ksdfj.waktusolat.app`, create a A record as follows:
 
-<!-- screenshot here -->
+<img width="1281" height="429" alt="Screenshot 2025-10-08 030104" src="https://github.com/user-attachments/assets/a1c33b82-0bbd-49a1-9990-016bc6ff7029" />
 
-Coolify will automatically issue an SSL certificate for your domain.
+Open Coolify dashboard > Configurations > Domains, add the new domain and Save. Then, click Redeploy. Coolify will automatically issue an SSL certificate for your domain.
+
+<img width="1233" height="135" alt="image" src="https://github.com/user-attachments/assets/053402b3-2153-4494-9b6f-8b50e04ff06e" />
 
 > [!NOTE]
 > DNS propagation may take some time.
 
 After a while, you should be able to access the application using your custom domain.
+
+<img width="1403" height="918" alt="image" src="https://github.com/user-attachments/assets/419ef93d-f620-41db-84e5-d3b02f2a155b" />
 
 ### 5.2. Finalize Environment Settings
 
