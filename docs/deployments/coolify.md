@@ -214,165 +214,43 @@ php artisan optimize
 
 ## 5. Post Deployment
 
-### 5.1. Setup SSL Certificate
+### 5.1 Custom Domain
 
-To remove the browser security warning, install a trusted SSL certificate for your domain.
+Until now, we have been using the default sslip.io domain provided by Coolify. To use our own domain, we need to configure the DNS settings of our domain.
 
-Go to the CloudPanel dashboard and click the "SSL/TLS" tab. Then click the "Actions" button > "New Let's Encrypt Certificate".
+Open up the DNS management page of your domain registrar. Create an A record pointing to the server IP address. Say I want to use `api-ksdfj.waktusolat.app`, create a A record as follows:
 
-![image](https://github.com/user-attachments/assets/33285a7d-5e23-4d3a-9aa9-5cc17b9ff7b4)
+<!-- screenshot here -->
 
-Make sure you have already added the DNS record as shown in [Step 2](#2-configure-dns). Click "Create & Install".
+Coolify will automatically issue an SSL certificate for your domain.
 
-![image](https://github.com/user-attachments/assets/69d562ed-44ea-4e90-8dfa-5f6713cf8cd5)
+> [!NOTE]
+> DNS propagation may take some time.
 
-> [!TIP]
-> If the certificate installation fails, try again. It may take some time for the DNS record to propagate.
+After a while, you should be able to access the application using your custom domain.
 
-Now, your application should have a trusted certificate installed.
+### 5.2. Finalize Environment Settings
 
-![image](https://github.com/user-attachments/assets/8cad737a-68d5-4f4c-8487-676d72b96ff0)
-
-And the browser warning is gone.
-
-![image](https://github.com/user-attachments/assets/dea11ab2-6a55-41d8-b358-9b7497634801)
-
-### 5.2. Setup Logging & Monitoring (Optional)
-
-This section is optional. It is recommended to monitor your service while it is running in production. Historically, this app used [Laravel Telescope](https://github.com/laravel/telescope) before recently adopting [Laravel Nightwatch](https://nightwatch.laravel.com/).
-
-On the surface level, Laravel Telescope runs inside your app. It's free and quick, useful for development or debugging scenarios. Meanwhile, Laravel Nightwatch is a managed service provided by Laravel and could incur some costs.
-
-#### 5.2.1. Setup Laravel Nightwatch
-
-Register your account at https://nightwatch.laravel.com/. Follow the [instructions given](https://nightwatch.laravel.com/docs/getting-started/start-guide) to register your application with Nightwatch.
-
-Update the `.env` file with the Nightwatch token:
+If the application is ready to be used, you can turn off the debug mode, and set environment to `production` in the Environment Variables.
 
 ```env
-NIGHTWATCH_TOKEN=your_token
+APP_ENV=production
+APP_DEBUG=false
 ```
 
-Then start the agent:
+Using Laravel Telescope/Laravel Nightwatch is not covered in this guide. You are free to explore and set it up on your own.
 
-```bash
-php artisan nightwatch:agent
-```
+## 6. Caveats
 
-<img width="759" height="646" alt="Screenshot 2025-08-17 at 6 36 19 AM" src="https://github.com/user-attachments/assets/9e7fb8c2-5a77-4617-aefc-2b8dfcb45e73" />
+1. New to setup [Auto Deploy](https://coolify.io/docs/applications/#auto-deploy) feature in Coolify so it can redeploy the application automatically when you push a new commit on Github.
+2. Need to run migrations manually after each deployment 
+(if any). 
+3. Need to run `php artisan scribe:generate` manually after each deployment to regenerate the API documentation. (If needed)
+4. I couldn't get the Swagger page to load the docs correctly. Because Laravel route helper return routes in `http` instead of `https`? So when fetching the page, the browser block the request (`no-referrer-when-downgrade`)
 
-You should begin to see the dashboard load with some activity from your application, which indicates that your setup is working.
 
-However, for **production** deployment, the [documentation](https://nightwatch.laravel.com/docs/guides/other-providers#running-as-a-systemd-service) suggests running the agent as a systemd service. This will ensure that the agent is always running and automatically restarted if it fails. Follow the following steps:
+## 7. Conclusion
 
-Stop the previously runnning `php artisan nightwatch:agent`. (Ctrl+C in the terminal)
+Alhamdulillah! You have successfully deployed the Waktu Solat API application in production using Coolify. :tada:
 
-SSH to the server as the root user:
-
-```bash
-ssh sakinah-root
-```
-
-Create the nightwatch-agent.service file:
-
-```bash
-sudo nano /etc/systemd/system/nightwatch-agent.service
-```
-
-And paste the following file:
-
-```ini
-[Unit]
-Description=Laravel Nightwatch Agent
-After=network.target
-
-[Service]
-Type=simple
-User=waktusolat-api
-Group=waktusolat-api
-WorkingDirectory=/home/waktusolat-api/htdocs/api.waktusolat.app
-ExecStart=/usr/bin/php artisan nightwatch:agent
-Restart=always
-RestartSec=5
-
-[Install]
-WantedBy=multi-user.target
-```
-
-Replace `User`, `Group`, and `WorkingDirectory` with the appropriate values for your application. You can determine these values by referring to the image below:
-
-<img width="1017" height="701" alt="Screenshot 2025-08-18 at 3 20 34 PM" src="https://github.com/user-attachments/assets/0b06d7cc-f3b2-425d-885c-4d8afea8be42" />
-
-Save the file. Then run the following commands to start the service.
-
-```bash
-sudo systemctl daemon-reload
-sudo systemctl enable nightwatch-agent
-sudo systemctl start nightwatch-agent
-```
-
-You can check the service status using the command:
-
-```bash
-sudo systemctl status nightwatch-agent
-```
-
-<img width="1369" height="827" alt="Screenshot 2025-08-18 at 3 24 30 PM" src="https://github.com/user-attachments/assets/49bd53af-772a-4bcb-aec6-abd732fbb7c7" />
-
-If everything is green across the board, you have set up the agent correctly. You should check again if the dashboard is receiving data from the agent.
-
-<img width="2032" height="1167" alt="Screenshot 2025-08-18 at 3 46 03 PM" src="https://github.com/user-attachments/assets/33670da3-4549-4f2c-b440-5fc4628dffc6" />
-
-To learn more about Nightwatch, visit the [official documentation](https://nightwatch.laravel.com/docs).
-
-#### 5.2.2. Setup Laravel Telescope
-
-The application includes Laravel Telescope, a useful tool for debugging and monitoring your application.
-
-Enable the Telescope feature by setting the `TELESCOPE_ENABLED` environment variable to `true` in the `.env` file:
-
-```env
-TELESCOPE_ENABLED=true
-```
-
-The Telescope route is protected by authentication. You can add a user to access the Telescope dashboard using the following artisan command:
-
-```bash
-php artisan app:create-user
-```
-
-Provide the user with a name, email, and password.
-
-![image](https://github.com/user-attachments/assets/873447ef-4b12-4f65-9385-c17c6a50d25d)
-
-This user will be able to access the Telescope dashboard at `https://api.waktusolat.app/telescope`.
-
-![image](https://github.com/user-attachments/assets/fdb48a55-eaf1-444b-b2b9-257e6a6d0543)
-
-Any authenticated user can access the Telescope dashboard. You can control access in the `TelescopeServiceProvider.php` file.
-
-```php
-/**
- * Register the Telescope gate.
- *
- * This gate determines who can access Telescope in non-local environments.
- */
-protected function gate(): void
-{
-    Gate::define('viewTelescope', function ($user) {
-        return $user !== null;
-    });
-}
-```
-
-For more information about Telescope, refer to:
-
-- https://laravel.com/docs/12.x/telescope
-
-## 6. Conclusion
-
-Alhamdulillah! You have successfully deployed the Waktu Solat API application in production. :tada:
-
-To update the application, see the [Updating Application](./updating.md) document.
-
-> Found an error or typo in this document? Please [open an issue](https://github.com/mptwaktusolat/api-waktusolat-x/issues) or [submit a pull request](https://github.com/mptwaktusolat/api-waktusolat-x/pulls).
+To update the application when new images are available, simply redeploy the application from the Coolify dashboard. Remember to run the necessary commands in the container terminal if there are any database migrations or other setup steps required.
