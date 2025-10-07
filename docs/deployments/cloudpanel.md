@@ -399,6 +399,15 @@ For more information about Telescope, refer to:
 
 - https://laravel.com/docs/12.x/telescope
 
+### 5.3. Finalize Environment Settings
+
+If the application is ready, you can turn off the debug mode, and set the environment to `production` in the environment file:
+
+```env
+APP_ENV=production
+APP_DEBUG=false
+```
+
 ## 6. Conclusion
 
 Alhamdulillah! You have successfully deployed the Waktu Solat API application in production. :tada:

@@ -4,14 +4,14 @@ This document provides a guide for deploying the application in production on a 
 
 This guide assumes that:
 
-- The server allows access to run commands (eg not a shared hosting).
-- You own a domain and able to manage its DNS settings.
+- The server allows access to run commands (e.g., not shared hosting).
+- You own a domain and can manage its DNS settings.
 
 ## 1. Preparing the Server
 
-Provision a Linux VPS on cloud. I'd recommend Hetzner because it's quite cheap, but the cheap server located far away from Malaysia. See the server OS and specification requirements for installing Coolify [here](https://coolify.io/docs/get-started/installation#_1-server-requirements).
+Provision a Linux VPS on the cloud. I'd recommend Hetzner because it's quite cheap, but the cheaper servers are located far away from Malaysia. See the server OS and specification requirements for installing Coolify [here](https://coolify.io/docs/get-started/installation#_1-server-requirements).
 
-(Optional, but Recommended) Enable SWAP space on your server. This is useful if your server has low RAM (eg 1GB). First check if SWAP is already enabled:
+(Optional, but Recommended) Enable SWAP space on your server. This is useful if your server has low RAM (e.g., 1GB). First, check if SWAP is already enabled:
 
 ```bash
 swapon --show
@@ -27,25 +27,25 @@ sudo swapon /swapfile && \
 echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
 ```
 
-The script will create 1GB swap file, secure it, enable, and persist in `/etc/fstab`. Check again if SWAP is enabled using `swapon --show` or `free -h` command.
+The script will create a 1GB swap file, secure it, enable it, and persist it in `/etc/fstab`. Check again if SWAP is enabled using the `swapon --show` or `free -h` command.
 
 ### 1.1. Install Coolify
 
 > Coolify is a self-hosted platform that allows you to deploy and manage applications easily. It uses Docker under the hood.
 
-Install [Coolify](https://www.coolify.io/). Consult the official [documentation](https://coolify.io/docs/get-started/installation#self-hosted-installation) for more details on installing self-hosted version of Coolify.
+Install [Coolify](https://www.coolify.io/). Consult the official [documentation](https://coolify.io/docs/get-started/installation#self-hosted-installation) for more details on installing the self-hosted version of Coolify.
 
 Once installed, access the Coolify dashboard by navigating to `http://<your-server-ip>:8000` in your web browser. Follow the setup wizard to create an admin account.
 
-At the end, you'll see the Coolify dashboard something like this:
+At the end, you'll see the Coolify dashboard, which looks something like this:
 
 <img width="1920" height="1080" alt="coolify-deployment-guide (16)" src="https://github.com/user-attachments/assets/6b3895d0-08bf-4e13-89d8-361de1df6d86" />
 
 ## 2. Application Deployment
 
-### 2.1. Create a project and add a MySQL resource
+### 2.1. Create a Project and Add a MySQL Resource
 
-Create a new project (eg: "Waktu Solat Project"), click the default environment (ie `Production`), and then click "Add Resource".
+Create a new project (e.g., "Waktu Solat Project"), click the default environment (i.e., `Production`), and then click "Add Resource".
 
 <!-- Add Add resource > MySQL. -->
 <img width="1647" height="333" alt="coolify-deployment-guide (15)" src="https://github.com/user-attachments/assets/7698fb55-25c6-44a0-bf60-50769f455738" />
@@ -54,27 +54,27 @@ Click on **MySQL** under the "Databases" section.
 
 <img width="1618" height="444" alt="image" src="https://github.com/user-attachments/assets/ffc8c634-2844-4229-8998-23174d801948" />
 
-A configuration panel will appear. You can modify the settings as needed, or leave it as is. Then, click on **Start**.
+A configuration panel will appear. You can modify the settings as needed or leave them as is. Then, click on **Start**.
 
 <img width="1641" height="946" alt="image" src="https://github.com/user-attachments/assets/d04da626-6422-4488-842b-4e79187400ef" />
 
 <img width="1649" height="888" alt="coolify-deployment-guide (12)" src="https://github.com/user-attachments/assets/8a91765d-38b0-4d0e-a297-f04b422af009" />
 
-The message above indicates that the MySQL resource has been successfully created and is running. Note the container ID because we will need it later. In my case, it is the `mwws08w8cw8k8cowsws08g8g`.  
+The message above indicates that the MySQL resource has been successfully created and is running. Note the container ID because we will need it later. In my case, it is `mwws08w8cw8k8cowsws08g8g`.  
 
-### 2.2. Deploy Application
+### 2.2. Deploy the Application
 
-Next, we will run the API Waktu Solat image. Back to the Resources page, click on Resources > New. And select **Docker Image** option.
+Next, we will run the API Waktu Solat image. Go back to the Resources page, click on Resources > New, and select the **Docker Image** option.
 
 <img width="1212" height="526" alt="coolify-deployment-guide (11)" src="https://github.com/user-attachments/assets/87fb72db-398d-402b-b670-da9111fe5dd7" />
 
 <img width="1618" height="261" alt="image" src="https://github.com/user-attachments/assets/c6106431-004d-4181-9080-8eb07fc78d80" />
 
-Visit this [page](https://github.com/mptwaktusolat/api-waktusolat-x/pkgs/container/api-waktusolat-x) to get the image artifact URL. Copy the URL of the latest version. Eg: `ghcr.io/mptwaktusolat/api-waktusolat-x:latest`. Paste the URL into the **Docker Image** field in Coolify. Then, click on **Save**.
+Visit this [page](https://github.com/mptwaktusolat/api-waktusolat-x/pkgs/container/api-waktusolat-x) to get the image artifact URL. Copy the URL of the latest version. E.g., `ghcr.io/mptwaktusolat/api-waktusolat-x:latest`. Paste the URL into the **Docker Image** field in Coolify. Then, click on **Save**.
 
 <img width="1619" height="430" alt="coolify-deployment-guide (9)" src="https://github.com/user-attachments/assets/b2466976-9aac-414c-af0e-9f43c0307f89" />
 
-You'll be directed to the Configuration page. Click on the **Environment Variables** tab. Copy the [`.env.example`](https://github.com/mptwaktusolat/api-waktusolat-x/blob/main/.env.example) from this repository. In the Environment Variables tab, switch to **Developer Mode** and paste the content of `.env.example` file.
+You'll be directed to the Configuration page. Click on the **Environment Variables** tab. Copy the [`.env.example`](https://github.com/mptwaktusolat/api-waktusolat-x/blob/main/.env.example) from this repository. In the Environment Variables tab, switch to **Developer Mode** and paste the content of the `.env.example` file.
 
 <img width="1619" height="1055" alt="coolify-deployment-guide (8)" src="https://github.com/user-attachments/assets/924b2efe-9347-4782-8e3c-9f5cacca4284" />
 
@@ -92,7 +92,7 @@ DB_DATABASE=default
 DB_USERNAME=root
 DB_PASSWORD=your_root_password
 ```
-And then Click on Save All Environment Variables. Go back to the Configuration tab.
+And then click on Save All Environment Variables. Go back to the Configuration tab.
 
 <img width="1598" height="1078" alt="coolify-deployment-guide (7)" src="https://github.com/user-attachments/assets/012fc313-7a8f-4b0c-bd87-fb890e932bb1" />
 
@@ -108,7 +108,7 @@ The message above indicates that the deployment has completed successfully. Clic
 
 <img width="1391" height="847" alt="coolify-deployment-guide (4)" src="https://github.com/user-attachments/assets/c8d931e4-e354-43e6-ad9f-f8519a6a1ea6" />
 
-The to the Configuration tab, and open the generated domain to see the live app.
+Go to the Configuration tab, and open the generated domain to see the live app.
 
 <!-- Add screenshot of the app -->
 <img width="1233" height="555" alt="coolify-deployment-guide (2)" src="https://github.com/user-attachments/assets/5104208e-6310-4f6f-a60f-8f2352a7acfd" />
@@ -235,7 +235,7 @@ After a while, you should be able to access the application using your custom do
 
 ### 5.2. Finalize Environment Settings
 
-If the application is ready to be used, you can turn off the debug mode, and set environment to `production` in the Environment Variables.
+If the application is ready to be used, you can turn off the debug mode, and set the environment to `production` in the Environment Variables.
 
 ```env
 APP_ENV=production
