@@ -25,6 +25,9 @@ FROM serversideup/php:8.4-fpm-nginx-alpine AS final
 
 USER root
 
+# Install php extensions: https://serversideup.net/open-source/docker-php/docs/customizing-the-image/installing-additional-php-extensions
+RUN install-php-extensions intl
+
 WORKDIR /var/www/html
 
 COPY --chown=www-data:www-data . .
