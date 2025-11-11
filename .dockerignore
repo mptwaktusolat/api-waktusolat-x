@@ -6,6 +6,7 @@ storage/logs/*
 storage/app/debugbar/*
 docker-compose*.yml
 Dockerfile*~
+.docker
 *.md
 tests
 docs
