@@ -6,8 +6,6 @@ services:
     ports:
       - "8080:8080"
       - "8443:8443"
-    post_start:
-      - command: php artisan scribe:generate
     environment:
       - PHP_OPCACHE_ENABLE=1
       # app key can be set in environment eg export APP_KEY="base64:your_generated_key_here"
