@@ -2,7 +2,7 @@
 
 ## Quick Start
 
-Create a `docker-compose.yml` file with the following content:
+Create a `compose.yml` file with the following content:
 
 ```yaml
 services:
@@ -51,7 +51,7 @@ See the [Environment Variables](#environment-variables) section below for more d
 Then, start the services:
 
 ```bash
-docker compose up -d
+docker compose -f compose.yml up -d
 ```
 
 ## First setup
@@ -74,14 +74,7 @@ Generate the API documentation:
 php artisan scribe:generate
 ```
 
-## Upgrading
-
-When upgrading to a new version, you may need to run the migrations and generate swagger docs again:
-
-```bash
-php artisan migrate
-php artisan scribe:generate
-```
+API is now ready to serve requests. Open site at `http://<your-server-ip-or-domain>:8080`
 
 ## Environment Variables
 
