@@ -92,7 +92,7 @@ Additional environment variables provided by the image can be found here: https:
 ## Extras
 
 - Recommended tools to run Docker stack: [Dockge](https://github.com/louislam/dockge), [Portainer](https://docs.portainer.io/start/install-ce/server/docker/linux).
-- Specific [guide](https://github.com/mptwaktusolat/api-waktusolat-x/blob/640341f05a391f2edf7772c96a19caee537d869a/docs/deployments/coolify.md) to host on Coolify.
+- Old [guide](https://github.com/mptwaktusolat/api-waktusolat-x/blob/640341f05a391f2edf7772c96a19caee537d869a/docs/deployments/coolify.md) to host on Coolify.
 
 
 ## References
