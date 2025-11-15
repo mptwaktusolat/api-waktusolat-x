@@ -11,6 +11,9 @@ services:
     ports:
       - "8080:8080" # HTTP
       - "8443:8443" # HTTPS
+    # Not useful when first time starts the container. Uncomment after completed the 'First setup' section.
+    # post_start:
+    #   - command: composer post-container-restart
     environment:
       - PHP_OPCACHE_ENABLE=1
       - APP_KEY=${APP_KEY:?APP_KEY must be set}

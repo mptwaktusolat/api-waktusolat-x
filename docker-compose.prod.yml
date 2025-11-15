@@ -6,6 +6,9 @@ services:
     ports:
       - "8080:8080"
       - "8443:8443"
+    # for subsequent container restarts
+    post_start:
+      - command: composer post-container-restart
     environment:
       - PHP_OPCACHE_ENABLE=1
       - APP_KEY=${APP_KEY:?APP_KEY must be set}
