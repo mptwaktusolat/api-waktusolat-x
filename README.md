@@ -69,31 +69,29 @@ composer run dev
 
 You can now access the application at `http://localhost:8000`. The api docs will be available at `http://localhost:8000/docs`.
 
-### Docker
+### Dev Container
 
-For the first time, run the following commands:
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/mptwaktusolat/api-waktusolat-x)
 
-- Clone and navigate into the project.
-- `docker compose up -d --build`
-- `docker compose exec php bash`
-- `composer setup`
-
-You may need to edit the `.env` file:
+You may need to create/edit the `.env` file:
 
 ```dotenv
 DB_CONNECTION=mysql
 DB_HOST=db # use service name instead of local ip
 ```
 
-Then, rerun
-- `docker compose exec php bash`
-- `composer setup`
+Then, run
+```bash
+composer setup
+```
 
-From the second time onwards
+Start the application:
 
-- `docker compose up -d`
+```bash
+composer run dev
+```
 
-Reference for Laravel Docker Development: https://github.com/refactorian/laravel-docker
+The app should be available at `http://localhost:8000`. PhpMyAdmin should be available at `http://localhost:9001`.
 
 ## Troubleshooting
 
