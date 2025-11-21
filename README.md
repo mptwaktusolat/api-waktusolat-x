@@ -91,7 +91,7 @@ Start the application:
 composer run dev
 ```
 
-The app should be available at `http://localhost:8000`. PhpMyAdmin should be available at `http://localhost:9001`.
+The app should be available at `http://localhost:8000`. PhpMyAdmin should be available at `http://localhost:9001` (username: `root`, password: leave empty).
 
 ## Troubleshooting
 
