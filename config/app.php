@@ -44,6 +44,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | API Rate Limit Per Minute
+    |--------------------------------------------------------------------------
+    |
+    | This value determines the maximum number of API requests allowed per
+    | minute from a single IP address.
+    |
+    */
+
+    'rate_limit_per_minute' => env('API_RATE_LIMIT_PER_MINUTE', 60),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Debug Mode
     |--------------------------------------------------------------------------
     |

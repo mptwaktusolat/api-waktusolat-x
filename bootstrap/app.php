@@ -24,6 +24,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->api(append: [
             MyCors::class,
+            'throttle:api',
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
