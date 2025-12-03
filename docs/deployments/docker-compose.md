@@ -81,6 +81,8 @@ API is now ready to serve requests. Open site at `http://<your-server-ip-or-doma
 
 ## Environment Variables
 
+### app service
+
 The environment variables details are as follows:
 
 | Variable       | Description                                      |
@@ -92,6 +94,19 @@ The environment variables details are as follows:
 | FORCE_HTTPS   | Force all URLs to use HTTPS scheme (`true` or `false`). Set to `true` in production. |
 
 Additional environment variables provided by the image can be found here: https://serversideup.net/open-source/docker-php/docs/reference/environment-variable-specification.
+
+### mysql service
+
+If you choose to protect the mysql database with a password, you can set the following environment variable in the `db` service:
+
+```env
+MYSQL_ALLOW_EMPTY_PASSWORD=no
+MYSQL_ROOT_PASSWORD=
+MYSQL_USER=
+MYSQL_PASSWORD=
+```
+
+See details here: https://hub.docker.com/_/mysql#environment-variables
 
 ## Extras
 
