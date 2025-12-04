@@ -18,6 +18,16 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->encryptCookies(except: ['appearance']);
 
+        if (config('app.trusted_proxies.enabled')) {
+            $middleware->trustProxies(
+                at: config('app.trusted_proxies.at', '*'),
+                headers: Request::HEADER_X_FORWARDED_FOR |
+                    Request::HEADER_X_FORWARDED_HOST |
+                    Request::HEADER_X_FORWARDED_PORT |
+                    Request::HEADER_X_FORWARDED_PROTO
+            );
+        }
+
         $middleware->web(append: [
             HandleAppearance::class,
         ]);
