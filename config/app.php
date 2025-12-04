@@ -44,25 +44,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Trusted Proxies Configuration
-    |--------------------------------------------------------------------------
-    |
-    | Control whether Laravel should programmatically trust proxies and which
-    | addresses to trust when your app sits behind a load balancer or reverse
-    | proxy. For more background, see:
-    |
-    | - https://laravel-news.com/managing-proxy-trust-in-laravel-applications
-    | - https://laravel.com/docs/12.x/requests#configuring-trusted-proxies
-    |
-    */
-
-    'trusted_proxies' => [
-        'enabled' => env('ENABLE_TRUSTED_PROXY_CONFIG', false),
-        'at' => env('TRUSTED_PROXIES', '*'),
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
     | Application Debug Mode
     |--------------------------------------------------------------------------
     |
