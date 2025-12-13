@@ -125,48 +125,17 @@ class PrayerTimeController extends BaseQueryController
      *
      * @response status=404 scenario="Data not found" {"message": "No data found for zone: XXXXX for MMM/YYYY"}
      * @response status=500 scenario="Internal server error." {"message": "Server error"}
+     *
      * @deprecated
      */
     public function fetchMonthLocationByGpsDeprecated(float $lat, float $long, Request $request)
     {
-        // Query parameters
-        $request->validate([
-            'year' => 'integer|digits:4|min:2020',
-            'month' => 'integer|min:1',
-        ]);
-
-        $year = $request->get('year', date('Y'));
-        $month = $request->get('month', date('m'));
-
-        // Zone detection
-        $zoneObject = $this->detectZoneFromCoordinate($lat, $long);
-        $zone = $zoneObject['zone'];
-
-        try {
-            $prayerTimes = $this->queryPrayerTime($zone, $year, $month);
-        } catch (\Throwable $th) {
-            return response()->json([
-                'message' => $th->getMessage(),
-            ], 404);
-        }
-        $prayerTimes = $this->mapPrayerTimes($prayerTimes);
-
-        $data = [
-            'zone' => $zone,
-            'year' => (int) $year,
-            'month' => strtoupper(Carbon::createFromDate($year, $month, 1)->format('M')),
-            'month_number' => (int) $month,
-            'last_updated' => null,
-            'prayers' => $prayerTimes,
-        ];
-
-        return response()->json($data);
+        $this->fetchMonthLocationByGps($lat, $long, $request);
     }
 
     /**
      * Map prayer times to the required format
      *
-     * @param \Illuminate\Support\Collection $prayerTimes
      * @return \Illuminate\Support\Collection
      */
     private function mapPrayerTimes(\Illuminate\Support\Collection $prayerTimes)
