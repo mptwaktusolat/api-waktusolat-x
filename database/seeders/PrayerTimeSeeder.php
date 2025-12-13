@@ -17,8 +17,8 @@ class PrayerTimeSeeder extends Seeder
      */
     public function run()
     {
-        # Increase memory limit for this script.
-        ini_set('memory_limit','256M');
+        // Increase memory limit for this script.
+        ini_set('memory_limit', '256M');
         $this->command->info('Seeding prayer times from CSV...');
 
         // Paths to the prayer times CSV files
