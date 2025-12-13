@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api\v1;
 use App\Http\Controllers\api\BaseQueryController;
 use App\Models\PrayerZone;
 use Exception;
+use Illuminate\Database\QueryException;
 
 /**
  * @group ZONES
@@ -59,6 +60,10 @@ class ZonesController extends BaseQueryController
             $zoneObject = $this->detectZoneFromCoordinate($lat, $lng);
 
             return response()->json($zoneObject);
+        } catch (QueryException $e) {
+            $message = $e->errorInfo[2] ?? $e->getMessage();
+
+            return response()->json(['error' => $message], 500);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
