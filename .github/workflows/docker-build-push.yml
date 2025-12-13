@@ -1,14 +1,11 @@
 name: Build and Push Docker Image
 
 on:
-  push:
-    branches: [main]
-    paths-ignore:
-      - 'README.md'
-      - docs/**
-      - tests/**      
-    tags:
-      - 'v*'
+  workflow_run:
+    workflows:
+      - tests
+    types:
+      - completed
   pull_request:
     branches:
       - main
@@ -20,6 +17,14 @@ env:
 
 jobs:
   build-and-push:
+    if: ${{ github.event_name != 'workflow_run' || (
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'push' &&
+      (
+        github.event.workflow_run.head_branch == 'main' ||
+        startsWith(github.event.workflow_run.head_branch, 'v')
+      )
+    ) }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
