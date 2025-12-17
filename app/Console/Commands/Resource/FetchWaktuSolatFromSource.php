@@ -172,7 +172,7 @@ class FetchWaktuSolatFromSource extends Command
 
         foreach ($prayerData as $prayer) {
             // Parse the date (format: "01-Jan-2026")
-            $date = Carbon::createFromFormat('d-M-Y', $prayer['date']);
+            $date = Carbon::createFromFormat('d-M-Y', $prayer['date'], timezone: 'Asia/Kuala_Lumpur');
             $month = $date->format('m');
 
             // Convert times to Unix timestamps
