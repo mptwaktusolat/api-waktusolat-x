@@ -196,43 +196,94 @@ describe('Prayer Time V2 - GPS Endpoint', function () {
     });
 });
 
+// Testing deprecated endpoint, the result should be the same as the non-deprecated one.
 describe('Prayer Time V2 - Deprecated GPS Endpoint', function () {
-    test('deprecated GPS endpoint still works', function () {
-        // Old format: /v2/solat/{lat}/{long}
+    test('get prayer time by GPS coordinates', function () {
+        // Coordinates for Kuala Lumpur (WLY01 zone)
         $lat = 3.1390;
         $long = 101.6869;
 
         $response = $this->getJson("/v2/solat/{$lat}/{$long}");
 
         $response->assertStatus(200);
+
         $response->assertJsonStructure([
             'zone',
             'year',
             'month',
             'month_number',
             'last_updated',
-            'prayers',
+            'prayers' => [
+                '*' => [
+                    'day',
+                    'hijri',
+                    'fajr',
+                    'syuruk',
+                    'dhuhr',
+                    'asr',
+                    'maghrib',
+                    'isha',
+                ],
+            ],
         ]);
+
+        // Should detect WLY01 zone for KL coordinates
+        $response->assertJsonPath('zone', 'WLY01');
     });
 
-    test('deprecated endpoint returns same data as new endpoint', function () {
+    test('get prayer time by GPS with year and month', function () {
         $lat = 3.1390;
         $long = 101.6869;
 
-        $responseOld = $this->getJson("/v2/solat/{$lat}/{$long}");
-        $responseNew = $this->getJson("/v2/solat/gps/{$lat}/{$long}");
-
-        $responseOld->assertStatus(200);
-        $responseNew->assertStatus(200);
-
-        // Both should return same zone
-        expect($responseOld->json('zone'))->toBe($responseNew->json('zone'));
-    });
-
-    test('has CORS header allowing all origins', function () {
-        $response = $this->getJson('/v2/solat/sgr01');
+        $response = $this->getJson("/v2/solat/{$lat}/{$long}?year=2024&month=6");
 
         $response->assertStatus(200);
-        $response->assertHeader('Access-Control-Allow-Origin', '*');
+        $response->assertJsonPath('year', 2024);
+        $response->assertJsonPath('month', 'JUN');
+        $response->assertJsonPath('month_number', 6);
+    });
+
+    test('GPS endpoint validates year', function () {
+        $lat = 3.1390;
+        $long = 101.6869;
+
+        $response = $this->getJson("/v2/solat/{$lat}/{$long}?year=2019");
+
+        $response->assertStatus(422);
+    });
+
+    test('GPS endpoint validates month', function () {
+        $lat = 3.1390;
+        $long = 101.6869;
+
+        $response = $this->getJson("/v2/solat/{$lat}/{$long}?month=0");
+
+        $response->assertStatus(422);
+    });
+
+    test('returns error for coordinates outside Malaysia', function () {
+        // Coordinates in Singapore
+        $lat = 1.3521;
+        $long = 103.8198;
+
+        $response = $this->getJson("/v2/solat/{$lat}/{$long}");
+
+        $response->assertStatus(500);
+        $response->assertJsonStructure(['message']);
+    });
+
+    test('handles various Malaysian coordinates', function () {
+        // Array of coordinates and expected zones
+        $testCases = [
+            ['lat' => 3.1390, 'long' => 101.6869, 'zone' => 'WLY01'], // Kuala Lumpur
+            ['lat' => 5.4164, 'long' => 100.3327, 'zone' => 'PNG01'], // Penang
+            ['lat' => 1.4927, 'long' => 103.3952, 'zone' => 'JHR03'], // Johor Bahru
+        ];
+
+        foreach ($testCases as $case) {
+            $response = $this->getJson("/v2/solat/{$case['lat']}/{$case['long']}");
+            $response->assertStatus(200);
+            $response->assertJsonPath('zone', $case['zone']);
+        }
     });
 });

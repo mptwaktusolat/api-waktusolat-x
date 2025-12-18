@@ -130,7 +130,7 @@ class PrayerTimeController extends BaseQueryController
      */
     public function fetchMonthLocationByGpsDeprecated(float $lat, float $long, Request $request)
     {
-        $this->fetchMonthLocationByGps($lat, $long, $request);
+        return $this->fetchMonthLocationByGps($lat, $long, $request);
     }
 
     /**

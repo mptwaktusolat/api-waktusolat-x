@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('cache.headers:public;max_age=3600;etag')->group(function () {
     Route::get('/v2/solat/{zone}', [PrayerTimeController::class, 'fetchMonth'])->name('v2.solat.month');
-    Route::get('/v2/solat/{lat}/{long}', [PrayerTimeController::class, 'fetchMonthLocationByGps'])->name('v2.solat.month_with_gps_deprecated');
+    Route::get('/v2/solat/{lat}/{long}', [PrayerTimeController::class, 'fetchMonthLocationByGpsDeprecated'])->name('v2.solat.month_with_gps_deprecated');
     Route::get('/v2/solat/gps/{lat}/{long}', [PrayerTimeController::class, 'fetchMonthLocationByGps'])->name('v2.solat.month_with_gps');
 
     Route::get('/solat/{zone}', [PrayerTimeV1Contoller::class, 'fetchMonth'])->name('v1.solat.month');
