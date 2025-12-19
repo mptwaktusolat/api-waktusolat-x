@@ -43,11 +43,21 @@ class BaseQueryController extends Controller
     public function detectZoneFromCoordinate(float $lat, float $long)
     {
         // Create WKT point from given parameters
-        $pointWkt = sprintf('POINT(%f %f)', $long, $lat);
+        $dbDriver = DB::getDriverName();
+        switch ($dbDriver) {
+            case 'mariadb':
+                $pointWkt = sprintf('POINT(%f %f)', $long, $lat);
+                break;
+            default:
+                // mysql will follow WGS84 axis order if specify the SRID (lat, long)
+                // https://dev.mysql.com/blog-archive/axis-order-in-spatial-reference-systems/
+                $pointWkt = sprintf('POINT(%f %f)', $lat, $long);
+                break;
+        }
 
         $result = DB::table('zone_polygons')
             ->whereRaw(
-                "ST_Within(ST_SRID(ST_GeomFromText(?), 4326), polygon)",
+                'ST_Within(ST_GeomFromText(?, 4326), polygon)',
                 [$pointWkt]
             )
             ->first();
