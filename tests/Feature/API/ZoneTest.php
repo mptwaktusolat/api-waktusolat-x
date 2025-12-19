@@ -84,7 +84,7 @@ test('get zone from GPS coordinates - invalid coordinates out of range', functio
 
     $response->assertStatus(500);
     $response->assertJsonStructure(['error']);
-    expect($response->json('error'))->toBe('A parameter of function st_srid contains a geometry with longitude 181.000000, which is out of range. It must be within (-180.000000, 180.000000].');
+    expect($response->json('error'))->toBe('Longitude 181.000000 is out of range in function st_geomfromtext. It must be within (-180.000000, 180.000000].');
 });
 
 test('has CORS header allowing all origins', function () {
