@@ -10,6 +10,28 @@ use Illuminate\Support\Facades\DB;
 class BaseQueryController extends Controller
 {
     /**
+     * Cached result of MariaDB detection
+     */
+    private static ?bool $cachedIsMariaDB = null;
+
+    /**
+     * Determine if the current database connection is MariaDB
+     */
+    private static function isMariaDB(): bool
+    {
+        if (self::$cachedIsMariaDB === null) {
+            if (config('database.default') !== 'mysql') {
+                self::$cachedIsMariaDB = false;
+                return false;
+            }
+
+            $version = DB::scalar("SELECT VERSION()");
+            self::$cachedIsMariaDB = stripos($version, 'mariadb') !== false;
+        }
+        return self::$cachedIsMariaDB;
+    }
+
+    /**
      * Query Prayer Time from the database
      *
      * @return \Illuminate\Support\Collection
@@ -42,17 +64,12 @@ class BaseQueryController extends Controller
      */
     public function detectZoneFromCoordinate(float $lat, float $long)
     {
-        // Create WKT point from given parameters
-        $dbDriver = DB::getDriverName();
-        switch ($dbDriver) {
-            case 'mariadb':
-                $pointWkt = sprintf('POINT(%f %f)', $long, $lat);
-                break;
-            default:
-                // mysql will follow WGS84 axis order if specify the SRID (lat, long)
-                // https://dev.mysql.com/blog-archive/axis-order-in-spatial-reference-systems/
-                $pointWkt = sprintf('POINT(%f %f)', $lat, $long);
-                break;
+        // mysql will follow WGS84 axis order if specify the SRID (lat, long)
+        // https://dev.mysql.com/blog-archive/axis-order-in-spatial-reference-systems/
+        $pointWkt = sprintf('POINT(%f %f)', $lat, $long);
+        
+        if (self::isMariaDB()) {
+            $pointWkt = sprintf('POINT(%f %f)', $long, $lat);
         }
 
         $result = DB::table('zone_polygons')
