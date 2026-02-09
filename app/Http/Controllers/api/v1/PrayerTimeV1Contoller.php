@@ -69,7 +69,7 @@ class PrayerTimeV1Contoller extends BaseQueryController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function fetchDay(string $zone, int $day, Request $request)
+    public function fetchDay(string $zone, string $day, Request $request)
     {
         $zone = strtoupper($zone);
 
@@ -79,12 +79,21 @@ class PrayerTimeV1Contoller extends BaseQueryController
             'month' => 'integer|min:1',
         ]);
 
+        if (! ctype_digit($day)) {
+            return response()->json(['error' => 'Invalid parameter day provided. Expected integer but was given \''.$day.'\''], 400);
+        }
+
+        $day = (int) $day;
+        if ($day < 1 || $day > 31) {
+            return response()->json(['error' => 'Invalid parameter day provided. Day is out of range. Day was given \''.$day.'\''], 400);
+        }
+
         $year = $request->input('year', date('Y'));
         $month = $request->input('month', date('m'));
 
         $prayerTimes = $this->queryPrayerTime($zone, $year, $month);
         $mappedPrayerTimes = $this->mapPrayerTimes($prayerTimes);
-        if (!isset($mappedPrayerTimes[$day - 1])) {
+        if (! isset($mappedPrayerTimes[$day - 1])) {
             return response()->json(['error' => 'Invalid day provided.'], 400);
         }
         $prayerTimes = $mappedPrayerTimes[$day - 1];
