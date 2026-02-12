@@ -167,6 +167,19 @@ describe('Prayer Time V1 - Day Endpoint', function () {
         $response->assertStatus(400);
         $response->assertJson(['error' => 'Invalid day provided.']);
     });
+
+    test('rejects non-numeric day parameter', function () {
+        $response = $this->getJson('/solat/sgr01/abc');
+
+        $response->assertStatus(404); // Route not found due to whereNumber constraint
+    });
+
+    test('accepts numeric string day parameter', function () {
+        $response = $this->getJson('/solat/sgr01/15');
+
+        $response->assertStatus(200);
+        $response->assertJsonPath('periodType', 'day');
+    });
 });
 
 describe('Prayer Time V1 - Error Handling', function () {
