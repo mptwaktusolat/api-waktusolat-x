@@ -83,16 +83,18 @@ class PrayerTimeV1Contoller extends BaseQueryController
             return response()->json(['error' => 'Invalid parameter day provided. Expected integer but was given \''.$day.'\''], 400);
         }
 
-        // Why we accept day as string then convert to int is because we prevent Laravel handling
-        // the error. We want to handle it ourselves to provide better error message. See https://github.com/mptwaktusolat/api-waktusolat-x/issues/35
         $day = (int) $day;
+        if ($day < 1 || $day > 31) {
+            return response()->json(['error' => 'Invalid parameter day provided. Day is out of range. Day was given \''.$day.'\''], 400);
+        }
+
         $year = $request->input('year', date('Y'));
         $month = $request->input('month', date('m'));
 
         $prayerTimes = $this->queryPrayerTime($zone, $year, $month);
         $mappedPrayerTimes = $this->mapPrayerTimes($prayerTimes);
         if (! isset($mappedPrayerTimes[$day - 1])) {
-            return response()->json(['error' => 'Invalid parameter day provided. Day does not exist for the specified month/year. Day was given \''.$day.'\''], 400);
+            return response()->json(['error' => 'Invalid day provided.'], 400);
         }
         $prayerTimes = $mappedPrayerTimes[$day - 1];
 

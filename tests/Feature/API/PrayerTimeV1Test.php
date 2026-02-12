@@ -152,7 +152,7 @@ describe('Prayer Time V1 - Day Endpoint', function () {
         $response = $this->getJson('/solat/sgr01/32'); // Day 32 doesn't exist
 
         $response->assertStatus(400);
-        $response->assertJson(['error' => "Invalid parameter day provided. Day does not exist for the specified month/year. Day was given '32'"]);
+        $response->assertJson(['error' => 'Invalid day provided.']);
     });
 
     test('get prayer time for day 0 returns error', function () {
@@ -165,7 +165,7 @@ describe('Prayer Time V1 - Day Endpoint', function () {
         $response = $this->getJson('/solat/sgr01/30?year=2024&month=2'); // Feb only has 29 days in 2024
 
         $response->assertStatus(400);
-        $response->assertJson(['error' => "Invalid parameter day provided. Day does not exist for the specified month/year. Day was given '30'"]);
+        $response->assertJson(['error' => 'Invalid day provided.']);
     });
 });
 
