@@ -1,4 +1,7 @@
-<a href="{{ $href }}" target="_blank" rel="noopener noreferrer"
+@props(['href', 'gradient', 'icon' => null, 'external' => true])
+
+<a href="{{ $href }}" @if ($external) target="_blank" rel="noopener noreferrer" @endif
+    {{ $attributes }}
     class="group relative overflow-hidden rounded-xl bg-gradient-to-br {{ $gradient }} p-6 text-white transition-all duration-300 hover:scale-105 hover:shadow-lg">
     <div class="relative z-10">
         <div class="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-white/20">

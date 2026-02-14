@@ -165,7 +165,7 @@
                             <p class="text-sm text-gray-300">Try our prayer time app!</p>
                         </x-about-card>
 
-                        <x-about-card :gradient="'from-green-500 to-green-600'" :href="'https://docs.google.com/forms/d/e/1FAIpQLSe-zlZBW-8hO9XPDlLf-K7AUxtgupmD6bo4iouyLXFPAMnxFA/viewform'">
+                        <x-about-card :gradient="'from-green-500 to-green-600'" :href="'/feedback'" :external="false" id="feedback-link">
                             <x-slot:icon>
                                 <x-ionicon-chatbubble-ellipses class="h-5 w-5" />
                             </x-slot>
@@ -207,6 +207,10 @@
 
                 // Show selected section
                 document.getElementById('section-' + language).classList.remove('hidden');
+
+                // Update feedback link with language parameter
+                const langParam = language === 'bm' ? 'ms' : 'en';
+                document.getElementById('feedback-link').href = '/feedback?lang=' + langParam;
 
                 // Update button styles
                 const btnBm = document.getElementById('btn-bm');

@@ -17,4 +17,8 @@ Route::get('/locations', function () {
 
 Route::get('/health', [DataHealthController::class, 'index'])->name('data-health');
 
+Route::get('/feedback', function () {
+    return view('feedback');
+})->name('feedback');
+
 require __DIR__ . '/auth.php';
