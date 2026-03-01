@@ -3,9 +3,10 @@
 @section('body')
 
     <body class="dark:bg-zinc-900 min-h-screen flex flex-col">
-        <x-top-banner>
+        {{-- Uncomment to show top banner --}}
+        {{-- <x-top-banner>
             <strong>✨ Updated:</strong> Prayer time for the year <strong>2026</strong> is now available!
-        </x-top-banner>
+        </x-top-banner> --}}
 
         <main class="flex items-center justify-center flex-1 flex-col relative overflow-hidden">
             {{-- Dark mode: Subtle glowing object --}}
