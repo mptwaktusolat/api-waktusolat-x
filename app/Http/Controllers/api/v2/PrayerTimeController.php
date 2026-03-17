@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api\v2;
 use App\Http\Controllers\api\BaseQueryController;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 /**
  * @group SOLAT V2
@@ -34,8 +35,8 @@ class PrayerTimeController extends BaseQueryController
             'month' => 'integer|min:1',
         ]);
 
-        $year = $request->get('year', date('Y'));
-        $month = $request->get('month', date('m'));
+        $year = $request->input('year', date('Y'));
+        $month = $request->input('month', date('m'));
 
         $zone = strtoupper($zone);
 
@@ -83,8 +84,8 @@ class PrayerTimeController extends BaseQueryController
             'month' => 'integer|min:1',
         ]);
 
-        $year = $request->get('year', date('Y'));
-        $month = $request->get('month', date('m'));
+        $year = $request->input('year', date('Y'));
+        $month = $request->input('month', date('m'));
 
         // Zone detection
         $zoneObject = $this->detectZoneFromCoordinate($lat, $long);
@@ -136,9 +137,9 @@ class PrayerTimeController extends BaseQueryController
     /**
      * Map prayer times to the required format
      *
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
-    private function mapPrayerTimes(\Illuminate\Support\Collection $prayerTimes)
+    private function mapPrayerTimes(Collection $prayerTimes)
     {
         return $prayerTimes->map(function ($prayerTime) {
             // Do processing to the Date & Time
