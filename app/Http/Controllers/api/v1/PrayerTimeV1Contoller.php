@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api\v1;
 
 use App\Http\Controllers\api\BaseQueryController;
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 /**
@@ -26,7 +27,7 @@ class PrayerTimeV1Contoller extends BaseQueryController
      * @queryParam year int The year. Defaults to current year. Example: 2024
      * @queryParam month int The month number. 1 => January, 2 => February etc. Defaults to current month. Example: 4
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function fetchMonth(string $zone, Request $request)
     {
@@ -67,7 +68,7 @@ class PrayerTimeV1Contoller extends BaseQueryController
      * @queryParam year int The year. Defaults to current year. Example: 2024
      * @queryParam month int The month number. 1 => January, 2 => February etc. Defaults to current month. Example: 4
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function fetchDay(string $zone, int $day, Request $request)
     {
@@ -84,7 +85,7 @@ class PrayerTimeV1Contoller extends BaseQueryController
 
         $prayerTimes = $this->queryPrayerTime($zone, $year, $month);
         $mappedPrayerTimes = $this->mapPrayerTimes($prayerTimes);
-        if (!isset($mappedPrayerTimes[$day - 1])) {
+        if (! isset($mappedPrayerTimes[$day - 1])) {
             return response()->json(['error' => 'Invalid day provided.'], 400);
         }
         $prayerTimes = $mappedPrayerTimes[$day - 1];
@@ -111,8 +112,10 @@ class PrayerTimeV1Contoller extends BaseQueryController
                 'hijri' => $prayerTime->hijri,
                 'date' => Carbon::parse($prayerTime->date)->format('d-M-Y'),
                 'day' => Carbon::parse($prayerTime->date)->format('l'),
+                'imsak' => $this->formatTime($prayerTime->date, $prayerTime->fajr, -10),
                 'fajr' => $this->formatTime($prayerTime->date, $prayerTime->fajr),
                 'syuruk' => $this->formatTime($prayerTime->date, $prayerTime->syuruk),
+                'dhuha' => $this->formatTime($prayerTime->date, $prayerTime->syuruk, 25),
                 'dhuhr' => $this->formatTime($prayerTime->date, $prayerTime->dhuhr),
                 'asr' => $this->formatTime($prayerTime->date, $prayerTime->asr),
                 'maghrib' => $this->formatTime($prayerTime->date, $prayerTime->maghrib),
@@ -124,8 +127,8 @@ class PrayerTimeV1Contoller extends BaseQueryController
     /**
      * Format time like JAKIM's API (eg "06:06:00")
      */
-    private function formatTime(string $date, string $time): string
+    private function formatTime(string $date, string $time, int $offset = 0): string
     {
-        return Carbon::parse("$date $time", 'Asia/Kuala_Lumpur')->format('H:i:s');
+        return Carbon::parse("$date $time", 'Asia/Kuala_Lumpur')->addMinutes($offset)->format('H:i:s');
     }
 }
