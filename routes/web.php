@@ -18,7 +18,7 @@ Route::get('/locations', function () {
 
 Route::get('/health', [DataHealthController::class, 'index'])->name('data-health');
 
-Route::get('/debug-headers', function (Request $request) {
+Route::get('/debug/proxy-headers', function (Request $request) {
     return [
         'is_secure' => $request->isSecure(),
         'scheme' => $request->getScheme(),
