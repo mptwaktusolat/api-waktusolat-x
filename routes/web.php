@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DataHealthController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -17,4 +18,14 @@ Route::get('/locations', function () {
 
 Route::get('/health', [DataHealthController::class, 'index'])->name('data-health');
 
-require __DIR__ . '/auth.php';
+Route::get('/debug-headers', function (Request $request) {
+    return [
+        'is_secure' => $request->isSecure(),
+        'scheme' => $request->getScheme(),
+        'forwarded_proto' => $request->header('X-Forwarded-Proto'),
+        'forwarded_for' => $request->header('X-Forwarded-For'),
+        'url' => $request->url(),
+    ];
+});
+
+require __DIR__.'/auth.php';
