@@ -18,6 +18,7 @@ services:
       - APP_ENV=${APP_ENV}
       - APP_DEBUG=${APP_DEBUG}
       - FORCE_HTTPS=${FORCE_HTTPS}
+      - ENABLE_TRUSTED_PROXY_CONFIG=${ENABLE_TRUSTED_PROXY_CONFIG}
       - DB_CONNECTION=mysql
       - DB_HOST=db
       - DB_PORT=3306
@@ -46,6 +47,7 @@ APP_URL=
 APP_ENV=
 APP_DEBUG=
 FORCE_HTTPS=false
+ENABLE_TRUSTED_PROXY_CONFIG=true
 ```
 
 See the [Environment Variables](#environment-variables) section below for more details.
@@ -107,6 +109,23 @@ MYSQL_PASSWORD=
 ```
 
 See details here: https://hub.docker.com/_/mysql#environment-variables
+
+## Reverse proxy
+
+If you run the app behind a reverse proxy, you may need to set `ENABLE_TRUSTED_PROXY_CONFIG=true` to properly handle client IP and HTTPS scheme. This will configure Laravel's trusted proxy settings to trust all proxies, which is suitable for most setups. However, if you want to specify trusted proxies manually, you can set `TRUSTED_PROXIES` environment variable with a comma-separated list of proxy IPs or CIDR ranges.
+
+Then, in your Caddyfile (for example), you can add the following header to forward the original client IP:
+
+```
+api-docker.waktusolat.app {
+    reverse_proxy api-solat-app-1:8080 {
+        header_up X-Forwarded-Proto {scheme}
+        header_up X-Forwarded-Host {host}
+        header_up X-Forwarded-For {remote_host}
+        header_up X-Real-IP {remote_host}
+    }
+}
+```
 
 ## Extras
 
