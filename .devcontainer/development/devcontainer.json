@@ -14,7 +14,7 @@
 		9001
 	],
 	"features": {
-		"ghcr.io/devcontainers/features/node:1": {}
+		"ghcr.io/devcontainers/features/node:2": {}
 	},
 	"customizations": {
 		"vscode": {
