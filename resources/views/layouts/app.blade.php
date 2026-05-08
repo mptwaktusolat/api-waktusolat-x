@@ -29,11 +29,35 @@
     <meta property="twitter:image" content="{{ asset('images/metaimage.png') }}" />
 
     <!-- Analytics -->
-    <script defer src="https://umami.iqfareez.com/analitik.js" data-website-id="d4373d39-35fb-4995-b5e5-931b510181cd"></script>
+    <script defer src="https://umami.iqfareez.com/analitik.js" data-website-id="d4373d39-35fb-4995-b5e5-931b510181cd">
+    </script>
+
+    {{-- Prevent FOUC: apply saved theme before CSS loads --}}
+    {{-- TODO: What is FOUC and why do we need it? --}}
+    <script>
+        (function() {
+            var t = localStorage.getItem('theme');
+            if (t === 'light') {
+                document.documentElement.setAttribute('data-theme', 'light');
+            } else if (t === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'black');
+            } else {
+                // System: detect from OS preference
+                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    document.documentElement.setAttribute('data-theme', 'black');
+                } else {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                }
+            }
+        })();
+    </script>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-@yield('body')
+<body class="bg-base-100 min-h-screen flex flex-col antialiased">
+    <x-nav-header />
+    @yield('content')
+</body>
 
 </html>
