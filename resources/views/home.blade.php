@@ -102,51 +102,99 @@
         <div class="max-w-4xl mx-auto">
             <h2 class="text-3xl font-light text-base-content mb-2">Usage Example</h2>
             <p class="text-base-content/60 mb-10">
-                Base URL: <code class="text-primary font-mono">https://api.waktusolat.my/api</code>
+                See all available endpoints on the <a class="font-semibold underline" href="/docs">Swagger page</a>.
             </p>
 
             <div class="space-y-6">
 
                 {{-- Code Block: Request --}}
                 <div class="bg-base-200 border border-base-300">
-                    <div class="px-4 py-2 border-b border-base-300 flex items-center gap-2">
-                        <x-ionicon-terminal-outline class="h-4 w-4 text-base-content/60" />
-                        <span class="text-sm font-medium text-base-content/60">curl – Get month prayer times</span>
+                    <div class="px-4 py-2 border-b border-base-300 flex items-center justify-between gap-2">
+                        <div class="flex items-center gap-2">
+                            <x-ionicon-terminal-outline class="h-4 w-4 text-base-content/60" />
+                            <span class="text-sm font-medium text-base-content/60">Get current month prayer times</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button id="api-reset-btn"
+                                class="btn btn-xs bg-base-300 text-base-content border-0 hover:bg-base-content/20 gap-1">
+                                <x-ionicon-refresh-outline class="h-4 w-4" />
+                                Clear
+                            </button>
+                            <button id="api-try-btn"
+                                class="btn btn-xs bg-tile-green text-white border-0 hover:brightness-110 gap-1">
+                                <x-ionicon-play-outline class="h-4 w-4" />
+                                Try it
+                            </button>
+                        </div>
                     </div>
-                    <pre class="p-4 overflow-x-auto"><code class="text-sm font-mono text-base-content/90">curl -X GET "https://api.waktusolat.my/api/v2/solat/SGR01" \
-  -H "Accept: application/json"</code></pre>
+                    <pre class="p-4 overflow-x-auto"><code id="api-curl-display" class="text-sm font-mono text-base-content/90">curl -X GET "{{ url('/v2/solat/WLY01') }}" -H "Accept: application/json"</code></pre>
                 </div>
 
                 {{-- Code Block: Response --}}
                 <div class="bg-base-200 border border-base-300">
-                    <div class="px-4 py-2 border-b border-base-300 flex items-center gap-2">
-                        <x-ionicon-terminal-outline class="h-4 w-4 text-base-content/60" />
-                        <span class="text-sm font-medium text-base-content/60">Response (JSON)</span>
+                    <div class="px-4 py-2 border-b border-base-300 flex items-center justify-between gap-2">
+                        <div class="flex items-center gap-2">
+                            <x-ionicon-terminal-outline class="h-4 w-4 text-base-content/60" />
+                            <span class="text-sm font-medium text-base-content/60">Response (JSON)</span>
+                        </div>
+                        <span id="api-status-badge" class="hidden text-xs font-mono px-2 py-0.5 rounded-full"></span>
                     </div>
-                    <pre class="p-4 overflow-x-auto"><code class="text-sm font-mono text-base-content/90">{
-  "zone": "SGR01",
-  "year": 2026,
-  "month": "MAY",
-  "month_number": 5,
-  "last_updated": null,
-  "prayers": [
-    {
-      "day": 1,
-      "hijri": "1447-11-03",
-      "fajr": 1746054480,
-      "syuruk": 1746060180,
-      "dhuhr": 1746082920,
-      "asr": 1746095100,
-      "maghrib": 1746104520,
-      "isha": 1746110820
-    }
-  ]
-}</code></pre>
+                    <pre class="p-4 overflow-x-auto"><code id="api-response-display" class="text-sm font-mono text-base-content/90">Response will be shown here</code></pre>
                 </div>
 
             </div>
         </div>
     </section>
+
+    {{-- Logic for the interactive usage example --}}
+    <script>
+        const baseUrl = '{{ url('') }}';
+        const tryBtn = document.getElementById('api-try-btn');
+        const resetBtn = document.getElementById('api-reset-btn');
+        const responseDisplay = document.getElementById('api-response-display');
+        const statusBadge = document.getElementById('api-status-badge');
+        const zone = 'WLY01';
+
+        tryBtn.addEventListener('click', async function() {
+            const url = `${baseUrl}/v2/solat/${zone}`;
+
+            tryBtn.disabled = true;
+            tryBtn.innerHTML = '<span class="loading loading-spinner loading-xs"></span> Loading';
+            statusBadge.className = 'hidden text-xs font-mono px-2 py-0.5 rounded-full';
+            responseDisplay.textContent = '// Fetching...';
+
+            try {
+                const res = await fetch(url, {
+                    headers: {
+                        'Accept': 'application/json',
+                    }
+                });
+                const data = await res.json();
+
+                statusBadge.textContent = res.status + ' ' + res.statusText;
+                statusBadge.className =
+                    `text-xs font-mono px-2 py-0.5 rounded-full ${res.ok ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`;
+                statusBadge.classList.remove('hidden');
+
+                responseDisplay.textContent = JSON.stringify(data, null, 2);
+            } catch (err) {
+                statusBadge.textContent = 'Error';
+                statusBadge.className =
+                    'text-xs font-mono px-2 py-0.5 rounded-full bg-red-500/20 text-red-400';
+                statusBadge.classList.remove('hidden');
+                responseDisplay.textContent = '// Failed to fetch. Check the zone code and try again.';
+            } finally {
+                tryBtn.disabled = false;
+                tryBtn.innerHTML =
+                    '<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 512 512"><polygon points="80 32 432 256 80 480 80 32" fill="currentColor"/></svg> Try it';
+            }
+        });
+
+        resetBtn.addEventListener('click', function() {
+            responseDisplay.textContent = 'Response will be shown here';
+            statusBadge.className = 'hidden text-xs font-mono px-2 py-0.5 rounded-full';
+        });
+    </script>
 
     {{-- FAQ Accordian section --}}
     <section id="faq" class="bg-base-200 border-y border-base-300">
