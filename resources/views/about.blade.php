@@ -181,7 +181,7 @@
                             <p class="text-sm text-gray-300">View source code or send patches</p>
                         </x-about-card>
 
-                        <x-about-card :gradient="'from-purple-500 to-purple-600'" :href="'https://umami.iqfareez.com/share/dQGLdz7BivSE54it/api.waktusolat.app'">
+                        <x-about-card :gradient="'from-purple-500 to-purple-600'" :href="'https://umami.iqfareez.com/share/baeOjl3mYHzj8uYr'">
                             <x-slot:icon>
                                 <x-ionicon-pie-chart-sharp class="h-5 w-5" />
                             </x-slot>

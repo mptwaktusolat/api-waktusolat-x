@@ -176,7 +176,14 @@ describe('Prayer Time V2 - GPS Endpoint', function () {
 
         $response = $this->getJson("/v2/solat/gps/{$lat}/{$long}");
 
-        $response->assertStatus(500);
+        $response->assertStatus(422);
+        $response->assertJsonStructure(['message']);
+    });
+
+    test('returns 422 for non-numeric coordinates', function () {
+        $response = $this->getJson('/v2/solat/gps/abc/xyz');
+
+        $response->assertStatus(422);
         $response->assertJsonStructure(['message']);
     });
 
@@ -268,7 +275,14 @@ describe('Prayer Time V2 - Deprecated GPS Endpoint', function () {
 
         $response = $this->getJson("/v2/solat/{$lat}/{$long}");
 
-        $response->assertStatus(500);
+        $response->assertStatus(422);
+        $response->assertJsonStructure(['message']);
+    });
+
+    test('returns 422 for non-numeric coordinates', function () {
+        $response = $this->getJson('/v2/solat/abc/xyz');
+
+        $response->assertStatus(422);
         $response->assertJsonStructure(['message']);
     });
 

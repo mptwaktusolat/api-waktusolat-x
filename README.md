@@ -69,12 +69,12 @@ composer run dev
 
 You can now access the application at `http://localhost:8000`. The api docs will be available at `http://localhost:8000/docs`.
 
-### Dev Container
+### Dev Container or GitHub Codespaces
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/mptwaktusolat/api-waktusolat-x)
 
 > [!NOTE]
-> This setup works best if you launch the codespace within your local VS Code applications. If you're using Codespace in the browser, you may need to set the `APP_URL` & the `ASSET_URL` values in the `.env` file to GitHub codespace reverse proxy URL (eg: `humble-rotary-phone-4vp97r59564hg99.app.github.dev`)
+> This setup works best if you launch the codespace within your local VS Code. If you're using Codespace in the browser, additional steps may be required. See https://github.com/JonoHall/Laravel-Vite-Codespaces
 
 You may need to create/edit the `.env` file:
 

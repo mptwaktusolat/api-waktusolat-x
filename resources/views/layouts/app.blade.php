@@ -29,7 +29,7 @@
     <meta property="twitter:image" content="{{ asset('images/metaimage.png') }}" />
 
     <!-- Analytics -->
-    <script defer src="https://umami.iqfareez.com/script.js" data-website-id="11df7d3a-fb7e-4bbd-aacb-222515ea7b32"></script>
+    <script defer src="https://umami.iqfareez.com/analitik.js" data-website-id="d4373d39-35fb-4995-b5e5-931b510181cd"></script>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
