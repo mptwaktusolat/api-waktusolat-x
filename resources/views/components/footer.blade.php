@@ -13,7 +13,8 @@
                 class="hover:text-base-content transition-colors">
                 Status
             </a>
-            <span>© 2026 Waktu Solat Project</span>
+            <span>© 2026 <a class="hover:text-base-content transition-colors" href="https://waktusolat.app">Waktu Solat
+                    Project</a></span>
         </div>
 
     </div>
