@@ -9,9 +9,6 @@
         </div>
 
         <div class="flex items-center gap-6 text-sm text-base-content/60 flex-wrap justify-center">
-            <a href="/about" class="hover:text-base-content transition-colors">
-                About
-            </a>
             <a href="https://uptime.iqfareez.com/status/api-waktusolat" target="_blank" rel="noopener noreferrer"
                 class="hover:text-base-content transition-colors">
                 Status
