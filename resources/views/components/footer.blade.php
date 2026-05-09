@@ -3,7 +3,7 @@
 
         <div class="flex items-center gap-3">
             <div class="w-8 h-8 bg-tile-green flex items-center justify-center shrink-0">
-                <x-ionicon-sunny-outline class="h-4 w-4 text-white" />
+                <x-app-icon class="h-4 w-4 text-white" />
             </div>
             <span class="text-lg font-light text-base-content">apiwaktusolat</span>
         </div>
