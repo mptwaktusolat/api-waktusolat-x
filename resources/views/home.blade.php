@@ -18,10 +18,9 @@
                     <x-ionicon-code-slash-outline class="h-5 w-5" />
                     View Documentation
                 </a>
-                <a href="#example"
+                <a href="/health"
                     class="flex items-center gap-2 px-6 py-3 bg-base-200 text-base-content font-medium hover:bg-base-300 transition-all">
-                    Get Started
-                    <x-ionicon-arrow-forward-outline class="h-5 w-5" />
+                    Data Health
                 </a>
             </div>
         </div>
