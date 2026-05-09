@@ -139,7 +139,7 @@
                         </div>
                         <span id="api-status-badge" class="hidden text-xs font-mono px-2 py-0.5 rounded-full"></span>
                     </div>
-                    <pre class="p-4 overflow-x-auto"><code id="api-response-display" class="text-sm font-mono text-base-content/90">Response will be shown here</code></pre>
+                    <pre class="p-4 overflow-x-auto"><code id="api-response-display" class="text-sm font-mono text-base-content/90">// Response will be shown here</code></pre>
                 </div>
 
             </div>
@@ -191,7 +191,7 @@
         });
 
         resetBtn.addEventListener('click', function() {
-            responseDisplay.textContent = 'Response will be shown here';
+            responseDisplay.textContent = '// Response will be shown here';
             statusBadge.className = 'hidden text-xs font-mono px-2 py-0.5 rounded-full';
         });
     </script>
