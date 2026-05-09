@@ -1,11 +1,21 @@
 <header class="border-b border-base-300 bg-base-100">
     <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        <a href="/" class="flex items-center gap-3">
-            <div class="w-10 h-10 bg-tile-green flex items-center justify-center shrink-0">
-                <x-app-icon class="h-6 w-6 text-white" />
-            </div>
-            <span class="text-2xl font-light tracking-tight text-base-content">apiwaktusolat</span>
-        </a>
+        <div class="flex items-center gap-3">
+            <a href="/" class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-tile-green flex items-center justify-center shrink-0">
+                    <x-app-icon class="h-6 w-6 text-white" />
+                </div>
+                @if (Route::is('home'))
+                    <span class="text-2xl font-light tracking-tight text-base-content">apiwaktusolat</span>
+                @endif
+            </a>
+            @unless (Route::is('home'))
+                <span class="text-2xl font-light text-base-content/30">/</span>
+                <span class="text-2xl font-light tracking-tight text-base-content">
+                    {{ trim(request()->path(), '/') }}
+                </span>
+            @endunless
+        </div>
 
         <nav class="flex items-center gap-4">
             @if (Route::is('home'))
