@@ -34,22 +34,20 @@
 
     {{-- Prevent FOUC (Flash of Unstyled Content) when load. --}}
     <script>
-        (function() {
-            // use 'colorMode' key to match scalar swagger docs
-            var t = localStorage.getItem('colorMode');
-            if (t === 'light') {
-                document.documentElement.setAttribute('data-theme', 'light');
-            } else if (t === 'dark') {
+        // use 'colorMode' key to match the key used in scalar swagger page.
+        const t = localStorage.getItem('colorMode');
+        if (t === 'light') {
+            document.documentElement.setAttribute('data-theme', 'light');
+        } else if (t === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'black');
+        } else {
+            // System: detect from OS preference
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
                 document.documentElement.setAttribute('data-theme', 'black');
             } else {
-                // System: detect from OS preference
-                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                    document.documentElement.setAttribute('data-theme', 'black');
-                } else {
-                    document.documentElement.setAttribute('data-theme', 'light');
-                }
+                document.documentElement.setAttribute('data-theme', 'light');
             }
-        })();
+        }
     </script>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
