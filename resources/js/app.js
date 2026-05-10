@@ -35,15 +35,15 @@ import './bootstrap';
     }
 
     function cycleTheme() {
-        var current = localStorage.getItem('theme') || 'system';
+        var current = localStorage.getItem('colorMode') || 'system';
         var next = CYCLE[(CYCLE.indexOf(current) + 1) % CYCLE.length];
-        localStorage.setItem('theme', next);
+        localStorage.setItem('colorMode', next);
         applyTheme(next);
         updateToggleIcon(next);
     }
 
     function initTheme() {
-        var mode = localStorage.getItem('theme') || 'system';
+        var mode = localStorage.getItem('colorMode') || 'system';
         // Theme is already applied by inline FOUC script; re-apply here to set system listener if needed
         applyTheme(mode);
         updateToggleIcon(mode);

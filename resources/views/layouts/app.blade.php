@@ -32,11 +32,11 @@
     <script defer src="https://umami.iqfareez.com/analitik.js" data-website-id="d4373d39-35fb-4995-b5e5-931b510181cd">
     </script>
 
-    {{-- Prevent FOUC: apply saved theme before CSS loads --}}
-    {{-- TODO: What is FOUC and why do we need it? --}}
+    {{-- Prevent FOUC (Flash of Unstyled Content) when load. --}}
     <script>
         (function() {
-            var t = localStorage.getItem('theme');
+            // use 'colorMode' key to match scalar swagger docs
+            var t = localStorage.getItem('colorMode');
             if (t === 'light') {
                 document.documentElement.setAttribute('data-theme', 'light');
             } else if (t === 'dark') {
