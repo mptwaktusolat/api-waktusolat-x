@@ -73,22 +73,22 @@
             <p class="text-sm text-base-content/50 uppercase tracking-widest">Trusted by</p>
             <div class="flex flex-wrap items-center justify-center gap-8 md:gap-12 max-w-4xl">
                 <div
-                    class="flex items-center justify-center opacity-60 hover:opacity-100 transition-opacity dark:brightness-0 dark:invert dark:hover:brightness-100 dark:hover:invert-0">
-                    <img src="{{ asset('images/companies/asar-logo.png') }}" alt="ASAR"
+                    class="flex items-center justify-center opacity-60 hover:opacity-100 transition-opacity dark:invert dark:opacity-50 dark:hover:opacity-100">
+                    <img src="{{ asset('images/companies/asar-logo.png') }}" alt="asar"
                         class="h-8 md:h-12 w-auto object-contain">
                 </div>
                 <div
-                    class="flex items-center justify-center opacity-60 hover:opacity-100 transition-opacity dark:brightness-0 dark:invert dark:hover:brightness-100 dark:hover:invert-0">
+                    class="flex items-center justify-center opacity-60 hover:opacity-100 transition-opacity dark:invert dark:opacity-50 dark:hover:opacity-100">
                     <img src="{{ asset('images/companies/masjid-buntal.png') }}" alt="Masjid Buntal"
                         class="h-8 md:h-12 w-auto object-contain">
                 </div>
                 <div
-                    class="flex items-center justify-center opacity-60 hover:opacity-100 transition-opacity dark:brightness-0 dark:invert dark:hover:brightness-100 dark:hover:invert-0">
+                    class="flex items-center justify-center opacity-60 hover:opacity-100 transition-opacity dark:invert dark:opacity-50 dark:hover:opacity-100">
                     <img src="{{ asset('images/companies/masjid-pangkor-terapung.png') }}" alt="Masjid Pangkor Terapung"
                         class="h-8 md:h-12 w-auto object-contain">
                 </div>
                 <div
-                    class="flex items-center justify-center opacity-60 hover:opacity-100 transition-opacity dark:brightness-0 dark:invert dark:hover:brightness-100 dark:hover:invert-0">
+                    class="flex items-center justify-center opacity-60 hover:opacity-100 transition-opacity dark:invert dark:opacity-50 dark:hover:opacity-100">
                     <img src="{{ asset('images/companies/pahanggo.png') }}" alt="PahangGo"
                         class="h-8 md:h-12 w-auto object-contain">
                 </div>
