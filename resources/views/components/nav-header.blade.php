@@ -31,7 +31,7 @@
 
             {{-- Theme toggle button --}}
             <button id="theme-toggle"
-                class="w-10 h-10 flex items-center justify-center bg-base-200 hover:bg-base-300 transition-all"
+                class="w-10 h-10 flex items-center justify-center bg-base-200 dark:bg-[#222] hover:bg-base-300 dark:hover:bg-[#2e2e2e] transition-all"
                 aria-label="Toggle theme">
                 {{-- System --}}
                 <x-ionicon-desktop-outline data-theme-icon="system" class="h-5 w-5 text-base-content" />

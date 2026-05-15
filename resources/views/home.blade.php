@@ -19,7 +19,7 @@
                     View Documentation
                 </a>
                 <a href="/health"
-                    class="flex items-center gap-2 px-6 py-3 bg-base-200 text-base-content font-medium hover:bg-base-300 transition-all">
+                    class="flex items-center gap-2 px-6 py-3 bg-base-200 dark:bg-[#222] text-base-content font-medium hover:bg-base-300 dark:hover:bg-[#2e2e2e] transition-all">
                     Data Health
                 </a>
             </div>
