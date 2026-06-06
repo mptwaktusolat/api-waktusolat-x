@@ -17,7 +17,6 @@ services:
       - APP_URL=${APP_URL}
       - APP_ENV=${APP_ENV}
       - APP_DEBUG=${APP_DEBUG}
-      - FORCE_HTTPS=${FORCE_HTTPS}
       - ENABLE_TRUSTED_PROXY_CONFIG=${ENABLE_TRUSTED_PROXY_CONFIG}
       - DB_CONNECTION=mysql
       - DB_HOST=db
@@ -46,7 +45,6 @@ APP_KEY=
 APP_URL=
 APP_ENV=
 APP_DEBUG=
-FORCE_HTTPS=false
 ENABLE_TRUSTED_PROXY_CONFIG=true
 ```
 
@@ -93,7 +91,6 @@ The environment variables details are as follows:
 | APP_URL        | The base URL of the application. Used to generate the swagger documentation.                 |
 | APP_ENV       | The application environment (e.g., `local`, `production`).  |
 | APP_DEBUG     | Enable or disable debug mode (`true` or `false`). If first time setting up, it might be helpful to set to `true` to see any errors. |
-| FORCE_HTTPS   | Force all URLs to use HTTPS scheme (`true` or `false`). Set to `true` in production. |
 
 Additional environment variables provided by the image can be found here: https://serversideup.net/open-source/docker-php/docs/reference/environment-variable-specification.
 
