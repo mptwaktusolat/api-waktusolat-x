@@ -137,7 +137,7 @@
                             <x-ionicon-terminal-outline class="h-4 w-4 text-base-content/60" />
                             <span class="text-sm font-medium text-base-content/60">Response (JSON)</span>
                         </div>
-                        <span id="api-status-badge" class="hidden text-xs font-mono px-2 py-0.5 rounded-full"></span>
+                        <span id="api-status-badge" class="hidden"></span>
                     </div>
                     <pre class="p-4 overflow-x-auto"><code id="api-response-display" class="text-sm font-mono text-base-content/90">// Response will be shown here</code></pre>
                 </div>
@@ -160,7 +160,7 @@
 
             tryBtn.disabled = true;
             tryBtn.innerHTML = '<span class="loading loading-spinner loading-xs"></span> Loading';
-            statusBadge.className = 'hidden text-xs font-mono px-2 py-0.5 rounded-full';
+            statusBadge.className = 'hidden';
             responseDisplay.textContent = '// Fetching...';
 
             try {
@@ -171,17 +171,15 @@
                 });
                 const data = await res.json();
 
-                statusBadge.textContent = res.status + ' ' + res.statusText;
-                statusBadge.className =
-                    `text-xs font-mono px-2 py-0.5 rounded-full ${res.ok ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`;
-                statusBadge.classList.remove('hidden');
+                statusBadge.innerHTML =
+                    `<span class="inline-block w-1.5 h-1.5 rounded-full ${res.ok ? 'bg-green-500' : 'bg-red-500'}"></span><span class="font-semibold text-base-content/90">${res.status} ${res.statusText}</span>`;
+                statusBadge.className = 'inline-flex items-center gap-2 text-sm';
 
                 responseDisplay.textContent = JSON.stringify(data, null, 2);
             } catch (err) {
-                statusBadge.textContent = 'Error';
-                statusBadge.className =
-                    'text-xs font-mono px-2 py-0.5 rounded-full bg-red-500/20 text-red-400';
-                statusBadge.classList.remove('hidden');
+                statusBadge.innerHTML =
+                    '<span class="inline-block w-1.5 h-1.5 rounded-full bg-red-500"></span><span class="font-semibold text-base-content/90">Error</span>';
+                statusBadge.className = 'inline-flex items-center gap-2 text-sm';
                 responseDisplay.textContent = '// Failed to fetch. Check the zone code and try again.';
             } finally {
                 tryBtn.disabled = false;
@@ -192,7 +190,7 @@
 
         resetBtn.addEventListener('click', function() {
             responseDisplay.textContent = '// Response will be shown here';
-            statusBadge.className = 'hidden text-xs font-mono px-2 py-0.5 rounded-full';
+            statusBadge.className = 'hidden';
         });
     </script>
 
