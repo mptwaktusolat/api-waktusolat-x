@@ -32,6 +32,14 @@
     <script defer src="https://umami.iqfareez.com/analitik.js" data-website-id="d4373d39-35fb-4995-b5e5-931b510181cd">
     </script>
 
+    <!-- favicons -->
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Waktu Solat API" />
+    <link rel="manifest" href="/site.webmanifest" />
+
     {{-- Prevent FOUC (Flash of Unstyled Content) when load. --}}
     <script>
         // use 'colorMode' key to match the key used in scalar swagger page.
