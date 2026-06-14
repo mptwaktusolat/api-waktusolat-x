@@ -13,12 +13,12 @@
                 applications.
             </p>
             <div class="flex flex-wrap gap-4">
-                <a href="/docs"
+                <a href="{{ route('scribe') }}"
                     class="flex items-center gap-2 px-6 py-3 bg-tile-green text-white font-medium hover:brightness-110 transition-all">
                     <x-ionicon-code-slash-outline class="h-5 w-5" />
                     View Documentation
                 </a>
-                <a href="/health"
+                <a href="{{ route('data-health') }}"
                     class="flex items-center gap-2 px-6 py-3 bg-base-200 dark:bg-[#222] text-base-content font-medium hover:bg-base-300 dark:hover:bg-[#2e2e2e] transition-all">
                     Data Health
                 </a>
@@ -102,7 +102,7 @@
         <div class="max-w-4xl mx-auto">
             <h2 class="text-3xl font-light text-base-content mb-2">Usage Example</h2>
             <p class="text-base-content/60 mb-10">
-                See all available endpoints on the <a class="font-semibold underline" href="/docs">Swagger page</a>.
+                See all available endpoints on the <a class="anchor-text" href="{{ route('scribe') }}">Swagger page</a>.
             </p>
 
             <div class="space-y-6">
@@ -211,8 +211,8 @@
                             What is the data source for prayer times?
                         </div>
                         <div class="collapse-content text-sm text-base-content/70 px-0!">
-                            Our prayer time data is sourced directly from JAKIM (Jabatan Kemajuan Islam Malaysia), the
-                            official government body responsible for Islamic affairs in Malaysia. Data is updated
+                            Our prayer time data is sourced from JAKIM's (Jabatan Kemajuan Islam Malaysia)
+                            <a class="anchor-text" href="https://www.e-solat.gov.my/">e-solat</a> site. Data is updated
                             regularly to ensure accuracy.
                         </div>
                     </div>
@@ -223,32 +223,32 @@
                             Is this API free to use?
                         </div>
                         <div class="collapse-content text-sm text-base-content/70 px-0!">
-                            Yes, this API is completely free for public use. There are no rate limits imposed at this
-                            time. We provide this service as a contribution to the Muslim community in Malaysia.
+                            <p class="pb-4">
+
+                                Yes, this API is completely free for public use. We provide this service as a contribution
+                                to the Muslim community in Malaysia.
+                            </p>
+
+                            <p>
+                                While there are no hard rate limits, we encourage responsible usage practices.
+                                <strong>Implement client-side caching</strong> to minimize redundant API calls. Prayer times
+                                don't change frequently, so cache responses for at least 24 hours. Use HTTP
+                                caching headers or local storage depending on your platform. This improves performance and
+                                reduces server load. Test your app to avoid fetching the same data multiple times in quick
+                                succession (for example, when the app has a countdown timer, make sure it doesn't call the
+                                API on every tick!). Batch
+                                your requests when possible and reuse cached responses.
+                            </p>
                         </div>
                     </div>
 
                     <div class="collapse collapse-arrow border-b border-base-300">
                         <input type="checkbox" />
                         <div class="collapse-title font-medium text-base-content px-0!">
-                            Which zones are supported?
+                            Which states are supported?
                         </div>
                         <div class="collapse-content text-sm text-base-content/70 px-0!">
-                            We support all prayer time zones in Malaysia including all states in Peninsular Malaysia,
-                            Sabah, Sarawak, and Federal Territories. Each state has its own zone codes as defined by
-                            JAKIM.
-                        </div>
-                    </div>
-
-                    <div class="collapse collapse-arrow border-b border-base-300">
-                        <input type="checkbox" />
-                        <div class="collapse-title font-medium text-base-content px-0!">
-                            How do I get zone codes?
-                        </div>
-                        <div class="collapse-content text-sm text-base-content/70 px-0!">
-                            Use the <code class="text-primary font-mono">GET /api/zones</code> endpoint to get a
-                            complete list of all supported zones. Example codes: SGR01 (Gombak, Petaling), JHR01
-                            (Pulau Aur, Pemanggil), etc.
+                            We support all prayer time states in <strong>Malaysia only</strong>.
                         </div>
                     </div>
 
@@ -258,13 +258,35 @@
                             Does this API support specific dates?
                         </div>
                         <div class="collapse-content text-sm text-base-content/70 px-0!">
-                            Yes, you can request prayer times for any month using the
+                            Yes, you can request prayer times for any month and year using the
                             <code class="text-primary font-mono">year</code> and
                             <code class="text-primary font-mono">month</code> query parameters. We support data for
-                            the current year and the following year.
+                            the previous, current, and following year (if available). See <a class="anchor-text"
+                                href="{{ route('data-health') }}">Data
+                                Health</a> for details.
                         </div>
                     </div>
 
+                    <div class="collapse collapse-arrow border-b border-base-300">
+                        <input type="checkbox" />
+                        <div class="collapse-title font-medium text-base-content px-0!">
+                            Are you open to contributions?
+                        </div>
+                        <div class="collapse-content text-sm text-base-content/70 px-0!">
+                            <p class="pb-4">
+                                Server hosting costs some money. We welcome financial contributions to help cover expenses
+                                and maintain the API. See GitHub <a class="anchor-text"
+                                    href="https://github.com/sponsors/mptwaktusolat">Sponsors</a> or contact
+                                me if you're interested in supporting the project.
+                            </p>
+                            <p>
+
+                                Also, this API is open source on <a class="anchor-text"
+                                    href="https://github.com/mptwaktusolat/api-waktusolat-x">GitHub</a>. Feel free to
+                                submit issues or pull requests if you have any suggestions or bug fixes.
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

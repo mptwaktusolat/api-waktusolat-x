@@ -74,3 +74,7 @@ html {
 .mary-table-pagination button {
     @apply cursor-pointer
 }
+
+.anchor-text {
+    @apply font-medium underline;
+}
