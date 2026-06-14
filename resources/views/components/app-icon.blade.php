@@ -1,5 +1,6 @@
 @props(['class' => 'h-6 w-6'])
 
+{{-- logo design https://www.figma.com/design/TPDhKC02b45aI86Lol9lSX/MPT-Logo-Raw?t=tZuBJnoHQcT0VoCg-0 --}}
 <svg {{ $attributes->merge(['class' => $class]) }} viewBox="0 0 1211 1231" fill="none"
     xmlns="http://www.w3.org/2000/svg">
     <path
