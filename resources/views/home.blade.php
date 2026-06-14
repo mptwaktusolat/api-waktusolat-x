@@ -285,6 +285,17 @@
                             </p>
                         </div>
                     </div>
+
+                    <div class="collapse collapse-arrow border-b border-base-300">
+                        <input type="checkbox" />
+                        <div class="collapse-title font-medium text-base-content px-0!">
+                            Something seems off, where can I report it?
+                        </div>
+                        <div class="collapse-content text-sm text-base-content/70 px-0!">
+                            If you notice any discrepancies or issues with the prayer time data, please report them using
+                            the <a class="anchor-text" href="{{ route('feedback') }}">feedback form</a>.
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

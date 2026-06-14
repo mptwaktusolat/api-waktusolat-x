@@ -2,9 +2,11 @@
 
 return [
     'title' => 'Maklum Balas',
-    'breadcrumb_home' => 'Utama',
-    'breadcrumb_about' => 'Tentang',
     'subtitle' => 'Kami ingin mendengar daripada anda! Kongsikan pengalaman anda menggunakan Waktu Solat API.',
+    'quick_poll' => 'Tinjauan Pantas',
+    'quick_poll_hint' => 'Kongsi impresi ringkas dahulu, kemudian tambah butiran jika perlu.',
+    'details' => 'Butiran Tambahan',
+    'privacy_note' => 'Jangan masukkan maklumat sensitif dalam borang ini.',
 
     'satisfaction' => 'Adakah anda berpuas hati dengan API ini?',
     'thumbs_up' => 'Ya',
@@ -25,9 +27,9 @@ return [
     'email_placeholder' => 'contoh@emel.com',
 
     'submit' => 'Hantar Maklum Balas',
-    'submitting' => 'Menghantar...',
+    'sending' => 'Menghantar...',
 
     'success_title' => 'Terima kasih!',
     'success_message' => 'Maklum balas anda telah berjaya dihantar. Kami menghargai sumbangan anda!',
-    'submit_another' => 'Hantar maklum balas lain',
+    'back_home' => 'Kembali ke Laman Utama',
 ];

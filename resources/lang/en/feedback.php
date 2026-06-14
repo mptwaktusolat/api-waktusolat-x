@@ -1,10 +1,12 @@
 <?php
 
 return [
-    'title' => 'Feedback',
-    'breadcrumb_home' => 'Home',
-    'breadcrumb_about' => 'About',
-    'subtitle' => 'We\'d love to hear from you! Share your experience with the Waktu Solat API.',
+    'title' => 'Feedback Form',
+    'subtitle' => 'Report any issues or provide suggestions. We\'d love to hear from you!',
+    'quick_poll' => 'Quick Poll',
+    'quick_poll_hint' => 'Share a quick impression first, then add details if needed.',
+    'details' => 'Additional Details',
+    'privacy_note' => 'Do not include sensitive information in this form.',
 
     'satisfaction' => 'Are you satisfied with the API?',
     'thumbs_up' => 'Yes',
@@ -25,9 +27,9 @@ return [
     'email_placeholder' => 'example@email.com',
 
     'submit' => 'Submit Feedback',
-    'submitting' => 'Submitting...',
+    'sending' => 'Sending...',
 
     'success_title' => 'Thank you!',
     'success_message' => 'Your feedback has been submitted successfully. We appreciate your input!',
-    'submit_another' => 'Submit another response',
+    'back_home' => 'Back to Homepage',
 ];
