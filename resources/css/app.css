@@ -1,11 +1,80 @@
 @import 'tailwindcss';
 
+html {
+    scroll-behavior: smooth;
+}
+
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 @source '../**/*.blade.php';
 @source '../**/*.js';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    /* Metro / Nokia Lumia typography */
+    --font-sans: 'Segoe UI', 'SF Pro Display', system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-mono: 'Cascadia Code', 'SF Mono', 'Consolas', monospace;
+
+    /* Windows Phone Metro tile colors */
+    --color-tile-blue: oklch(51% 0.20 246);
+    --color-tile-green: oklch(57% 0.18 141);
+    --color-tile-orange: oklch(53% 0.21 41);
+
+    /* No border radius - Metro flat style */
+    --radius-sm: 0;
+    --radius-md: 0;
+    --radius-lg: 0;
+    --radius-xl: 0;
+    --radius-2xl: 0;
+    --radius-3xl: 0;
+}
+
+/** daisyUI */
+@plugin "daisyui" {
+    themes: light --default, black --prefersdark;
+}
+
+/* Remove rounding from daisyUI components - flat Metro style */
+@plugin "daisyui/theme" {
+    name: "light";
+    --radius-selector: 0;
+    --radius-field: 0;
+    --radius-box: 0;
+}
+
+@plugin "daisyui/theme" {
+    name: "black";
+    --radius-selector: 0;
+    --radius-field: 0;
+    --radius-box: 0;
+    /* Slightly off-black backgrounds for depth */
+    --color-base-100: #080808;
+    --color-base-200: #111111;
+    --color-base-300: #1c1c1c;
+    /* Bright blue primary - visible on dark bg */
+    --color-primary: oklch(65% 0.20 246);
+    --color-primary-content: oklch(100% 0 0);
+}
+
+/* maryUI */
+@source "../../vendor/robsontenorio/mary/src/View/Components/**/*.php";
+
+/* Theme toggle - dark: variant responds to DaisyUI black theme */
+@custom-variant dark (&:where([data-theme=black], [data-theme=black] *));
+
+/**
+* Paginator - Traditional style
+* Because Laravel defaults does not match well the design of daisyUI.
+*/
+
+.mary-table-pagination span[aria-current="page"] > span {
+    @apply bg-primary text-base-100
+}
+
+.mary-table-pagination button {
+    @apply cursor-pointer
+}
+
+.anchor-text {
+    @apply font-medium underline;
 }
