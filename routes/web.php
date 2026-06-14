@@ -25,5 +25,3 @@ Route::get('/_debug/proxy-headers', function (Request $request) {
         'url' => $request->url(),
     ];
 });
-
-require __DIR__.'/auth.php';
