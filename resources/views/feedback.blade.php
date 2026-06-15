@@ -18,6 +18,9 @@
                     <div class="bg-tile-orange px-4 py-2"></div>
                 </div>
 
+                @php
+                    abort_unless(config('services.formspark.form_id'), 500, 'FORMSPARK_FORM_ID is not configured.');
+                @endphp
                 <form id="feedback-form" action="https://submit-form.com/{{ config('services.formspark.form_id') }}"
                     method="POST" class="card border border-base-300 bg-base-100">
                     <div class="card-body space-y-8 p-6 md:p-8">
@@ -32,8 +35,8 @@
 
                         <div class="space-y-2 border-b border-base-300 pb-6">
 
-                            <h2 class="text-2xl font-light text-base-content">{{ __('feedback.quick_poll') ?? '' }}</h2>
-                            <p class="text-sm text-base-content/70">{{ __('feedback.quick_poll_hint') ?? '' }}</p>
+                            <h2 class="text-2xl font-light text-base-content">{{ __('feedback.quick_poll') }}</h2>
+                            <p class="text-sm text-base-content/70">{{ __('feedback.quick_poll_hint') }}</p>
                         </div>
 
                         {{-- 1. Satisfaction --}}
@@ -70,11 +73,11 @@
                             <div class="grid gap-2 sm:grid-cols-2 lg:grid-cols-3" id="doc-options">
                                 @php
                                     $docOptions = [
-                                        ['key' => 'doc_very_easy', 'value' => 'Very Easy'],
-                                        ['key' => 'doc_easy', 'value' => 'Easy'],
-                                        ['key' => 'doc_neutral', 'value' => 'Neutral'],
-                                        ['key' => 'doc_difficult', 'value' => 'Difficult'],
-                                        ['key' => 'doc_very_difficult', 'value' => 'Very Difficult'],
+                                        ['key' => 'doc_very_easy', 'value' => 'very_easy'],
+                                        ['key' => 'doc_easy', 'value' => 'easy'],
+                                        ['key' => 'doc_neutral', 'value' => 'neutral'],
+                                        ['key' => 'doc_difficult', 'value' => 'difficult'],
+                                        ['key' => 'doc_very_difficult', 'value' => 'very_difficult'],
                                     ];
                                 @endphp
                                 @foreach ($docOptions as $index => $option)
@@ -90,8 +93,8 @@
                         </fieldset>
 
                         <div class="space-y-2 border-b border-base-300 pb-6">
-                            <h3 class="text-2xl font-light text-base-content">{{ __('feedback.details') ?? '' }}</h3>
-                            <p class="text-sm text-base-content/70">{{ __('feedback.privacy_note') ?? '' }}</p>
+                            <h3 class="text-2xl font-light text-base-content">{{ __('feedback.details') }}</h3>
+                            <p class="text-sm text-base-content/70">{{ __('feedback.privacy_note') }}</p>
                         </div>
 
                         {{-- 3. Comments --}}
