@@ -35,4 +35,10 @@ return [
         ],
     ],
 
+    /**
+     * Formspark is used here to collect feedbacks. https://formspark.io/
+     */
+    'formspark' => [
+        'form_id' => env('FORMSPARK_FORM_ID'),
+    ],
 ];

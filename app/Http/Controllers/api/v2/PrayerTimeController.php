@@ -75,8 +75,9 @@ class PrayerTimeController extends BaseQueryController
      *
      * @response status=404 scenario="Data not found" {"message": "No data found for zone: XXXXX for MMM/YYYY"}
      * @response status=500 scenario="Internal server error." {"message": "Server error"}
+     * @response status=422 scenario="Invalid parameters." {"message": "Invalid coordinates. lat must be a number. long must be a number."}
      */
-    public function fetchMonthLocationByGps(float $lat, float $long, Request $request)
+    public function fetchMonthLocationByGps($lat, $long, Request $request)
     {
         // Query parameters
         $request->validate([
@@ -87,9 +88,26 @@ class PrayerTimeController extends BaseQueryController
         $year = $request->input('year', date('Y'));
         $month = $request->input('month', date('m'));
 
+        $coordValidator = validator(
+            ['lat' => $lat, 'long' => $long],
+            ['lat' => 'required|numeric', 'long' => 'required|numeric'],
+        );
+
+        if ($coordValidator->fails()) {
+            return response()->json([
+                'message' => 'Invalid coordinates. '.implode(' ', $coordValidator->errors()->all()),
+            ], 422);
+        }
+
         // Zone detection
-        $zoneObject = $this->detectZoneFromCoordinate($lat, $long);
-        $zone = $zoneObject['zone'];
+        try {
+            $zoneObject = $this->detectZoneFromCoordinate((float) $lat, (float) $long);
+            $zone = $zoneObject['zone'];
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => $th->getMessage(),
+            ], 422);
+        }
 
         try {
             $prayerTimes = $this->queryPrayerTime($zone, $year, $month);
@@ -129,7 +147,7 @@ class PrayerTimeController extends BaseQueryController
      *
      * @deprecated
      */
-    public function fetchMonthLocationByGpsDeprecated(float $lat, float $long, Request $request)
+    public function fetchMonthLocationByGpsDeprecated($lat, $long, Request $request)
     {
         return $this->fetchMonthLocationByGps($lat, $long, $request);
     }

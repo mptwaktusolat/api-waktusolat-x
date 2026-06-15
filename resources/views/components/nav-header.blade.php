@@ -1,0 +1,45 @@
+<header class="border-b border-base-300 bg-base-100">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+            <a href="/" class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-tile-green flex items-center justify-center shrink-0">
+                    <x-app-icon class="h-6 w-6 text-white" />
+                </div>
+                @if (Route::is('home'))
+                    <span class="text-2xl font-light tracking-tight text-base-content">apiwaktusolat</span>
+                @endif
+            </a>
+            @unless (Route::is('home'))
+                <span class="text-2xl font-light text-base-content/30">/</span>
+                <span class="text-2xl font-light tracking-tight text-base-content">
+                    {{ request()->segment(1) }}
+                </span>
+            @endunless
+        </div>
+
+        <nav class="flex items-center gap-4">
+            @if (Route::is('home'))
+                <a href="#example"
+                    class="text-sm text-base-content/60 hover:text-base-content transition-colors hidden sm:block">
+                    Example
+                </a>
+                <a href="#faq"
+                    class="text-sm text-base-content/60 hover:text-base-content transition-colors hidden sm:block">
+                    FAQ
+                </a>
+            @endif
+
+            {{-- Theme toggle button --}}
+            <button id="theme-toggle"
+                class="w-10 h-10 flex items-center justify-center bg-base-200 dark:bg-[#222] hover:bg-base-300 dark:hover:bg-[#2e2e2e] transition-all"
+                aria-label="Toggle theme">
+                {{-- System --}}
+                <x-ionicon-desktop-outline data-theme-icon="system" class="h-5 w-5 text-base-content" />
+                {{-- Light --}}
+                <x-ionicon-sunny-outline data-theme-icon="light" class="h-5 w-5 text-base-content hidden" />
+                {{-- Dark --}}
+                <x-ionicon-moon-outline data-theme-icon="dark" class="h-5 w-5 text-base-content hidden" />
+            </button>
+        </nav>
+    </div>
+</header>
