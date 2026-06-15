@@ -18,8 +18,8 @@
                     <div class="bg-tile-orange px-4 py-2"></div>
                 </div>
 
-                <form id="feedback-form" action="https://submit-form.com/{{ env('FORMSPARK_FORM_ID') }}" method="POST"
-                    class="card border border-base-300 bg-base-100">
+                <form id="feedback-form" action="https://submit-form.com/{{ config('services.formspark.form_id') }}"
+                    method="POST" class="card border border-base-300 bg-base-100">
                     <div class="card-body space-y-8 p-6 md:p-8">
                         {{-- Honeypot for spam prevention --}}
                         <input type="hidden" name="_feedback_trap" style="display:none" value="">
