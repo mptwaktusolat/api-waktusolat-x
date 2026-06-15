@@ -2,9 +2,9 @@
 
 return [
     'title' => 'Maklum Balas',
-    'subtitle' => 'Kami ingin mendengar daripada anda! Kongsikan pengalaman anda menggunakan Waktu Solat API.',
+    'subtitle' => 'Kami ingin mendengar pendapat anda! Kongsilah pengalaman anda menggunakan Waktu Solat API.',
     'quick_poll' => 'Tinjauan Pantas',
-    'quick_poll_hint' => 'Kongsi impresi ringkas dahulu, kemudian tambah butiran jika perlu.',
+    'quick_poll_hint' => 'Beritahu kami secara ringkas apa yang anda fikirkan tentang API ini.',
     'details' => 'Butiran Tambahan',
     'privacy_note' => 'Jangan masukkan maklumat sensitif dalam borang ini.',
 
@@ -12,7 +12,7 @@ return [
     'thumbs_up' => 'Ya',
     'thumbs_down' => 'Tidak',
 
-    'documentation' => 'Sejauh mana mudahnya membaca dokumentasi API?',
+    'documentation' => 'Betapa mudahnya untuk membaca dokumentasi API?',
     'doc_very_easy' => 'Sangat Mudah',
     'doc_easy' => 'Mudah',
     'doc_neutral' => 'Neutral',
