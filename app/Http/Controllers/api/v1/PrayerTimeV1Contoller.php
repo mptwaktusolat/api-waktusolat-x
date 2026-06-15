@@ -6,6 +6,7 @@ use App\Http\Controllers\api\BaseQueryController;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 /**
  * @group SOLAT V1
@@ -103,7 +104,7 @@ class PrayerTimeV1Contoller extends BaseQueryController
         return response()->json($data);
     }
 
-    private function mapPrayerTimes($prayerTimes)
+    private function mapPrayerTimes(Collection $prayerTimes)
     {
         return $prayerTimes->map(function ($prayerTime) {
             // Do processing to the Date & Time
@@ -112,10 +113,10 @@ class PrayerTimeV1Contoller extends BaseQueryController
                 'hijri' => $prayerTime->hijri,
                 'date' => Carbon::parse($prayerTime->date)->format('d-M-Y'),
                 'day' => Carbon::parse($prayerTime->date)->format('l'),
-                'imsak' => $this->formatTime($prayerTime->date, $prayerTime->fajr, -10),
+                'imsak' => $this->formatTime($prayerTime->date, $prayerTime->imsak),
                 'fajr' => $this->formatTime($prayerTime->date, $prayerTime->fajr),
                 'syuruk' => $this->formatTime($prayerTime->date, $prayerTime->syuruk),
-                'dhuha' => $this->formatTime($prayerTime->date, $prayerTime->syuruk, 25),
+                'dhuha' => $this->formatTime($prayerTime->date, $prayerTime->dhuha),
                 'dhuhr' => $this->formatTime($prayerTime->date, $prayerTime->dhuhr),
                 'asr' => $this->formatTime($prayerTime->date, $prayerTime->asr),
                 'maghrib' => $this->formatTime($prayerTime->date, $prayerTime->maghrib),
@@ -127,8 +128,8 @@ class PrayerTimeV1Contoller extends BaseQueryController
     /**
      * Format time like JAKIM's API (eg "06:06:00")
      */
-    private function formatTime(string $date, string $time, int $offset = 0): string
+    private function formatTime(string $date, string $time): string
     {
-        return Carbon::parse("$date $time", 'Asia/Kuala_Lumpur')->addMinutes($offset)->format('H:i:s');
+        return Carbon::parse("$date $time", 'Asia/Kuala_Lumpur')->format('H:i:s');
     }
 }
