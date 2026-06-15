@@ -1,10 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    @php
-        $feedbackT = __('feedback');
-    @endphp
-
     {{-- Page header --}}
     <section class="border-b border-base-300 bg-base-200/50 px-6 py-14">
         <div class="mx-auto max-w-7xl">
@@ -29,13 +25,15 @@
                         <input type="hidden" name="_feedback_trap" style="display:none" value="">
                         <input type="hidden" name="language" id="language" value="{{ app()->getLocale() }}">
 
-                        {{-- Where to redirect after successful submission --}}
+                        {{-- Formspark configuration https://documentation.formspark.io/customization/redirection#specifying-a-custom-redirect-url --}}
                         <input type="hidden" name="_redirect" value="{{ route('feedback.success') }}">
+                        {{-- Do not append submission details to redirected page --}}
+                        <input type="hidden" name="_append" value="false" />
 
                         <div class="space-y-2 border-b border-base-300 pb-6">
 
-                            <h2 class="text-2xl font-light text-base-content">{{ $feedbackT['quick_poll'] ?? '' }}</h2>
-                            <p class="text-sm text-base-content/70">{{ $feedbackT['quick_poll_hint'] ?? '' }}</p>
+                            <h2 class="text-2xl font-light text-base-content">{{ __('feedback.quick_poll') ?? '' }}</h2>
+                            <p class="text-sm text-base-content/70">{{ __('feedback.quick_poll_hint') ?? '' }}</p>
                         </div>
 
                         {{-- 1. Satisfaction --}}
@@ -92,22 +90,24 @@
                         </fieldset>
 
                         <div class="space-y-2 border-b border-base-300 pb-6">
-                            <h3 class="text-lg font-semibold text-base-content">{{ $feedbackT['details'] ?? '' }}</h3>
-                            <p class="text-sm text-base-content/70">{{ $feedbackT['privacy_note'] ?? '' }}</p>
+                            <h3 class="text-2xl font-light text-base-content">{{ __('feedback.details') ?? '' }}</h3>
+                            <p class="text-sm text-base-content/70">{{ __('feedback.privacy_note') ?? '' }}</p>
                         </div>
 
                         {{-- 3. Comments --}}
-                        <fieldset class="space-y-2">
-                            <label for="comments" class="text-sm font-semibold text-base-content">
+                        <fieldset class="space-y-3">
+                            <label for="comments"
+                                class="text-sm font-semibold uppercase tracking-[0.08em] text-base-content">
                                 {{ __('feedback.comments') }}
                             </label>
                             <textarea id="comments" name="comments" rows="4" placeholder="{{ __('feedback.comments_placeholder') }}"
-                                class="textarea textarea-bordered w-full border-base-300 bg-base-100 focus:border-tile-blue"></textarea>
+                                class="textarea textarea-bordered w-full border-base-300 bg-base-100 focus:border-tile-blue mt-2"></textarea>
                         </fieldset>
 
                         {{-- 4. Email --}}
-                        <fieldset class="space-y-2">
-                            <label for="email" class="text-sm font-semibold text-base-content">
+                        <fieldset class="space-y-3">
+                            <label for="email"
+                                class="text-sm font-semibold uppercase tracking-[0.08em] text-base-content">
                                 {{ __('feedback.email') }}
                             </label>
                             <p class="text-xs text-base-content/70">
