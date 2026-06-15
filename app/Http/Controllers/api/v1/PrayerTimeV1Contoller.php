@@ -128,8 +128,13 @@ class PrayerTimeV1Contoller extends BaseQueryController
     /**
      * Format time like JAKIM's API (eg "06:06:00")
      */
-    private function formatTime(string $date, string $time): string
+    private function formatTime(string $date, ?string $time): ?string
     {
+        // Some dhuha times for older years are null
+        if ($time === null) {
+            return null;
+        }
+
         return Carbon::parse("$date $time", 'Asia/Kuala_Lumpur')->format('H:i:s');
     }
 }
