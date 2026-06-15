@@ -25,7 +25,6 @@
                 <form id="feedback-form" action="https://submit-form.com/{{ env('FORMSPARK_FORM_ID') }}" method="POST"
                     class="card border border-base-300 bg-base-100">
                     <div class="card-body space-y-8 p-6 md:p-8">
-                        @csrf
                         {{-- Honeypot for spam prevention --}}
                         <input type="hidden" name="_feedback_trap" style="display:none" value="">
                         <input type="hidden" name="language" id="language" value="{{ app()->getLocale() }}">
