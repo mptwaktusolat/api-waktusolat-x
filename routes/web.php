@@ -14,6 +14,14 @@ Route::get('/locations', function () {
 
 Route::get('/health', [DataHealthController::class, 'index'])->name('data-health');
 
+Route::get('/feedback', function () {
+    return view('feedback');
+})->name('feedback');
+
+Route::get('/feedback/success', function () {
+    return view('feedback-success');
+})->name('feedback.success');
+
 // Use to debug if reverse proxy setup is working
 // More info: https://github.com/mptwaktusolat/api-waktusolat-x/tree/main/docs/deployments/docker-compose.md#reverse-proxy
 Route::get('/_debug/proxy-headers', function (Request $request) {

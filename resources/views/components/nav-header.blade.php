@@ -12,7 +12,7 @@
             @unless (Route::is('home'))
                 <span class="text-2xl font-light text-base-content/30">/</span>
                 <span class="text-2xl font-light tracking-tight text-base-content">
-                    {{ trim(request()->path(), '/') }}
+                    {{ request()->segment(1) }}
                 </span>
             @endunless
         </div>
