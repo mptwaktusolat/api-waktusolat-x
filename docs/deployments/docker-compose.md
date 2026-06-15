@@ -2,50 +2,14 @@
 
 ## Quick Start
 
-Create a `compose.yml` file with the following content:
+Create a `compose.yml` file with content from [docker-compose.prod.yml](../../docker-compose.prod.yml).
 
-```yaml
-services:
-  app:
-    image: ghcr.io/mptwaktusolat/api-waktusolat-x
-    ports:
-      - "8080:8080" # HTTP
-      - "8443:8443" # HTTPS
-    environment:
-      - PHP_OPCACHE_ENABLE=1
-      - APP_KEY=${APP_KEY:?APP_KEY must be set}
-      - APP_URL=${APP_URL}
-      - APP_ENV=${APP_ENV}
-      - APP_DEBUG=${APP_DEBUG}
-      - ENABLE_TRUSTED_PROXY_CONFIG=${ENABLE_TRUSTED_PROXY_CONFIG}
-      - DB_CONNECTION=mysql
-      - DB_HOST=db
-      - DB_PORT=3306
-      - DB_DATABASE=waktusolat
-      - DB_USERNAME=root
-      - DB_PASSWORD=
-      - SSL_MODE=mixed
-    depends_on:
-      - db
-  db:
-    image: mysql:8.0
-    environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
-    volumes:
-      - db_data:/var/lib/mysql
+Create a `stack.env` file in same directory as compose file, with the content from [.env.example](../../.env.example). At least, update the following values with your own values:
 
-volumes:
-  db_data:
 ```
-
-Create a `.env` file in same directory as compose file, with the following content:
-
-```env
-APP_KEY=
-APP_URL=
-APP_ENV=
-APP_DEBUG=
-ENABLE_TRUSTED_PROXY_CONFIG=true
+APP_KEY=base64:Mmjn17WyYcRph3vjH3rmvpllUZkUmi4/1aLterMfSWY=
+APP_URL=https://api-docker.waktusolat.app
+DB_HOST=db
 ```
 
 See the [Environment Variables](#environment-variables) section below for more details.
@@ -91,6 +55,7 @@ The environment variables details are as follows:
 | APP_URL        | The base URL of the application. Used to generate the swagger documentation.                 |
 | APP_ENV       | The application environment (e.g., `local`, `production`).  |
 | APP_DEBUG     | Enable or disable debug mode (`true` or `false`). If first time setting up, it might be helpful to set to `true` to see any errors. |
+| DB_HOST       | The hostname of the database server. This should match the service name defined in the compose file. |
 
 Additional environment variables provided by the image can be found here: https://serversideup.net/open-source/docker-php/docs/reference/environment-variable-specification.
 
