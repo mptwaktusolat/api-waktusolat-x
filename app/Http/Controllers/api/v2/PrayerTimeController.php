@@ -165,8 +165,10 @@ class PrayerTimeController extends BaseQueryController
             return [
                 'day' => Carbon::parse($prayerTime->date)->day,
                 'hijri' => $prayerTime->hijri,
+                'imsak' => $this->parseToTimestamp($prayerTime->date, $prayerTime->imsak),
                 'fajr' => $this->parseToTimestamp($prayerTime->date, $prayerTime->fajr),
                 'syuruk' => $this->parseToTimestamp($prayerTime->date, $prayerTime->syuruk),
+                'dhuha' => $this->parseToTimestamp($prayerTime->date, $prayerTime->dhuha),
                 'dhuhr' => $this->parseToTimestamp($prayerTime->date, $prayerTime->dhuhr),
                 'asr' => $this->parseToTimestamp($prayerTime->date, $prayerTime->asr),
                 'maghrib' => $this->parseToTimestamp($prayerTime->date, $prayerTime->maghrib),
@@ -179,11 +181,16 @@ class PrayerTimeController extends BaseQueryController
      * Parse date and time to timestamp
      *
      * @param  string  $date  The date string
-     * @param  string  $time  The time string
-     * @return float|int|string
+     * @param  ?string  $time  The time string
+     * @return float|int|string|null
      */
-    private function parseToTimestamp(string $date, string $time): int
+    private function parseToTimestamp(string $date, ?string $time): ?int
     {
+        // Some zones have null Dhuha time, especially year 2025 and before.
+        if (empty($time)) {
+            return null;
+        }
+
         return Carbon::parse("$date $time", 'Asia/Kuala_Lumpur')->timestamp;
     }
 }
