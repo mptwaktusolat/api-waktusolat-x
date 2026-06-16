@@ -10,7 +10,11 @@ This service provides prayer times data for all states in Malaysia. Data is base
 
 ## Getting Started
 
+There are three ways documented here to start the development server locally. Choose the one according to your preferences. [Bare Metal](#bare-metal), [Docker](#docker), or [GitHub Codespaces](#dev-container-or-github-codespaces).
+
 ### Bare Metal
+
+This method assumes you already have PHP development environment set up on your machine. If you don't have one yet, you can install and set up [Herd](https://herdphp.com/).
 
 To get started, clone the repository. Then, install Composer & Node dependencies:
 
@@ -68,6 +72,24 @@ composer run dev
 > ```
 
 You can now access the application at `http://localhost:8000`. The api docs will be available at `http://localhost:8000/docs`.
+
+### Docker
+
+Setup the project until the step of creating `.env` file above. Then, run:
+
+```bash
+docker compose -f docker-compose.local.yml up --build
+```
+
+The compose file assumes you have MySQL instance already running on your machine. If you don't have one yet, learn how to set it up here: https://iqfareez.com/blog/setup-docker-mysql-phpmyadmin
+
+The app should be available at `http://localhost:8080/`. 
+
+To access the container's shell, run:
+
+```bash
+docker compose -f docker-compose.local.yml exec app sh
+```
 
 ### Dev Container or GitHub Codespaces
 
