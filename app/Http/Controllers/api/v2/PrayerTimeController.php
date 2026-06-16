@@ -182,7 +182,7 @@ class PrayerTimeController extends BaseQueryController
      *
      * @param  string  $date  The date string
      * @param  ?string  $time  The time string
-     * @return float|int|string|null
+     * @return int|null
      */
     private function parseToTimestamp(string $date, ?string $time): ?int
     {
