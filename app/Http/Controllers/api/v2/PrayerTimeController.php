@@ -21,8 +21,8 @@ class PrayerTimeController extends BaseQueryController
      *
      * @urlParam zone string required The JAKIM zone code. See all zones using `/api/zones` endpoint. Example: SGR01
      *
-     * @queryParam year int The year. Defaults to current year. Example: 2025
-     * @queryParam month int The month number. 1 => January, 2 => February etc. Defaults to current month. Example: 6
+     * @queryParam year int The year. Defaults to current year. Example: 2026
+     * @queryParam month int The month number. 1 => January, 2 => February etc. Defaults to current month. Example: 8
      *
      * @response status=404 scenario="Data not found" {"message": "No data found for zone: XXXXX for MMM/YYYY"}
      * @response status=500 scenario="Internal server error." {"message": "Server error"}
@@ -70,8 +70,8 @@ class PrayerTimeController extends BaseQueryController
      * @urlParam lat number required The latitude coordinate. Example: 3.068498
      * @urlParam long number required The longitude coordinate. Example: 101.630263
      *
-     * @queryParam year int The year. Defaults to current year. Example: 2025
-     * @queryParam month int The month number. 1 => January, 2 => February etc. Defaults to current month. Example: 6
+     * @queryParam year int The year. Defaults to current year. Example: 2026
+     * @queryParam month int The month number. 1 => January, 2 => February etc. Defaults to current month. Example: 8
      *
      * @response status=404 scenario="Data not found" {"message": "No data found for zone: XXXXX for MMM/YYYY"}
      * @response status=500 scenario="Internal server error." {"message": "Server error"}
@@ -139,8 +139,8 @@ class PrayerTimeController extends BaseQueryController
      * @urlParam lat number required The latitude coordinate. Example: 3.068498
      * @urlParam long number required The longitude coordinate. Example: 101.630263
      *
-     * @queryParam year int The year. Defaults to current year. Example: 2025
-     * @queryParam month int The month number. 1 => January, 2 => February etc. Defaults to current month. Example: 6
+     * @queryParam year int The year. Defaults to current year. Example: 2026
+     * @queryParam month int The month number. 1 => January, 2 => February etc. Defaults to current month. Example: 8
      *
      * @response status=404 scenario="Data not found" {"message": "No data found for zone: XXXXX for MMM/YYYY"}
      * @response status=500 scenario="Internal server error." {"message": "Server error"}
@@ -165,8 +165,10 @@ class PrayerTimeController extends BaseQueryController
             return [
                 'day' => Carbon::parse($prayerTime->date)->day,
                 'hijri' => $prayerTime->hijri,
+                'imsak' => $this->parseToTimestamp($prayerTime->date, $prayerTime->imsak),
                 'fajr' => $this->parseToTimestamp($prayerTime->date, $prayerTime->fajr),
                 'syuruk' => $this->parseToTimestamp($prayerTime->date, $prayerTime->syuruk),
+                'dhuha' => $this->parseToTimestamp($prayerTime->date, $prayerTime->dhuha),
                 'dhuhr' => $this->parseToTimestamp($prayerTime->date, $prayerTime->dhuhr),
                 'asr' => $this->parseToTimestamp($prayerTime->date, $prayerTime->asr),
                 'maghrib' => $this->parseToTimestamp($prayerTime->date, $prayerTime->maghrib),
@@ -179,11 +181,15 @@ class PrayerTimeController extends BaseQueryController
      * Parse date and time to timestamp
      *
      * @param  string  $date  The date string
-     * @param  string  $time  The time string
-     * @return float|int|string
+     * @param  ?string  $time  The time string
      */
-    private function parseToTimestamp(string $date, string $time): int
+    private function parseToTimestamp(string $date, ?string $time): ?int
     {
+        // Some zones have null Dhuha time, especially year 2025 and before.
+        if (empty($time)) {
+            return null;
+        }
+
         return Carbon::parse("$date $time", 'Asia/Kuala_Lumpur')->timestamp;
     }
 }

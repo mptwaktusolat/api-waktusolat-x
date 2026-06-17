@@ -15,11 +15,15 @@ class ImportPrayerTimesFromCSV extends Command
 
     public function handle()
     {
+        // Increase memory limit for this script.
+        ini_set('memory_limit', '256M');
+
         $year = $this->argument('year');
         $csvPath = resource_path("csv/Dump-output-{$year}.csv");
 
         if (!file_exists($csvPath)) {
             $this->error("CSV file not found: {$csvPath}");
+
             return Command::FAILURE;
         }
 
@@ -32,7 +36,8 @@ class ImportPrayerTimesFromCSV extends Command
                     ->delete();
                 $this->info("Existing data for {$year} has been deleted.");
             } else {
-                $this->info("Import cancelled.");
+                $this->info('Import cancelled.');
+
                 return Command::FAILURE;
             }
         }
@@ -44,7 +49,7 @@ class ImportPrayerTimesFromCSV extends Command
 
             $records = iterator_to_array($csv->getRecords());
             $totalRecords = count($records);
-            
+
             $this->info("Found {$totalRecords} records to import.");
 
             $progressBar = $this->output->createProgressBar($totalRecords);
@@ -64,8 +69,10 @@ class ImportPrayerTimesFromCSV extends Command
                     'date' => $date,
                     'location_code' => $record['zone'],
                     'hijri' => $record['tarikh_hijri'],
+                    'imsak' => $this->timestampToTimeString($record['imsak']),
                     'fajr' => $this->timestampToTimeString($record['fajar']),
                     'syuruk' => $this->timestampToTimeString($record['syuruk']),
+                    'dhuha' => $this->timestampToTimeString($record['dhuha']),
                     'dhuhr' => $this->timestampToTimeString($record['zohor']),
                     'asr' => $this->timestampToTimeString($record['asar']),
                     'maghrib' => $this->timestampToTimeString($record['maghrib']),
@@ -98,19 +105,26 @@ class ImportPrayerTimesFromCSV extends Command
         } catch (\Exception $e) {
             DB::rollBack();
             $this->newLine();
-            $this->error('Error importing prayer times: ' . $e->getMessage());
-            $this->error('Line: ' . $e->getLine());
-            
+            $this->error('Error importing prayer times: '.$e->getMessage());
+            $this->error('Line: '.$e->getLine());
+
             return Command::FAILURE;
         }
     }
 
-    private function timestampToTimeString($timestamp): ?string
+    private function timestampToTimeString(int $timestamp): ?string
     {
         if (empty($timestamp)) {
             return null;
         }
 
-        return Carbon::createFromTimestamp((int) $timestamp, 'Asia/Kuala_Lumpur')->format('H:i:s');
+        $time = Carbon::createFromTimestamp((int) $timestamp, 'Asia/Kuala_Lumpur')->format('H:i:s');
+
+        // Skip midnight times (00:00:00) as they may be invalid/default values from JAKIM API
+        if ($time === '00:00:00') {
+            return null;
+        }
+
+        return $time;
     }
 }

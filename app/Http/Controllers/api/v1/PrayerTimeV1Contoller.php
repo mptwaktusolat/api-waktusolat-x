@@ -4,7 +4,9 @@ namespace App\Http\Controllers\api\v1;
 
 use App\Http\Controllers\api\BaseQueryController;
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 /**
  * @group SOLAT V1
@@ -23,10 +25,10 @@ class PrayerTimeV1Contoller extends BaseQueryController
      *
      * @urlParam zone string required The JAKIM zone code. See all zones using `/api/zones` endpoint. Example: SGR01
      *
-     * @queryParam year int The year. Defaults to current year. Example: 2024
-     * @queryParam month int The month number. 1 => January, 2 => February etc. Defaults to current month. Example: 4
+     * @queryParam year int The year. Defaults to current year. Example: 2026
+     * @queryParam month int The month number. 1 => January, 2 => February etc. Defaults to current month. Example: 8
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function fetchMonth(string $zone, Request $request)
     {
@@ -64,10 +66,10 @@ class PrayerTimeV1Contoller extends BaseQueryController
      * @urlParam zone string required The JAKIM zone code. See all zones using `/api/zones` endpoint. Example: SGR01
      * @urlParam day int required Tne day of the month. Example: 1
      *
-     * @queryParam year int The year. Defaults to current year. Example: 2024
-     * @queryParam month int The month number. 1 => January, 2 => February etc. Defaults to current month. Example: 4
+     * @queryParam year int The year. Defaults to current year. Example: 2026
+     * @queryParam month int The month number. 1 => January, 2 => February etc. Defaults to current month. Example: 8
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function fetchDay(string $zone, int $day, Request $request)
     {
@@ -102,7 +104,7 @@ class PrayerTimeV1Contoller extends BaseQueryController
         return response()->json($data);
     }
 
-    private function mapPrayerTimes($prayerTimes)
+    private function mapPrayerTimes(Collection $prayerTimes)
     {
         return $prayerTimes->map(function ($prayerTime) {
             // Do processing to the Date & Time
@@ -111,8 +113,10 @@ class PrayerTimeV1Contoller extends BaseQueryController
                 'hijri' => $prayerTime->hijri,
                 'date' => Carbon::parse($prayerTime->date)->format('d-M-Y'),
                 'day' => Carbon::parse($prayerTime->date)->format('l'),
+                'imsak' => $this->formatTime($prayerTime->date, $prayerTime->imsak),
                 'fajr' => $this->formatTime($prayerTime->date, $prayerTime->fajr),
                 'syuruk' => $this->formatTime($prayerTime->date, $prayerTime->syuruk),
+                'dhuha' => $this->formatTime($prayerTime->date, $prayerTime->dhuha),
                 'dhuhr' => $this->formatTime($prayerTime->date, $prayerTime->dhuhr),
                 'asr' => $this->formatTime($prayerTime->date, $prayerTime->asr),
                 'maghrib' => $this->formatTime($prayerTime->date, $prayerTime->maghrib),
@@ -124,8 +128,13 @@ class PrayerTimeV1Contoller extends BaseQueryController
     /**
      * Format time like JAKIM's API (eg "06:06:00")
      */
-    private function formatTime(string $date, string $time): string
+    private function formatTime(string $date, ?string $time): ?string
     {
+        // Some dhuha times for older years are null
+        if ($time === null) {
+            return null;
+        }
+
         return Carbon::parse("$date $time", 'Asia/Kuala_Lumpur')->format('H:i:s');
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+use Tests\TestCase;
+
 /*
 |--------------------------------------------------------------------------
 | Test Case
@@ -11,7 +13,7 @@
 |
 */
 
-pest()->extend(Tests\TestCase::class)
+pest()->extend(TestCase::class)
     // We can't use SQLite in-memory database because require spatial extension
     // ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
     ->in('Feature');

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class PrayerTime extends Model
 {
     protected $fillable = [
-        'date', 'location_code', 'hijri',
+        'date', 'location_code', 'hijri', 'imsak', 'dhuha',
         'fajr', 'syuruk', 'dhuhr', 'asr', 'maghrib', 'isha',
     ];
 
@@ -17,7 +17,7 @@ class PrayerTime extends Model
      * @var array
      */
     protected $visible = [
-        'date', 'hijri', 'fajr', 'syuruk', 'dhuhr', 'asr', 'maghrib', 'isha',
+        'date', 'hijri', 'imsak', 'dhuha', 'fajr', 'syuruk', 'dhuhr', 'asr', 'maghrib', 'isha',
     ];
 
     /**
