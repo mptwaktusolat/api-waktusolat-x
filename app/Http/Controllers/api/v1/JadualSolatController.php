@@ -22,8 +22,8 @@ class JadualSolatController extends BaseQueryController
      *
      * @urlParam zone string required The JAKIM zone code. See all zones using `/api/zones` endpoint. Example: SGR01
      *
-     * @queryParam year int The year. Defaults to current year. Example: 2025
-     * @queryParam month int The month number. 1 => January, 2 => February etc. Defaults to current month. Example: 6
+     * @queryParam year int The year. Defaults to current year. Example: 2026
+     * @queryParam month int The month number. 1 => January, 2 => February etc. Defaults to current month. Example: 8
      *
      * @response <<binary>> The PDF file
      * @response status=404 scenario="Data not found" {"message": "No data found for zone: XXXXX for MMM/YYYY"}

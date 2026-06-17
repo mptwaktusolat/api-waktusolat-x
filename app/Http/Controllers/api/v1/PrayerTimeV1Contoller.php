@@ -25,8 +25,8 @@ class PrayerTimeV1Contoller extends BaseQueryController
      *
      * @urlParam zone string required The JAKIM zone code. See all zones using `/api/zones` endpoint. Example: SGR01
      *
-     * @queryParam year int The year. Defaults to current year. Example: 2024
-     * @queryParam month int The month number. 1 => January, 2 => February etc. Defaults to current month. Example: 4
+     * @queryParam year int The year. Defaults to current year. Example: 2026
+     * @queryParam month int The month number. 1 => January, 2 => February etc. Defaults to current month. Example: 8
      *
      * @return JsonResponse
      */
@@ -66,8 +66,8 @@ class PrayerTimeV1Contoller extends BaseQueryController
      * @urlParam zone string required The JAKIM zone code. See all zones using `/api/zones` endpoint. Example: SGR01
      * @urlParam day int required Tne day of the month. Example: 1
      *
-     * @queryParam year int The year. Defaults to current year. Example: 2024
-     * @queryParam month int The month number. 1 => January, 2 => February etc. Defaults to current month. Example: 4
+     * @queryParam year int The year. Defaults to current year. Example: 2026
+     * @queryParam month int The month number. 1 => January, 2 => February etc. Defaults to current month. Example: 8
      *
      * @return JsonResponse
      */
@@ -86,7 +86,7 @@ class PrayerTimeV1Contoller extends BaseQueryController
 
         $prayerTimes = $this->queryPrayerTime($zone, $year, $month);
         $mappedPrayerTimes = $this->mapPrayerTimes($prayerTimes);
-        if (! isset($mappedPrayerTimes[$day - 1])) {
+        if (!isset($mappedPrayerTimes[$day - 1])) {
             return response()->json(['error' => 'Invalid day provided.'], 400);
         }
         $prayerTimes = $mappedPrayerTimes[$day - 1];
