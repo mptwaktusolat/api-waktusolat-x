@@ -3,14 +3,15 @@
 namespace App\View\Components;
 
 use App\Models\PrayerTime;
+use Carbon\Carbon;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
-use Carbon\Carbon;
 
 class MonthAvailabilityCard extends Component
 {
     public bool $isAvailable;
+
     public string $monthName;
 
     /**

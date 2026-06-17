@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Http;
 class ZonePolygonSeeder extends Seeder
 {
     private const BATCH_SIZE = 50;
+
     private const HTTP_TIMEOUT = 120; // seconds
 
     /**
@@ -27,12 +28,14 @@ class ZonePolygonSeeder extends Seeder
         $geojson = json_decode($geojsonContent, true);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
-            $this->command->error("Invalid JSON data: " . json_last_error_msg());
+            $this->command->error('Invalid JSON data: '.json_last_error_msg());
+
             return;
         }
 
         if (!isset($geojson['features']) || !is_array($geojson['features'])) {
             $this->command->error("Invalid GeoJSON structure: missing or invalid 'features' array");
+
             return;
         }
 
@@ -51,16 +54,18 @@ class ZonePolygonSeeder extends Seeder
                 $content = $response->body();
                 $hash = hash('sha256', $content);
 
-                $this->command->info("GeoJSON fetched successfully!");
+                $this->command->info('GeoJSON fetched successfully!');
                 $this->command->info("File hash (SHA256): {$hash}");
 
                 return $content;
             } else {
                 $this->command->error("Failed to fetch GeoJSON data. HTTP Status: {$response->status()}");
+
                 return null;
             }
         } catch (\Exception $e) {
             $this->command->error("Error fetching GeoJSON data: {$e->getMessage()}");
+
             return null;
         }
     }
@@ -118,24 +123,26 @@ class ZonePolygonSeeder extends Seeder
 
         // Validate required data
         if (!$geometry || !isset($geometry['type']) || !isset($geometry['coordinates'])) {
-            $this->command->warn("Skipping feature with invalid geometry: " . ($feature['id'] ?? 'unknown'));
+            $this->command->warn('Skipping feature with invalid geometry: '.($feature['id'] ?? 'unknown'));
+
             return null;
         }
 
         // Validate geometry JSON
         $geometryJson = json_encode($geometry);
         if (json_last_error() !== JSON_ERROR_NONE) {
-            $this->command->warn("Skipping feature with invalid geometry JSON: " . ($feature['id'] ?? 'unknown'));
+            $this->command->warn('Skipping feature with invalid geometry JSON: '.($feature['id'] ?? 'unknown'));
+
             return null;
         }
 
         return [
-            'string_id'   => $feature['id'] ?? null,
-            'name'        => $properties['name'] ?? null,
-            'code_state'  => $properties['code_state'] ?? null,
-            'state'       => $properties['state'] ?? null,
-            'jakim_code'  => $properties['jakim_code'] ?? null,
-            'polygon'     => DB::raw("ST_GeomFromGeoJSON('{$geometryJson}')"),
+            'string_id' => $feature['id'] ?? null,
+            'name' => $properties['name'] ?? null,
+            'code_state' => $properties['code_state'] ?? null,
+            'state' => $properties['state'] ?? null,
+            'jakim_code' => $properties['jakim_code'] ?? null,
+            'polygon' => DB::raw("ST_GeomFromGeoJSON('{$geometryJson}')"),
         ];
     }
 
@@ -144,14 +151,14 @@ class ZonePolygonSeeder extends Seeder
         try {
             DB::table('zone_polygons')->insert($batch);
         } catch (\Exception $e) {
-            $this->command->error("Error inserting batch: " . $e->getMessage());
+            $this->command->error('Error inserting batch: '.$e->getMessage());
 
             // Fallback: try inserting records one by one to identify problematic records
             foreach ($batch as $record) {
                 try {
                     DB::table('zone_polygons')->insert($record);
                 } catch (\Exception $individualError) {
-                    $this->command->warn("Failed to insert record: " . ($record['string_id'] ?? 'unknown') . " - " . $individualError->getMessage());
+                    $this->command->warn('Failed to insert record: '.($record['string_id'] ?? 'unknown').' - '.$individualError->getMessage());
                 }
             }
         }

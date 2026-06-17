@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Models\PrayerTime;
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class BaseQueryController extends Controller
@@ -12,7 +13,7 @@ class BaseQueryController extends Controller
     /**
      * Query Prayer Time from the database
      *
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
     public function queryPrayerTime(string $zone, int $year, int $month)
     {

@@ -39,7 +39,7 @@ class DownloadJakimZones extends Command
                 return 1;
             }
 
-            if (! file_exists(dirname($destinationPath))) {
+            if (!file_exists(dirname($destinationPath))) {
                 mkdir(dirname($destinationPath), 0755, true);
             }
 

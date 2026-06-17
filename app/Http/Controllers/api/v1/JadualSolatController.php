@@ -7,6 +7,7 @@ use App\Models\PrayerZone;
 use Carbon\Carbon;
 use Dompdf\Dompdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 /**
  * @group JADUAL SOLAT
@@ -64,7 +65,7 @@ class JadualSolatController extends BaseQueryController
 
         $view = view('jadual_solat.jadual_solat', compact('zoneDetails', 'title', 'month', 'year', 'orientation', 'prayerTimes'));
 
-        $dompdf = new Dompdf();
+        $dompdf = new Dompdf;
         $dompdf->setPaper('A4', $orientation);
 
         // Set smaller margins using Dompdf options
@@ -77,7 +78,7 @@ class JadualSolatController extends BaseQueryController
         $dompdf->render();
 
         // The MyCors middleware wouldn't work in this route, so we're adding it manually here.
-        header("Access-Control-Allow-Origin: *");
+        header('Access-Control-Allow-Origin: *');
         $dompdf->stream('jadual_solat.pdf', ['Attachment' => false]);
     }
 
@@ -92,10 +93,9 @@ class JadualSolatController extends BaseQueryController
     /**
      * Map prayer times to the given format
      *
-     * @param \Illuminate\Support\Collection $prayerTimes
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
-    private function mapPrayerTimes(\Illuminate\Support\Collection $prayerTimes, string $timeFormat = 'H:i')
+    private function mapPrayerTimes(Collection $prayerTimes, string $timeFormat = 'H:i')
     {
         return $prayerTimes->map(function ($prayerTime) use ($timeFormat) {
             // Do processing to the Date & Time

@@ -147,12 +147,12 @@ class PrayerTimeSeeder extends Seeder
         }
 
         $time = Carbon::createFromTimestamp($timestamp, 'Asia/Kuala_Lumpur')->format('H:i:s');
-        
+
         // Skip midnight times (00:00:00) as they may be invalid/default values from JAKIM API
         if ($time === '00:00:00') {
             return null;
         }
-        
+
         return $time;
     }
 }
