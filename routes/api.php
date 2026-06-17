@@ -12,7 +12,9 @@ Route::middleware('cache.headers:public;max_age=3600;etag')->group(function () {
     Route::get('/v2/solat/gps/{lat}/{long}', [PrayerTimeController::class, 'fetchMonthLocationByGps'])->name('v2.solat.month_with_gps');
 
     Route::get('/solat/{zone}', [PrayerTimeV1Contoller::class, 'fetchMonth'])->name('v1.solat.month');
-    Route::get('/solat/{zone}/{day}', [PrayerTimeV1Contoller::class, 'fetchDay'])->name('v1.solat.day');
+    Route::get('/solat/{zone}/{day}', [PrayerTimeV1Contoller::class, 'fetchDay'])
+        ->name('v1.solat.day')
+        ->whereNumber('day');
 
     Route::prefix('zones')->group(function () {
         Route::get('/', [ZonesController::class, 'index'])->name('zones.index');
@@ -24,5 +26,5 @@ Route::middleware('cache.headers:public;max_age=3600;etag')->group(function () {
 });
 
 Route::fallback(function () {
-    return response()->json(['message' => 'No route matched. Please see the API documentation at ' . url('/docs')], 404);
+    return response()->json(['message' => 'No route matched. Please see the API documentation at '.url('/docs')], 404);
 });

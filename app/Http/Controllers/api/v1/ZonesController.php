@@ -5,6 +5,8 @@ namespace App\Http\Controllers\api\v1;
 use App\Http\Controllers\api\BaseQueryController;
 use App\Models\PrayerZone;
 use Exception;
+use Illuminate\Database\QueryException;
+use Illuminate\Http\JsonResponse;
 
 /**
  * @group ZONES
@@ -18,7 +20,7 @@ class ZonesController extends BaseQueryController
      *
      * Return all zones information based on JAKIM Zones. See zones visually at https://peta.waktusolat.app/
      *
-     * @return mixed|\Illuminate\Http\JsonResponse
+     * @return mixed|JsonResponse
      */
     public function index()
     {
@@ -51,7 +53,7 @@ class ZonesController extends BaseQueryController
      * @urlParam lat number required The latitude coordinate. Example: 3.068498
      * @urlParam long number required The longitude coordinate. Example: 101.630263
      *
-     * @return mixed|\Illuminate\Http\JsonResponse
+     * @return mixed|JsonResponse
      */
     public function getZoneFromCoordinate(float $lat, float $lng)
     {
@@ -59,6 +61,10 @@ class ZonesController extends BaseQueryController
             $zoneObject = $this->detectZoneFromCoordinate($lat, $lng);
 
             return response()->json($zoneObject);
+        } catch (QueryException $e) {
+            $message = $e->errorInfo[2] ?? $e->getMessage();
+
+            return response()->json(['error' => $message], 500);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }

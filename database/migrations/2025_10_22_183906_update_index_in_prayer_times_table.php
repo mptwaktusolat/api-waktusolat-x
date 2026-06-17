@@ -8,9 +8,9 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     * 
+     *
      * This migration optimizes the prayer_times table index to match the actual query pattern.
-     * The original index ['date', 'location_code'] was not optimal for queries that filter 
+     * The original index ['date', 'location_code'] was not optimal for queries that filter
      * by location_code first.
      */
     public function up(): void

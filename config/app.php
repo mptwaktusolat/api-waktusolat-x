@@ -30,20 +30,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Force HTTPS Scheme
-    |--------------------------------------------------------------------------
-    |
-    | When enabled, this will force all generated URLs (including asset URLs,
-    | route URLs, and redirects) to use the HTTPS scheme. This is useful when
-    | your application is behind a reverse proxy or load balancer that handles
-    | SSL termination, preventing mixed content issues etc..
-    |
-    */
-
-    'force_https' => env('FORCE_HTTPS', false),
-
-    /*
-    |--------------------------------------------------------------------------
     | API Rate Limit Per Minute
     |--------------------------------------------------------------------------
     |

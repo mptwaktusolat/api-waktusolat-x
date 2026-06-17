@@ -3,10 +3,10 @@
 namespace App\Console\Commands\Resource;
 
 use App\Models\PrayerZone;
-use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Http;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Http;
 use League\Csv\Writer;
 
 class FetchWaktuSolatFromSource extends Command
@@ -46,6 +46,7 @@ class FetchWaktuSolatFromSource extends Command
         // Validate year argument
         if (!$year || !is_numeric($year)) {
             $this->error('Year argument is required and must be numeric.');
+
             return Command::FAILURE;
         }
 
@@ -54,6 +55,7 @@ class FetchWaktuSolatFromSource extends Command
         // Validate year range
         if ($year < 2000 || $year > 2100) {
             $this->error('Year must be between 2000 and 2100.');
+
             return Command::FAILURE;
         }
 
@@ -70,6 +72,7 @@ class FetchWaktuSolatFromSource extends Command
 
         if ($zones->isEmpty()) {
             $this->error('No prayer zones found in database.');
+
             return Command::FAILURE;
         }
 
@@ -94,7 +97,7 @@ class FetchWaktuSolatFromSource extends Command
                 $this->info("✓ Successfully fetched {$zoneCode} ({$zone->negeri} - {$zone->daerah})");
             } else {
                 $this->newLine();
-                $this->warn("✗ Failed to fetch {$zoneCode} after " . self::MAX_RETRIES . " retries");
+                $this->warn("✗ Failed to fetch {$zoneCode} after ".self::MAX_RETRIES.' retries');
             }
 
             $progressBar->advance();
@@ -112,10 +115,12 @@ class FetchWaktuSolatFromSource extends Command
         if (!empty($allData)) {
             $outputPath = $this->writeToCSV($allData, $year);
             $this->info("Data successfully written to: {$outputPath}");
-            $this->info("Total records: " . count($allData));
+            $this->info('Total records: '.count($allData));
+
             return Command::SUCCESS;
         } else {
             $this->error('No data was fetched.');
+
             return Command::FAILURE;
         }
     }
@@ -131,7 +136,7 @@ class FetchWaktuSolatFromSource extends Command
             try {
                 $response = Http::asForm()
                     ->timeout(30)
-                    ->post(self::API_URL . "&zone={$zoneCode}", [
+                    ->post(self::API_URL."&zone={$zoneCode}", [
                         'datestart' => $dateStart,
                         'dateend' => $dateEnd,
                     ]);
@@ -150,7 +155,7 @@ class FetchWaktuSolatFromSource extends Command
                     sleep(self::RETRY_DELAY);
                 }
             } catch (Exception $e) {
-                $this->error("Error fetching {$zoneCode}: " . $e->getMessage());
+                $this->error("Error fetching {$zoneCode}: ".$e->getMessage());
                 $attempt++;
 
                 if ($attempt < self::MAX_RETRIES) {
@@ -172,12 +177,14 @@ class FetchWaktuSolatFromSource extends Command
 
         foreach ($prayerData as $prayer) {
             // Parse the date (format: "01-Jan-2026")
-            $date = Carbon::createFromFormat('d-M-Y', $prayer['date']);
+            $date = Carbon::createFromFormat('d-M-Y', $prayer['date'], timezone: 'Asia/Kuala_Lumpur');
             $month = $date->format('m');
 
             // Convert times to Unix timestamps
+            $imsak = $this->timeToTimestamp($date, $prayer['imsak']);
             $fajar = $this->timeToTimestamp($date, $prayer['fajr']);
             $syuruk = $this->timeToTimestamp($date, $prayer['syuruk']);
+            $dhuha = $this->timeToTimestamp($date, $prayer['dhuha']);
             $zohor = $this->timeToTimestamp($date, $prayer['dhuhr']);
             $asar = $this->timeToTimestamp($date, $prayer['asr']);
             $maghrib = $this->timeToTimestamp($date, $prayer['maghrib']);
@@ -188,8 +195,10 @@ class FetchWaktuSolatFromSource extends Command
                 'year' => $year,
                 'month' => $month,
                 'tarikh_hijri' => $prayer['hijri'],
+                'imsak' => $imsak,
                 'fajar' => $fajar,
                 'syuruk' => $syuruk,
+                'dhuha' => $dhuha,
                 'zohor' => $zohor,
                 'asar' => $asar,
                 'maghrib' => $maghrib,
@@ -228,7 +237,7 @@ class FetchWaktuSolatFromSource extends Command
         $csv = Writer::from($outputPath, 'w');
 
         // Write header
-        $headers = ['zone', 'year', 'month', 'tarikh_hijri', 'fajar', 'syuruk', 'zohor', 'asar', 'maghrib', 'isyak', 'updated_date', 'created_date'];
+        $headers = ['zone', 'year', 'month', 'tarikh_hijri', 'imsak', 'fajar', 'syuruk', 'dhuha', 'zohor', 'asar', 'maghrib', 'isyak', 'updated_date', 'created_date'];
         $csv->insertOne($headers);
 
         // Write data rows

@@ -1,0 +1,5 @@
+// Default image. Useful to play around with Docker features etc.
+{
+	"name": "Default Linux Universal",
+	"image": "mcr.microsoft.com/devcontainers/universal:2-linux"
+}

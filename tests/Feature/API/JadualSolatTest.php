@@ -3,7 +3,7 @@
 describe('Jadual Solat PDF', function () {
     // Note: PDF tests verify successful generation (200 status) without exceptions
     // Actual PDF content testing is skipped as dompdf->stream() outputs directly
-    
+
     test('generates PDF for month with default params', function () {
         $response = $this->get('/jadual_solat/sgr01');
         $response->assertStatus(200);

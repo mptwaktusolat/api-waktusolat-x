@@ -29,11 +29,41 @@
     <meta property="twitter:image" content="{{ asset('images/metaimage.png') }}" />
 
     <!-- Analytics -->
-    <script defer src="https://umami.iqfareez.com/script.js" data-website-id="11df7d3a-fb7e-4bbd-aacb-222515ea7b32"></script>
+    <script defer src="https://umami.iqfareez.com/analitik.js" data-website-id="d4373d39-35fb-4995-b5e5-931b510181cd">
+    </script>
+
+    <!-- favicons -->
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Waktu Solat API" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    {{-- Prevent FOUC (Flash of Unstyled Content) when load. --}}
+    <script>
+        // use 'colorMode' key to match the key used in scalar swagger page.
+        const t = localStorage.getItem('colorMode');
+        if (t === 'light') {
+            document.documentElement.setAttribute('data-theme', 'light');
+        } else if (t === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'black');
+        } else {
+            // System: detect from OS preference
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.documentElement.setAttribute('data-theme', 'black');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+        }
+    </script>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-@yield('body')
+<body class="bg-base-100 min-h-screen flex flex-col antialiased">
+    <x-nav-header />
+    @yield('content')
+</body>
 
 </html>

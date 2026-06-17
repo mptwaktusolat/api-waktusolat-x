@@ -1,31 +1,37 @@
 services:
   app:
-    build:
-      context: .
-      dockerfile: .docker/production/Dockerfile
-    ports:
-      - "8080:8080"
-      - "8443:8443"
+    image: ghcr.io/mptwaktusolat/api-waktusolat-x:main
+    restart: unless-stopped
     environment:
+      # Enable opcache in production
       - PHP_OPCACHE_ENABLE=1
-      - APP_KEY=${APP_KEY:?APP_KEY must be set}
-      - APP_URL=${APP_URL}
-      - APP_ENV=${APP_ENV}
-      - APP_DEBUG=${APP_DEBUG}
-      - DB_CONNECTION=mysql
-      - DB_HOST=db
-      - DB_PORT=3306
-      - DB_DATABASE=waktusolat
-      - DB_USERNAME=root
-      - DB_PASSWORD=
+      # Reverse proxy settings
+      - ENABLE_TRUSTED_PROXY_CONFIG=true
+      - TRUSTED_PROXIES=*
+    env_file:
+      - stack.env
     depends_on:
       - db
+    networks:
+      - default
+      - reverse_proxy
+
   db:
-    image: mysql:8.0
+    image: mysql:8.4
+    restart: unless-stopped
     environment:
+      MYSQL_DATABASE: waktusolat
       MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
     volumes:
       - db_data:/var/lib/mysql
+    networks:
+      - default
 
 volumes:
   db_data:
+
+networks:
+  default:
+  reverse_proxy:
+    name: proxy
+    external: true

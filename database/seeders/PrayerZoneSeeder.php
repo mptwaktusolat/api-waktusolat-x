@@ -18,7 +18,7 @@ class PrayerZoneSeeder extends Seeder
         // Path to the JSON file
         $jsonPath = resource_path('json/locations.json');
 
-        if (! file_exists($jsonPath)) {
+        if (!file_exists($jsonPath)) {
             $this->command->error('JSON file not found: '.$jsonPath);
 
             return;

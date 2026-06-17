@@ -17,23 +17,25 @@ class PrayerTimeSeeder extends Seeder
      */
     public function run()
     {
-        # Increase memory limit for this script.
-        ini_set('memory_limit','256M');
+        // Increase memory limit for this script.
+        ini_set('memory_limit', '256M');
         $this->command->info('Seeding prayer times from CSV...');
 
         // Paths to the prayer times CSV files
         $csvPaths = [
-            // Source of Dump-output-2023-2025.csv: https://github.com/mptwaktusolat/firestore_exporter
-            resource_path('csv/Dump-output-2023-2025.csv'),
+            // Source of Dump-output-2023-2024.csv: https://github.com/mptwaktusolat/firestore_exporter
+            resource_path('csv/Dump-output-2023-2024.csv'),
             // Add new CSV files for each year below. Read more on docs/update-data-from-esolat/README.md
+            resource_path('csv/Dump-output-2025.csv'),
             resource_path('csv/Dump-output-2026.csv'),
         ];
 
         $totalProcessed = 0;
 
         foreach ($csvPaths as $csvPath) {
-            if (! file_exists($csvPath)) {
+            if (!file_exists($csvPath)) {
                 $this->command->warn("CSV file not found, skipping: $csvPath");
+
                 continue;
             }
 
@@ -48,7 +50,6 @@ class PrayerTimeSeeder extends Seeder
     /**
      * Process a single CSV file
      *
-     * @param string $csvPath
      * @return int Number of records processed
      */
     private function processCsvFile(string $csvPath)
@@ -72,9 +73,14 @@ class PrayerTimeSeeder extends Seeder
                 $hijriDate = $record['tarikh_hijri'];
                 $locationCode = $record['zone'];
 
+                $imsakTimestamp = !empty($record['imsak']) ? (int) $record['imsak'] : ((int) $record['fajar'] - 600); // Imsak is 10 minutes before Fajr
+                $dhuhaTimestamp = !empty($record['dhuha']) ? (int) $record['dhuha'] : null;
+
                 // Convert Unix timestamps to time format
+                $imsak = $this->timestampToTimeString($imsakTimestamp);
                 $fajr = $this->timestampToTimeString($record['fajar']);
                 $syuruk = $this->timestampToTimeString($record['syuruk']);
+                $dhuha = $dhuhaTimestamp !== null ? $this->timestampToTimeString($dhuhaTimestamp) : null;
                 $dhuhr = $this->timestampToTimeString($record['zohor']);
                 $asr = $this->timestampToTimeString($record['asar']);
                 $maghrib = $this->timestampToTimeString($record['maghrib']);
@@ -84,8 +90,10 @@ class PrayerTimeSeeder extends Seeder
                     'date' => $date,
                     'location_code' => $locationCode,
                     'hijri' => $hijriDate,
+                    'imsak' => $imsak,
                     'fajr' => $fajr,
                     'syuruk' => $syuruk,
+                    'dhuha' => $dhuha,
                     'dhuhr' => $dhuhr,
                     'asr' => $asr,
                     'maghrib' => $maghrib,
@@ -105,7 +113,7 @@ class PrayerTimeSeeder extends Seeder
             }
 
             // Insert any remaining records in the batch
-            if (! empty($batch)) {
+            if (!empty($batch)) {
                 DB::table('prayer_times')->insert($batch);
             }
 
@@ -116,7 +124,7 @@ class PrayerTimeSeeder extends Seeder
             DB::rollBack();
 
             $this->command->error('Error seeding prayer times.');
-            
+
             $errorCode = $e->getCode();
             if ($errorCode == 23000) {
                 $this->command->warn("Error code {$errorCode} indicates duplicate key violation. Existing records may already be present.");
@@ -130,7 +138,6 @@ class PrayerTimeSeeder extends Seeder
     /**
      * Convert Unix timestamp to time string (H:i:s format)
      *
-     * @param int $timestamp
      * @return string|null The Time string. Example "05:30:00"
      */
     private function timestampToTimeString(int $timestamp): ?string
@@ -139,6 +146,13 @@ class PrayerTimeSeeder extends Seeder
             return null;
         }
 
-        return Carbon::createFromTimestamp($timestamp, 'Asia/Kuala_Lumpur')->format('H:i:s');
+        $time = Carbon::createFromTimestamp($timestamp, 'Asia/Kuala_Lumpur')->format('H:i:s');
+
+        // Skip midnight times (00:00:00) as they may be invalid/default values from JAKIM API
+        if ($time === '00:00:00') {
+            return null;
+        }
+
+        return $time;
     }
 }
