@@ -18,6 +18,7 @@ html {
     /* Windows Phone Metro tile colors */
     --color-tile-blue: oklch(51% 0.20 246);
     --color-tile-green: oklch(57% 0.18 141);
+    --color-tile-yellow: oklch(82% 0.18 89);
     --color-tile-orange: oklch(53% 0.21 41);
 
     /* No border radius - Metro flat style */
