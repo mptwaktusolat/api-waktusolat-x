@@ -79,8 +79,6 @@ class FetchWaktuSolatFromSource extends Command
         $this->info("Found {$zones->count()} zones to fetch.");
 
         $allData = [];
-        $progressBar = $this->output->createProgressBar($zones->count());
-        $progressBar->start();
 
         foreach ($zones as $zone) {
             $zoneCode = $zone->jakim_code;
@@ -88,28 +86,25 @@ class FetchWaktuSolatFromSource extends Command
             // Fetch data for this zone with retry mechanism
             $prayerData = $this->fetchPrayerTimeDataForZone($zoneCode, $dateStart, $dateEnd);
 
-            if ($prayerData) {
+            if ($prayerData === null) {
+                $this->newLine();
+                $this->warn("✗ Failed to fetch {$zoneCode} after ".self::MAX_RETRIES.' retries');
+            } elseif ($prayerData === false) {
+                $this->newLine();
+            } else {
                 // Process and store data
                 $processedData = $this->processZoneData($prayerData, $zoneCode, $year);
                 $allData = array_merge($allData, $processedData);
 
                 $this->newLine();
                 $this->info("✓ Successfully fetched {$zoneCode} ({$zone->negeri} - {$zone->daerah})");
-            } else {
-                $this->newLine();
-                $this->warn("✗ Failed to fetch {$zoneCode} after ".self::MAX_RETRIES.' retries');
             }
-
-            $progressBar->advance();
 
             // Add delay between requests (except for the last one)
             if (!$zone->is($zones->last())) {
                 usleep((int) (self::DELAY_SECONDS * 1000000));
             }
         }
-
-        $progressBar->finish();
-        $this->newLine();
 
         // Write to CSV file
         if (!empty($allData)) {
@@ -128,7 +123,7 @@ class FetchWaktuSolatFromSource extends Command
     /**
      * Fetch prayer time data for a specific zone
      */
-    private function fetchPrayerTimeDataForZone(string $zoneCode, string $dateStart, string $dateEnd): ?array
+    private function fetchPrayerTimeDataForZone(string $zoneCode, string $dateStart, string $dateEnd): array|false|null
     {
         $attempt = 0;
 
@@ -144,9 +139,13 @@ class FetchWaktuSolatFromSource extends Command
                 if ($response->successful()) {
                     $data = $response->json();
 
-                    if (isset($data['prayerTime']) && is_array($data['prayerTime'])) {
-                        return $data['prayerTime'];
+                    if (($data['status'] ?? null) === 'NO_RECORD!') {
+                        $this->warn("! No prayer time data available for {$zoneCode}; skipping zone.");
+
+                        return false;
                     }
+
+                    return $data['prayerTime'];
                 }
 
                 $attempt++;
@@ -177,7 +176,11 @@ class FetchWaktuSolatFromSource extends Command
 
         foreach ($prayerData as $prayer) {
             // Parse the date (format: "01-Jan-2026")
-            $date = Carbon::createFromFormat('d-M-Y', $prayer['date'], timezone: 'Asia/Kuala_Lumpur');
+            // By default, when fetching from API without a cookie, it will send the time data in Malay locale.
+            // Changing the date locale to english can be only done in Webite. It will set cookie _lang=en_uk so the response
+            // will be in english locale.
+            // Example difference: en (Mar), ms (Mac) etc.
+            $date = Carbon::createFromLocaleFormat('d-M-Y', 'ms', $prayer['date'], timezone: 'Asia/Kuala_Lumpur');
             $month = $date->format('m');
 
             // Convert times to Unix timestamps
