@@ -37,7 +37,8 @@
                     </div>
                     <div>
                         <h3 class="text-lg font-semibold text-base-content mb-2">Fast &amp; Free</h3>
-                        <p class="text-base-content/60 text-sm">No cost, ready for public use</p>
+                        <p class="text-base-content/60 text-sm">No charges. Happily served more than 1.4 million
+                            requests/week</p>
                     </div>
                 </div>
 
