@@ -1,4 +1,4 @@
-![Laravel](https://img.shields.io/badge/laravel-12-%23FF2D20.svg?style=for-the-badge&logo=laravel&logoColor=white)
+![Laravel](https://img.shields.io/badge/laravel-13-%23FF2D20.svg?style=for-the-badge&logo=laravel&logoColor=white)
 
 <img width="1920" height="540" alt="GitHub API Server Readme Banner" src="https://github.com/user-attachments/assets/4605bb5f-d8b7-41be-8552-b6bb773eb086" />
 
