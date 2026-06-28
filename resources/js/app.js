@@ -1,5 +1,3 @@
-import './bootstrap';
-
 // Theme management functions.
 const CYCLE = ['system', 'light', 'dark'];
 let systemListener = null;
