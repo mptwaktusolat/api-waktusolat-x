@@ -32,10 +32,10 @@ return [
             ],
 
             // Include these routes even if they did not match the rules above.
-            // Because the api roite doesn't start with "api", so the prefixes value about is somewhat useless. Hence,
+            // Because the api route doesn't start with "api", so the prefixes value about is somewhat useless. Hence,
             // we need to declare manually in here which route that scribe will looks for when generating API docs.
             'include' => [
-                'zones', 'zones/*', 'v2/*', 'solat', 'solat/*', 'jadual_solat', 'jadual_solat/*',
+                'zones', 'zones/*', 'v2/*', 'solat', 'solat/*', 'jadual_solat', 'jadual_solat/*', 'chrono',
             ],
 
             // Exclude these routes even if they matched the rules above.

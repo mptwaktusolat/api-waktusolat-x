@@ -1,10 +1,10 @@
 <?php
 
+use App\Http\Controllers\api\v1\ChronoController;
 use App\Http\Controllers\api\v1\JadualSolatController;
 use App\Http\Controllers\api\v1\PrayerTimeV1Contoller;
 use App\Http\Controllers\api\v1\ZonesController;
 use App\Http\Controllers\api\v2\PrayerTimeController;
-use Illuminate\Support\Facades\Route;
 
 Route::middleware('cache.headers:public;max_age=3600;etag')->group(function () {
     Route::get('/v2/solat/{zone}', [PrayerTimeController::class, 'fetchMonth'])->name('v2.solat.month');
@@ -24,6 +24,8 @@ Route::middleware('cache.headers:public;max_age=3600;etag')->group(function () {
 
     Route::get('/jadual_solat/{zone}', [JadualSolatController::class, 'fetchMonth'])->name('jadual_solat.index');
 });
+
+Route::get('/chrono', [ChronoController::class, 'index'])->name('v1.chrono');
 
 Route::fallback(function () {
     return response()->json(['message' => 'No route matched. Please see the API documentation at '.url('/docs')], 404);
