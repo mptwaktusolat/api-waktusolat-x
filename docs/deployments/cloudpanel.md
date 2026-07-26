@@ -399,7 +399,34 @@ For more information about Telescope, refer to:
 
 - https://laravel.com/docs/12.x/telescope
 
-### 5.3. Finalize Environment Settings
+### 5.3. Varnish Cache (Optional)
+
+CloudPanel appears to have a bug where the user-defined "Excludes" list in the site's [Varnish Cache](https://www.cloudpanel.io/docs/v2/frontend-area/varnish-cache/introduction/) settings is never actually applied for Laravel apps.
+
+This is probably fine for most endpoints, but the `/chrono` endpoint needs to return live data. If you enable Varnish Cache, `/chrono` gets cached and returns a stale server time, even after you add `^/chrono` to the Excludes list. The workaround is to add the bypass to the VCL yourself.
+
+SSH in and edit the VCL:
+
+```bash
+sudo nano /etc/varnish/default.vcl
+```
+
+Inside `sub vcl_recv`, find the path bypass and append `^/chrono`:
+
+```vcl
+if (req.url ~ "^/admin/" || req.url ~ "/paypal/" || req.url ~ "^/chrono") {
+    return (pass);
+}
+```
+
+Then check the syntax and reload:
+
+```bash
+sudo varnishd -C -f /etc/varnish/default.vcl > /dev/null && echo "syntax OK"
+sudo systemctl reload varnish
+```
+
+### 5.4. Finalize Environment Settings
 
 If the application is ready, you can turn off the debug mode, and set the environment to `production` in the environment file:
 
