@@ -14,6 +14,10 @@ return [
     */
 
     'sets' => [
+        'ionicons' => [
+            'path' => 'resources/icons/ionicons.designerpack',
+            'prefix' => 'ionicon',
+        ],
 
         // 'default' => [
         //
