@@ -1,4 +1,12 @@
-FROM node:22-alpine AS frontend
+FROM serversideup/php:8.4-cli-alpine AS vendor
+
+WORKDIR /app
+
+COPY composer.json composer.lock ./
+
+RUN composer install --no-dev --no-interaction --optimize-autoloader --prefer-dist
+
+FROM node:24-alpine AS frontend
 
 WORKDIR /app
 
@@ -12,14 +20,6 @@ COPY public ./public
 
 # Build frontend assets
 RUN npm run build
-
-FROM serversideup/php:8.4-cli-alpine AS vendor
-
-WORKDIR /app
-
-COPY composer.json composer.lock ./
-
-RUN composer install --no-dev --no-interaction --optimize-autoloader --prefer-dist
 
 FROM serversideup/php:8.4-fpm-nginx-alpine AS final
 
@@ -41,3 +41,12 @@ RUN chown -R www-data:www-data storage bootstrap/cache && \
     chmod -R 775 storage bootstrap/cache
 
 USER www-data
+
+ARG APP_COMMITSHA=local
+ARG APP_REFNAME=local
+ARG APP_RELEASETAG=
+ARG APP_REPOSITORYURL=
+ENV APP_COMMITSHA=$APP_COMMITSHA \
+    APP_REFNAME=$APP_REFNAME \
+    APP_RELEASETAG=$APP_RELEASETAG \
+    APP_REPOSITORYURL=$APP_REPOSITORYURL
