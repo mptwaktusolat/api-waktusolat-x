@@ -9,11 +9,10 @@
     },
     "devDependencies": {
         "@tailwindcss/vite": "^4.2.4",
-        "axios": "^1.8.2",
         "concurrently": "^9.0.1",
         "daisyui": "^5.5.19",
-        "laravel-vite-plugin": "^2.0.0",
+        "laravel-vite-plugin": "^3.1",
         "tailwindcss": "^4.2.4",
-        "vite": "^7.0.4"
+        "vite": "^8.0.0"
     }
 }

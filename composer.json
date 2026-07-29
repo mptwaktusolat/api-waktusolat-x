@@ -1,38 +1,37 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "laravel/laravel",
+    "name": "mptwaktusolat/api-waktusolat-x",
     "type": "project",
     "description": "The skeleton application for the Laravel framework.",
     "keywords": [
-        "laravel",
-        "framework"
+        "waktu-solat-api",
+        "waktu-solat-malaysia"
     ],
     "license": "MIT",
     "require": {
-        "php": "^8.2",
-        "blade-ui-kit/blade-icons": "^1.8",
-        "dompdf/dompdf": "^3.1",
-        "faisal50x/blade-ionicons": "^1.1",
-        "knuckleswtf/scribe": "^5.1",
-        "laravel/framework": "^12.0",
-        "laravel/nightwatch": "^1.12",
-        "laravel/telescope": "^5.7",
-        "laravel/tinker": "^2.10.1",
-        "league/csv": "^9.23",
-        "livewire/livewire": "^4.3",
-        "predis/predis": "^3.2",
-        "robsontenorio/mary": "^2.8"
+        "php": "^8.3",
+        "blade-ui-kit/blade-icons": "^1.10.1",
+        "dompdf/dompdf": "^3.1.6",
+        "knuckleswtf/scribe": "^5.11",
+        "laravel/framework": "^13.23",
+        "laravel/nightwatch": "^1.28.5",
+        "laravel/telescope": "^5.21",
+        "laravel/tinker": "^3.0.2",
+        "league/csv": "^9.28",
+        "livewire/livewire": "^4.3.3",
+        "predis/predis": "^3.5.1",
+        "robsontenorio/mary": "^2.9.7"
     },
     "require-dev": {
-        "fakerphp/faker": "^1.24",
-        "laradumps/laradumps": "4.0",
-        "laravel/pail": "^1.2.2",
-        "laravel/pint": "^1.13",
-        "laravel/sail": "^1.41",
-        "mockery/mockery": "^1.6",
-        "nunomaduro/collision": "^8.6",
-        "pestphp/pest": "^3.8",
-        "pestphp/pest-plugin-laravel": "^3.2"
+        "fakerphp/faker": "^1.24.1",
+        "laradumps/laradumps": "5.3",
+        "laravel/pail": "^1.2.7",
+        "laravel/pint": "^1.29.3",
+        "laravel/sail": "^1.64",
+        "mockery/mockery": "^1.6.12",
+        "nunomaduro/collision": "^8.9.5",
+        "pestphp/pest": "^4.7.5",
+        "pestphp/pest-plugin-laravel": "^4.1"
     },
     "autoload": {
         "psr-4": {
@@ -74,11 +73,11 @@
             "php artisan migrate",
             "php artisan db:seed",
             "php artisan scribe:generate",
-            "npm install",
+            "npm install --ignore-scripts",
             "npm run build"
         ],
         "test": [
-            "@php artisan config:clear --ansi",
+            "@php artisan config:clear --ansi @no_additional_args",
             "@php artisan test"
         ]
     },

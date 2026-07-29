@@ -2,7 +2,7 @@ services:
   app:
     build:
       context: .
-      dockerfile: .docker/production/Dockerfile
+      dockerfile: .docker/Dockerfile
     restart: unless-stopped
     ports:
       - '8080:8080'

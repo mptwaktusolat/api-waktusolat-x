@@ -8,6 +8,8 @@ services:
       # Reverse proxy settings
       - ENABLE_TRUSTED_PROXY_CONFIG=true
       - TRUSTED_PROXIES=*
+      # Enable Laravel automation: https://serversideup.net/open-source/docker-php/docs/framework-guides/laravel/automations
+      - AUTORUN_ENABLED=true
     env_file:
       - stack.env
     depends_on:
