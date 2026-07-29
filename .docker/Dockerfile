@@ -36,6 +36,9 @@ COPY --from=vendor --chown=www-data:www-data /app/vendor ./vendor
 
 COPY --from=frontend --chown=www-data:www-data /app/public/build ./public/build
 
+# Add custom script: https://serversideup.net/open-source/docker-php/docs/customizing-the-image/adding-your-own-start-up-scripts
+COPY --chmod=755 .docker/entrypoint.d/ /etc/entrypoint.d/
+
 # Set permissions for runtime folders
 RUN chown -R www-data:www-data storage bootstrap/cache && \
     chmod -R 775 storage bootstrap/cache

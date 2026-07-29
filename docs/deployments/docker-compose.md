@@ -22,23 +22,14 @@ docker compose -f compose.yml up -d
 
 ## First setup
 
-Access the app container:
+On startup, the container automatically runs pending migrations, caches config/routes/views, and creates the storage symlink via [Laravel Automations](https://serversideup.net/open-source/docker-php/docs/framework-guides/laravel/automations) (enabled through `AUTORUN_ENABLED=true` in [docker-compose.prod.yml](../../docker-compose.prod.yml)). The API documentation is also regenerated automatically on every startup via a custom entrypoint script.
+
+If you need to seed the database (e.g. for first-time setup), access the app container and run the seeder manually:
 
 ```bash
 docker compose exec app sh
 cd /var/www/html
-```
-
-Run the migration and seeder:
-
-```bash
-php artisan migrate --seed
-```
-
-Generate the API documentation:
-
-```bash
-php artisan scribe:generate
+php artisan db:seed
 ```
 
 API is now ready to serve requests. Open site at `http://<your-server-ip-or-domain>:8080`
