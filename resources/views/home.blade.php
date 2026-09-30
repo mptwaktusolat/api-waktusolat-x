@@ -94,7 +94,11 @@
                         class="h-8 md:h-12 w-auto object-contain">
                 </div>
             </div>
-            <p class="text-sm text-base-content/40">and many more...</p>
+            <p class="text-sm text-base-content/40">
+                and many more... <a href="{{ route('submit-your-app') }}"
+                    class="underline decoration-base-content/20 underline-offset-4 transition-colors hover:text-base-content/70">Submit
+                    your app</a>
+            </p>
         </div>
     </section>
 

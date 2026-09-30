@@ -22,6 +22,14 @@ Route::get('/feedback/success', function () {
     return view('feedback-success');
 })->name('feedback.success');
 
+Route::get('/submit-your-app', function () {
+    return view('submit-your-app');
+})->name('submit-your-app');
+
+Route::get('/submit-your-app/success', function () {
+    return view('submit-your-app-success');
+})->name('submit-your-app.success');
+
 // Use to debug if reverse proxy setup is working
 // More info: https://github.com/mptwaktusolat/api-waktusolat-x/tree/main/docs/deployments/docker-compose.md#reverse-proxy
 Route::get('/_debug/proxy-headers', function (Request $request) {
