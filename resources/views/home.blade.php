@@ -1,5 +1,28 @@
 @extends('layouts.app')
 
+@push('resource-hints')
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+
+    <script type="speculationrules">
+        {
+            "prefetch": [{
+                "source": "list",
+                "urls": [@json(route('scribe'))],
+                "eagerness": "eager"
+            }, {
+                "source": "document",
+                "where": { "href_matches": @json(route('data-health')) },
+                "eagerness": "moderate"
+            }],
+            "prerender": [{
+                "source": "document",
+                "where": { "href_matches": @json(route('scribe')) },
+                "eagerness": "moderate"
+            }]
+        }
+    </script>
+@endpush
+
 @section('content')
     {{-- Hero section --}}
     <section class="py-32 px-6">

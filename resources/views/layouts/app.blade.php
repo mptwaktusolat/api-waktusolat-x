@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
+    @stack('resource-hints')
+
     <!-- Primary Meta Tags -->
     <title>Waktu Solat API</title>
     <meta name="title" content="Waktu Solat API" />
