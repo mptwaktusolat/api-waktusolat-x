@@ -172,7 +172,6 @@ class FetchWaktuSolatFromSource extends Command
     private function processZoneData(array $prayerData, string $zoneCode, int $year): array
     {
         $processedData = [];
-        $now = Carbon::now()->toISOString();
 
         foreach ($prayerData as $prayer) {
             // Parse the date (format: "01-Jan-2026")
@@ -206,8 +205,6 @@ class FetchWaktuSolatFromSource extends Command
                 'asar' => $asar,
                 'maghrib' => $maghrib,
                 'isyak' => $isyak,
-                'updated_date' => $now,
-                'created_date' => $now,
             ];
         }
 
@@ -240,7 +237,7 @@ class FetchWaktuSolatFromSource extends Command
         $csv = Writer::from($outputPath, 'w');
 
         // Write header
-        $headers = ['zone', 'year', 'month', 'tarikh_hijri', 'imsak', 'fajar', 'syuruk', 'dhuha', 'zohor', 'asar', 'maghrib', 'isyak', 'updated_date', 'created_date'];
+        $headers = ['zone', 'year', 'month', 'tarikh_hijri', 'imsak', 'fajar', 'syuruk', 'dhuha', 'zohor', 'asar', 'maghrib', 'isyak'];
         $csv->insertOne($headers);
 
         // Write data rows
