@@ -55,24 +55,8 @@ html {
     --color-primary-content: oklch(100% 0 0);
 }
 
-/* maryUI */
-@source "../../vendor/robsontenorio/mary/src/View/Components/**/*.php";
-
 /* Theme toggle - dark: variant responds to DaisyUI black theme */
 @custom-variant dark (&:where([data-theme=black], [data-theme=black] *));
-
-/**
-* Paginator - Traditional style
-* Because Laravel defaults does not match well the design of daisyUI.
-*/
-
-.mary-table-pagination span[aria-current="page"] > span {
-    @apply bg-primary text-base-100
-}
-
-.mary-table-pagination button {
-    @apply cursor-pointer
-}
 
 .anchor-text {
     @apply font-medium underline;
