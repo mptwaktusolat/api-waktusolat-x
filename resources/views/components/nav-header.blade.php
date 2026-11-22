@@ -19,6 +19,10 @@
 
         <nav class="flex items-center gap-4">
             @if (Route::is('home'))
+                <a href="{{ route('announcements') }}"
+                    class="text-sm text-base-content/60 hover:text-base-content transition-colors">
+                    Announcements
+                </a>
                 <a href="#example"
                     class="text-sm text-base-content/60 hover:text-base-content transition-colors hidden sm:block">
                     Example

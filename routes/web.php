@@ -1,5 +1,7 @@
 <?php
 
+use App\Announcements\AnnouncementRepository;
+use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\DataHealthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -21,6 +23,12 @@ Route::get('/feedback', function () {
 Route::get('/feedback/success', function () {
     return view('feedback-success');
 })->name('feedback.success');
+
+Route::get('/announcements', [AnnouncementController::class, 'index'])->name('announcements');
+
+Route::get('/announcement/{slug}', [AnnouncementController::class, 'show'])
+    ->where('slug', AnnouncementRepository::SLUG_PATTERN)
+    ->name('announcement');
 
 Route::get('/submit-your-app', function () {
     return view('submit-your-app');
