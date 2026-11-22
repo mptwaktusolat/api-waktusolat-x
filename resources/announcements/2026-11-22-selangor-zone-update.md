@@ -7,7 +7,7 @@ summary: 'Selangor will change the current three (3) zones system to nine (9) zo
 
 Selangor will implement district-based prayer time zoning starting next year (2027). The original three (3) zones will become nine (9) zones.
 
-We don't have the zones or prayer time data for 2027 yet. More information will be added to this entry from time to time.
+We don't have the zones or prayer time data for 2027 yet. **More information will be added to this entry from time to time.**
 
 Please expect the changes to be reflected in the `/zones` endpoint, which will include the new zones. Hence, ensure your app/integration is ready to account for these changes.
 

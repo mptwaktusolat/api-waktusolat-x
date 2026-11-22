@@ -86,7 +86,11 @@ html {
     }
 
     & .heading-anchor {
-        @apply ml-2 text-base-content/30 no-underline transition-colors hover:text-tile-blue md:absolute md:top-0 md:right-full md:mr-0 md:ml-0 md:pr-2;
+        @apply ml-2 text-base-content/30 no-underline transition-colors hover:text-tile-blue md:absolute md:top-0 md:right-full md:mr-0 md:ml-0 md:pr-2 md:opacity-0 md:focus-visible:opacity-100;
+    }
+
+    & :is(h2, h3, h4, h5, h6):hover .heading-anchor {
+        @apply md:opacity-100;
     }
 
     & ul {

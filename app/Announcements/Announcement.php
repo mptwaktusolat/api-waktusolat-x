@@ -28,7 +28,6 @@ final readonly class Announcement
                 'min_heading_level' => 2,
                 'max_heading_level' => 6,
                 'symbol' => '#',
-                'title' => 'Permalink',
             ],
         ]);
     }
