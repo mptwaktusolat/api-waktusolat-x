@@ -29,9 +29,6 @@
                                     {{ $announcement->title }}
                                 </a>
                             </h2>
-                            @if ($announcement->summary)
-                                <p class="max-w-3xl leading-relaxed text-base-content/70">{{ $announcement->summary }}</p>
-                            @endif
                         </li>
                     @endforeach
                 </ol>
