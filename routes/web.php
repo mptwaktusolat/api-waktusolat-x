@@ -26,6 +26,8 @@ Route::get('/feedback/success', function () {
 
 Route::get('/announcements', [AnnouncementController::class, 'index'])->name('announcements');
 
+Route::permanentRedirect('/announcement', '/announcements');
+
 Route::get('/announcement/{slug}', [AnnouncementController::class, 'show'])
     ->where('slug', AnnouncementRepository::SLUG_PATTERN)
     ->name('announcement');
