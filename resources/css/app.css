@@ -61,3 +61,80 @@ html {
 .anchor-text {
     @apply font-medium underline;
 }
+
+.announcement-body {
+    @apply text-base leading-relaxed text-base-content/85 md:text-[17px] md:leading-[1.75];
+
+    & > * + * {
+        @apply mt-5;
+    }
+
+    & h2 {
+        @apply mt-10 text-2xl font-light leading-snug text-base-content md:text-[26px];
+    }
+
+    & h3 {
+        @apply mt-8 text-xl font-light text-base-content;
+    }
+
+    & a {
+        @apply text-tile-blue underline underline-offset-4;
+    }
+
+    & :is(h2, h3, h4, h5, h6) {
+        @apply relative;
+    }
+
+    & .heading-anchor {
+        @apply ml-2 text-base-content/30 no-underline transition-colors hover:text-tile-blue md:absolute md:top-0 md:right-full md:mr-0 md:ml-0 md:pr-2 md:opacity-0 md:focus-visible:opacity-100;
+    }
+
+    & :is(h2, h3, h4, h5, h6):hover .heading-anchor {
+        @apply md:opacity-100;
+    }
+
+    & ul {
+        @apply list-disc space-y-1.5 pl-6;
+    }
+
+    & ol {
+        @apply list-decimal space-y-1.5 pl-6;
+    }
+
+    & strong {
+        @apply font-semibold text-base-content;
+    }
+
+    & blockquote {
+        @apply border-l-2 border-base-300 pl-4 text-base-content/70;
+    }
+
+    & :not(pre) > code {
+        @apply bg-base-200 px-1.5 py-0.5 font-mono text-[0.9em];
+    }
+
+    & pre {
+        @apply overflow-x-auto border border-base-300 bg-base-200 px-5 py-4 font-mono text-sm leading-relaxed text-base-content;
+    }
+
+    & table {
+        @apply block w-full overflow-x-auto border-collapse text-sm;
+    }
+
+    & th,
+    & td {
+        @apply border border-base-300 px-3 py-2 text-left;
+    }
+
+    & th {
+        @apply bg-base-200 font-semibold;
+    }
+
+    & img {
+        @apply h-auto max-w-full;
+    }
+
+    & hr {
+        @apply my-10 border-base-300;
+    }
+}

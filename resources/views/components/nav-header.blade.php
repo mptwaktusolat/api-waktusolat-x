@@ -19,6 +19,11 @@
 
         <nav class="flex items-center gap-4">
             @if (Route::is('home'))
+                <a href="{{ route('announcements') }}" aria-label="Announcements" title="Announcements"
+                    class="text-sm text-base-content/60 hover:text-base-content transition-colors">
+                    <x-ionicon-megaphone-outline class="h-5 w-5 sm:hidden" />
+                    <span class="hidden sm:inline">Announcements</span>
+                </a>
                 <a href="#example"
                     class="text-sm text-base-content/60 hover:text-base-content transition-colors hidden sm:block">
                     Example

@@ -18,7 +18,8 @@
         "laravel/telescope": "^5.21",
         "laravel/tinker": "^3.0.2",
         "league/csv": "^9.28",
-        "predis/predis": "^3.5.1"
+        "predis/predis": "^3.5.1",
+        "symfony/yaml": "^8.1"
     },
     "require-dev": {
         "fakerphp/faker": "^1.24.1",

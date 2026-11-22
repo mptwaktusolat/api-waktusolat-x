@@ -8,26 +8,33 @@
 
     @stack('resource-hints')
 
+    @php
+        $metaTitle = trim(View::yieldContent('title', 'Waktu Solat API'));
+        $metaDescription = trim(
+            View::yieldContent(
+                'description',
+                'Get access to Malaysia prayer times and zones for your app or website. Easy, free and simple.',
+            ),
+        );
+    @endphp
+
     <!-- Primary Meta Tags -->
-    <title>Waktu Solat API</title>
-    <meta name="title" content="Waktu Solat API" />
-    <meta name="description"
-        content="Get access to Malaysia prayer times and zones for your app or website. Easy, free and simple." />
+    <title>{!! $metaTitle !!}</title>
+    <meta name="title" content="{!! $metaTitle !!}" />
+    <meta name="description" content="{!! $metaDescription !!}" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="{{ url()->current() }}" />
-    <meta property="og:title" content="Waktu Solat API" />
-    <meta property="og:description"
-        content="Get access to Malaysia prayer times and zones for your app or website. Easy, free and simple." />
+    <meta property="og:title" content="{!! $metaTitle !!}" />
+    <meta property="og:description" content="{!! $metaDescription !!}" />
     <meta property="og:image" content="{{ asset('images/metaimage.png') }}" />
 
     <!-- X (Twitter) -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content="{{ url()->current() }}" />
-    <meta property="twitter:title" content="Waktu Solat API" />
-    <meta property="twitter:description"
-        content="Get access to Malaysia prayer times and zones for your app or website. Easy, free and simple." />
+    <meta property="twitter:title" content="{!! $metaTitle !!}" />
+    <meta property="twitter:description" content="{!! $metaDescription !!}" />
     <meta property="twitter:image" content="{{ asset('images/metaimage.png') }}" />
 
     <!-- Analytics -->
