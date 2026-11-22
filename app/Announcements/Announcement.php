@@ -4,6 +4,7 @@ namespace App\Announcements;
 
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Str;
+use League\CommonMark\Extension\HeadingPermalink\HeadingPermalinkExtension;
 
 final readonly class Announcement
 {
@@ -18,6 +19,17 @@ final readonly class Announcement
 
     public function html(): string
     {
-        return Str::markdown($this->body);
+        return Str::markdown($this->body, extensions: [new HeadingPermalinkExtension], options: [
+            'heading_permalink' => [
+                'html_class' => 'heading-anchor',
+                'id_prefix' => '',
+                'fragment_prefix' => '',
+                'insert' => 'after',
+                'min_heading_level' => 2,
+                'max_heading_level' => 6,
+                'symbol' => '#',
+                'title' => 'Permalink',
+            ],
+        ]);
     }
 }

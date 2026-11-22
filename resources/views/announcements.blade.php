@@ -16,7 +16,7 @@
             @if ($announcements->isEmpty())
                 <p class="border-t border-base-300 pt-8 text-base-content/70">No announcements yet.</p>
             @else
-                <ol class="border-t border-base-300">
+                <ol>
                     @foreach ($announcements as $announcement)
                         <li class="flex flex-col gap-2 border-b border-base-300 py-6 md:py-8">
                             <time datetime="{{ $announcement->date->toDateString() }}"

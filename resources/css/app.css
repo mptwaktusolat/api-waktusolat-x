@@ -81,6 +81,14 @@ html {
         @apply text-tile-blue underline underline-offset-4;
     }
 
+    & :is(h2, h3, h4, h5, h6) {
+        @apply relative;
+    }
+
+    & .heading-anchor {
+        @apply ml-2 text-base-content/30 no-underline transition-colors hover:text-tile-blue md:absolute md:top-0 md:right-full md:mr-0 md:ml-0 md:pr-2;
+    }
+
     & ul {
         @apply list-disc space-y-1.5 pl-6;
     }
