@@ -62,6 +62,41 @@ html {
     @apply font-medium underline;
 }
 
+/*
+ * Homepage top banner glow.
+ */
+.top-banner {
+    background-image:
+        radial-gradient(30% 160% at 10% 50%, oklch(78% 0.14 5 / 0.16), transparent 70%),
+        radial-gradient(30% 160% at 30% 50%, oklch(78% 0.12 246 / 0.14), transparent 70%),
+        radial-gradient(30% 160% at 50% 50%, oklch(78% 0.14 350 / 0.16), transparent 70%),
+        radial-gradient(30% 160% at 70% 50%, oklch(78% 0.12 290 / 0.14), transparent 70%),
+        radial-gradient(30% 160% at 90% 50%, oklch(78% 0.14 15 / 0.16), transparent 70%),
+        linear-gradient(90deg,
+            oklch(80% 0.12 0 / 0.2),
+            oklch(80% 0.11 246 / 0.2) 20%,
+            oklch(82% 0.12 350 / 0.2) 40%,
+            oklch(85% 0.11 160 / 0.2) 60%,
+            oklch(80% 0.11 290 / 0.2) 80%,
+            oklch(80% 0.13 15 / 0.2));
+}
+
+[data-theme=black] .top-banner {
+    background-image:
+        radial-gradient(30% 160% at 10% 50%, oklch(55% 0.18 5 / 0.14), transparent 70%),
+        radial-gradient(30% 160% at 30% 50%, oklch(52% 0.16 246 / 0.12), transparent 70%),
+        radial-gradient(30% 160% at 50% 50%, oklch(55% 0.18 350 / 0.14), transparent 70%),
+        radial-gradient(30% 160% at 70% 50%, oklch(52% 0.16 290 / 0.12), transparent 70%),
+        radial-gradient(30% 160% at 90% 50%, oklch(55% 0.18 15 / 0.14), transparent 70%),
+        linear-gradient(90deg,
+            oklch(52% 0.16 0 / 0.18),
+            oklch(50% 0.15 246 / 0.18) 20%,
+            oklch(52% 0.16 350 / 0.18) 40%,
+            oklch(55% 0.13 160 / 0.18) 60%,
+            oklch(50% 0.15 290 / 0.18) 80%,
+            oklch(52% 0.17 15 / 0.18));
+}
+
 .announcement-body {
     @apply text-base leading-relaxed text-base-content/85 md:text-[17px] md:leading-[1.75];
 

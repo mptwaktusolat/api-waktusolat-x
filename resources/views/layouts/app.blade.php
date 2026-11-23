@@ -71,6 +71,8 @@
 </head>
 
 <body class="bg-base-100 min-h-screen flex flex-col antialiased">
+    {{-- Comment/Uncomment below if want to show/hide the top banner --}}
+    @yield('top-banner')
     <x-nav-header />
     @yield('content')
 </body>

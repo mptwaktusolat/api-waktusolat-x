@@ -1,5 +1,15 @@
 @extends('layouts.app')
 
+@php
+    $bannerHref = route('announcement', '2026-11-22-selangor-zone-update');
+@endphp
+
+@section('top-banner')
+    <x-top-banner :href="$bannerHref">
+        Selangor prayer time zones are changing in 2027.
+    </x-top-banner>
+@endsection
+
 @push('resource-hints')
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
 
@@ -12,6 +22,10 @@
             }, {
                 "source": "document",
                 "where": { "href_matches": @json(route('data-health')) },
+                "eagerness": "moderate"
+            }, {
+                "source": "document",
+                "where": { "href_matches": @json($bannerHref) },
                 "eagerness": "moderate"
             }],
             "prerender": [{
