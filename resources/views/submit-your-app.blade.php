@@ -1,11 +1,14 @@
 @extends('layouts.app')
 
+@section('title', 'Submit your app · Waktu Solat API')
+@section('description', 'Using the Waktu Solat API in your app? Share it for the app showcase section on our homepage.')
+
 @section('content')
     <section class="border-b border-base-300 bg-base-200/50 px-6 py-14">
         <div class="mx-auto max-w-7xl">
             <h1 class="mb-4 text-5xl font-light tracking-tight text-base-content md:text-6xl">Submit your app</h1>
             <p class="max-w-3xl text-base text-base-content/70 md:text-lg">
-                Using the Waktu Solat API in your app? Share it for the app showcase section on our homepage.
+                @yield('description')
                 It is not an advertisement or sponsorship, we will not add backlinks to your app.
             </p>
         </div>

@@ -22,6 +22,9 @@
     <title>{!! $metaTitle !!}</title>
     <meta name="title" content="{!! $metaTitle !!}" />
     <meta name="description" content="{!! $metaDescription !!}" />
+    @hasSection('robots')
+        <meta name="robots" content="@yield('robots')" />
+    @endif
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />

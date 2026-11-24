@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title', 'Submit your app · Waktu Solat API')
+@section('description', 'Thanks for sharing your app! We\'ve received your submission and will review it for the showcase.')
+@section('robots', 'noindex')
+
 @section('content')
     <section class="border-b border-base-300 bg-base-200/50 px-6 py-14">
         <div class="mx-auto max-w-7xl">

@@ -1,11 +1,15 @@
 @extends('layouts.app')
 
+@section('title', __('feedback.title') . ' · Waktu Solat API')
+@section('description', __('feedback.subtitle'))
+@section('robots', 'noindex')
+
 @section('content')
     {{-- Page header --}}
     <section class="border-b border-base-300 bg-base-200/50 px-6 py-14">
         <div class="mx-auto max-w-7xl">
             <h1 class="mb-4 text-5xl font-light tracking-tight text-base-content md:text-6xl">{{ __('feedback.title') }}</h1>
-            <p class="max-w-3xl text-base text-base-content/70 md:text-lg">{{ __('feedback.subtitle') }}</p>
+            <p class="max-w-3xl text-base text-base-content/70 md:text-lg">@yield('description')</p>
         </div>
     </section>
 

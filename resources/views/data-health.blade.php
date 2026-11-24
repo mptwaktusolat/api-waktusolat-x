@@ -1,11 +1,14 @@
 @extends('layouts.app')
 
+@section('title', 'Data Health · Waktu Solat API')
+@section('description', 'Prayer time data availability by month across all zones.')
+
 @section('content')
     {{-- Page header --}}
     <section class="py-16 px-6 border-b border-base-300">
         <div class="max-w-7xl mx-auto">
             <h1 class="text-4xl md:text-5xl font-light tracking-tight text-base-content mb-4">Data Health</h1>
-            <p class="text-base-content/60 text-lg">Prayer time data availability by month across all zones.</p>
+            <p class="text-base-content/60 text-lg">@yield('description')</p>
         </div>
     </section>
 
