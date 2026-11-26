@@ -1,6 +1,7 @@
 ---
 title: 'Selangor to use district based zone starting 2027'
 summary: 'Selangor will change the current three (3) zones system to nine (9) zones based on district in Selangor.'
+image: images/posts/selangor-update-2027-announcement/meta-selangor-update-2027-optim.jpg
 ---
 
 ## Summary

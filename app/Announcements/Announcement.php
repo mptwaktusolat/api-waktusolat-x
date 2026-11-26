@@ -10,7 +10,21 @@ final readonly class Announcement
 {
     private const DISPLAY_DATE_FORMAT = 'j F Y';
 
-    public function __construct(public string $slug, public string $title, public string $summary, public CarbonImmutable $date, public string $body) {}
+    public function __construct(public string $slug, public string $title, public string $summary, public CarbonImmutable $date, public string $body, public ?string $image = null) {}
+
+    /**
+     * Absolute URL of the social share (og:image / twitter:image) cover, if one is set.
+     */
+    public function imageUrl(): ?string
+    {
+        if ($this->image === null || $this->image === '') {
+            return null;
+        }
+
+        return Str::startsWith($this->image, ['http://', 'https://'])
+            ? $this->image
+            : asset(ltrim($this->image, '/'));
+    }
 
     public function displayDate(): string
     {

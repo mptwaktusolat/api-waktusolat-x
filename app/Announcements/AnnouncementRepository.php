@@ -89,6 +89,7 @@ class AnnouncementRepository
             summary: $frontMatter['summary'] ?? '',
             date: CarbonImmutable::parse(substr($slug, 0, 10)),
             body: $parsed->getContent(),
+            image: $frontMatter['image'] ?? null,
         );
     }
 

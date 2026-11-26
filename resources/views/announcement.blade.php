@@ -2,6 +2,9 @@
 
 @section('title', $announcement->title . ' · Waktu Solat API')
 @section('description', $announcement->summary)
+@if ($announcement->imageUrl())
+    @section('meta_image', $announcement->imageUrl())
+@endif
 
 @section('content')
     <section class="border-b border-base-300 bg-base-200/50 px-6 py-10 md:py-14">

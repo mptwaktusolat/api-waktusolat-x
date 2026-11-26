@@ -16,6 +16,7 @@
                 'Get access to Malaysia prayer times and zones for your app or website. Easy, free and simple.',
             ),
         );
+        $metaImage = trim(View::yieldContent('meta_image', asset('images/metaimage.png')));
     @endphp
 
     <!-- Primary Meta Tags -->
@@ -31,14 +32,14 @@
     <meta property="og:url" content="{{ url()->current() }}" />
     <meta property="og:title" content="{!! $metaTitle !!}" />
     <meta property="og:description" content="{!! $metaDescription !!}" />
-    <meta property="og:image" content="{{ asset('images/metaimage.png') }}" />
+    <meta property="og:image" content="{{ $metaImage }}" />
 
     <!-- X (Twitter) -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content="{{ url()->current() }}" />
     <meta property="twitter:title" content="{!! $metaTitle !!}" />
     <meta property="twitter:description" content="{!! $metaDescription !!}" />
-    <meta property="twitter:image" content="{{ asset('images/metaimage.png') }}" />
+    <meta property="twitter:image" content="{{ $metaImage }}" />
 
     <!-- Analytics -->
     <script defer src="https://umami.iqfareez.com/analitik.js" data-website-id="d4373d39-35fb-4995-b5e5-931b510181cd">
