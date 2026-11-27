@@ -399,7 +399,25 @@ For more information about Telescope, refer to:
 
 - https://laravel.com/docs/12.x/telescope
 
-### 5.3. Varnish Cache (Optional)
+### 5.3. PHP Settings
+
+Make sure `short_open_tag` is turned off. When it is on, PHP treats any `<?` as the start of PHP code, including the `<?xml` declaration in XML files. This can break views that output XML, such as `/sitemap.xml`.
+
+In the CloudPanel site dashboard, go to "PHP Settings" and add the following to "Additional Configuration Directives":
+
+```ini
+short_open_tag=off
+```
+
+Click "Save". If you change this setting on a running site, clear the compiled views so that Blade recompiles them with the new setting:
+
+```bash
+php artisan view:clear
+```
+
+If Varnish Cache is enabled, also purge the Varnish cache. Otherwise, it may keep serving responses that were cached before the change.
+
+### 5.4. Varnish Cache (Optional)
 
 CloudPanel appears to have a bug where the user-defined "Excludes" list in the site's [Varnish Cache](https://www.cloudpanel.io/docs/v2/frontend-area/varnish-cache/introduction/) settings is never actually applied for Laravel apps.
 
@@ -426,7 +444,7 @@ sudo varnishd -C -f /etc/varnish/default.vcl > /dev/null && echo "syntax OK"
 sudo systemctl reload varnish
 ```
 
-### 5.4. Finalize Environment Settings
+### 5.5. Finalize Environment Settings
 
 If the application is ready, you can turn off the debug mode, and set the environment to `production` in the environment file:
 
