@@ -3,6 +3,7 @@
 use App\Announcements\AnnouncementRepository;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\DataHealthController;
+use App\Http\Controllers\SitemapController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -39,6 +40,10 @@ Route::get('/submit-your-app', function () {
 Route::get('/submit-your-app/success', function () {
     return view('submit-your-app-success');
 })->name('submit-your-app.success');
+
+Route::get('/sitemap.xml', SitemapController::class)
+    ->middleware('cache.headers:public;max_age=3600;etag')
+    ->name('sitemap');
 
 // Use to debug if reverse proxy setup is working
 // More info: https://github.com/mptwaktusolat/api-waktusolat-x/tree/main/docs/deployments/docker-compose.md#reverse-proxy
