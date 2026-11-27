@@ -45,6 +45,17 @@ Route::get('/sitemap.xml', SitemapController::class)
     ->middleware('cache.headers:public;max_age=3600;etag')
     ->name('sitemap');
 
+Route::get('/robots.txt', function () {
+    $body = implode("\n", [
+        'User-agent: *',
+        'Disallow:',
+        '',
+        'Sitemap: '.route('sitemap'),
+    ])."\n";
+
+    return response($body)->header('Content-Type', 'text/plain; charset=UTF-8');
+})->middleware('cache.headers:public;max_age=3600;etag')->name('robots');
+
 // Use to debug if reverse proxy setup is working
 // More info: https://github.com/mptwaktusolat/api-waktusolat-x/tree/main/docs/deployments/docker-compose.md#reverse-proxy
 Route::get('/_debug/proxy-headers', function (Request $request) {
